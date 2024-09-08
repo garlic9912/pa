@@ -15,7 +15,7 @@
 
 
 
-#include <cpu/difftest.h>
+
 #include <locale.h>
 
 #include <isa.h>
