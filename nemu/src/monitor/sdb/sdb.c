@@ -13,6 +13,11 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+#include <cpu/cpu.h>
+#include <cpu/decode.h>
+#include <cpu/difftest.h>
+#include <locale.h>
+
 #include <isa.h>
 #include <cpu/cpu.h>
 #include <readline/readline.h>
@@ -49,7 +54,7 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
-  
+  nemu_state.state = NEMU_QUIT;
   return -1;
 }
 
