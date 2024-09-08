@@ -16,7 +16,7 @@
 
 
 
-#include <locale.h>
+
 
 #include <isa.h>
 #include <cpu/cpu.h>
