@@ -86,7 +86,7 @@ static int cmd_x(char *args) {
   // next n * four bytes
   char *n = strtok(args, " ");
   // starting address
-  paddr_t addr = atoi(n + strlen(n) + 3);
+  paddr_t addr = atoi(n + strlen(n) + 1);
   printf("%s, %d, %x", n, addr, addr);
   
   for (int i = 0; i < atoi(n); i++) {
