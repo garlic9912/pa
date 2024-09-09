@@ -85,10 +85,9 @@ static int cmd_info(char *args) {
 static int cmd_x(char *args) {
   // next n * four bytes
   char *n = strtok(args, " ");
-  printf("%s\n", n);
   // starting address
   char *addr = n + strlen(n) + 1;  
-  printf("%s\n", addr);
+  printf("%s, %s\n", n, addr);
   return 0;
 }
 
