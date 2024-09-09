@@ -82,6 +82,17 @@ static int cmd_info(char *args) {
 }
 
 
+static int cmd_x(char *args) {
+  // next n * four bytes
+  char *n = strtok(args, " ");
+  printf("%s\n", n);
+  // starting address
+  char *addr = n + strlen(n) + 1;  
+  printf("%s\n", addr);
+  return 0;
+}
+
+
 static int cmd_help(char *args);
 
 static struct {
@@ -96,6 +107,7 @@ static struct {
   /* TODO: Add more commands */
   { "s", "Let the program execute N instructions in a single step and then pause.When N is not given, the default is 1", cmd_s },
   { "info", "Print register status or print monitoring point information", cmd_info },
+  { "x", "Scan memory based on four bytes", cmd_x},
 };
 
 #define NR_CMD ARRLEN(cmd_table)
