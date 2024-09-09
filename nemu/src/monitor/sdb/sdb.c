@@ -71,10 +71,14 @@ static int cmd_s(char *args) {
 
 static int cmd_info(char *args) {
   // print regs
-  isa_reg_display();
-  return 0;
+  if (strcmp(args, "r") == 0) {
+    isa_reg_display();
+    return 0;
+  }
   // print watch
   // ...
+
+  return 0;
 }
 
 
