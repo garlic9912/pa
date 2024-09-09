@@ -69,6 +69,15 @@ static int cmd_s(char *args) {
 }
 
 
+static int cmd_info(char *args) {
+  // print regs
+  isa_reg_display();
+  return 0;
+  // print watch
+  // ...
+}
+
+
 static int cmd_help(char *args);
 
 static struct {
@@ -82,7 +91,7 @@ static struct {
 
   /* TODO: Add more commands */
   { "s", "Let the program execute N instructions in a single step and then pause.When N is not given, the default is 1", cmd_s },
-
+  { "info", "Print register status or print monitoring point information", cmd_info },
 };
 
 #define NR_CMD ARRLEN(cmd_table)
