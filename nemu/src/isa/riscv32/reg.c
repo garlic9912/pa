@@ -26,8 +26,8 @@ const char *regs[] = {
 void isa_reg_display() {
   bool a;
   for (int i = 0; i < sizeof(regs)/sizeof(char*); i++) {
+    printf("%s:0x%x  ", regs[i], isa_reg_str2val(regs[i], &a));
     if ((i+1) % 8 == 0) printf("\n");
-    printf("%s:%x  ", regs[i], isa_reg_str2val(regs[i], &a));
   }
 }
 
