@@ -61,7 +61,7 @@ static int cmd_s(char *args) {
     n = 1;
     cpu_exec(n);
   } else {
-    n = *args-'0';
+    n = atoi(args);
     cpu_exec(n);
   }
   return 0;
