@@ -55,7 +55,15 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_s(char *args) {
-  
+  int n;
+  // default n=1 when args is NULL
+  if (args == NULL) {
+    n = 1;
+    cpu_exec(n);
+  } else {
+    n = *args-'0';
+    cpu_exec(n);
+  }
   return 0;
 }
 
