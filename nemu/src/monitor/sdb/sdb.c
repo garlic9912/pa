@@ -54,6 +54,7 @@ static int cmd_q(char *args) {
   return -1;
 }
 
+
 static int cmd_s(char *args) {
   int n;
   // default n=1 when args is NULL
