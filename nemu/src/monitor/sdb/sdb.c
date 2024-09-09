@@ -90,7 +90,7 @@ static int cmd_x(char *args) {
   
   for (int i = 0; i < atoi(n); i++) {
     word_t tmp_addr = paddr_read(addr, 4);
-    printf(FMT_WORD ":" FMT_WORD, addr, tmp_addr);
+    printf(FMT_WORD ":" FMT_WORD "\n", addr, tmp_addr);
     addr += 4;
   }
   return 0;
