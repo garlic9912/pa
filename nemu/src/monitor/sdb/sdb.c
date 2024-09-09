@@ -88,6 +88,7 @@ static int cmd_x(char *args) {
   // starting address
   vaddr_t addr = atoi(n + strlen(n) + 1);
   printf("%s, %d\n", n, addr);
+  
   return 0;
 }
 
