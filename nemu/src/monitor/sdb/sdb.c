@@ -86,14 +86,13 @@ static int cmd_x(char *args) {
   // next n * four bytes
   char *n = strtok(args, " ");
   // starting address
-  char *addr = n + strlen(n) + 3;
-  printf("%s  %s", n, addr);
+  paddr_t addr = atoi(n + strlen(n) + 3);
   
-  // for (int i = 0; i < atoi(n); i++) {
-  //   word_t tmp_addr = paddr_read(addr, 4);
-  //   printf(FMT_WORD ":" FMT_WORD, addr, tmp_addr);
-  //   addr += 4;
-  // }
+  for (int i = 0; i < atoi(n); i++) {
+    word_t tmp_addr = paddr_read(addr, 4);
+    printf(FMT_WORD ":" FMT_WORD, addr, tmp_addr);
+    addr += 4;
+  }
   return 0;
 }
 
