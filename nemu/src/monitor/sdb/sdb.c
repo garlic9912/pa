@@ -13,7 +13,6 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
-
 #include <isa.h>
 #include <cpu/cpu.h>
 #include <readline/readline.h>
@@ -83,11 +82,10 @@ static int cmd_info(char *args) {
 
 
 static int cmd_x(char *args) {
-  // next n * four bytes
-  char *n = strtok(args, " ");
-  // starting address
-  vaddr_t addr = atoi(n + strlen(n) + 1);
-  printf("%s, %d\n", n, addr);
+  // // next n * four bytes
+  // char *n = strtok(args, " ");
+  // // starting address
+  // vaddr_t addr = atoi(n + strlen(n) + 1);
   
   return 0;
 }
