@@ -13,6 +13,7 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+#include <stdlib.h>
 #include <string.h>
 #include <isa.h>
 
@@ -136,6 +137,86 @@ static bool make_token(char *e) {
   return true;
 }
 
+static bool check_parentheses(int p, int q) {
+  int match[16];
+  int len_idx = 0;
+  // p, q is LB and RB?
+  if (tokens[p].type == TK_LB && tokens[q].type == TK_RB) {
+    for (int i = p; i <= q; i++) {
+      if (tokens[i].type == TK_LB) {
+        match[len_idx++] = 1;
+      } else if (tokens[i].type == TK_RB) {
+        if (match[len_idx-1] == 1) {
+          len_idx -= 1;
+          if (len_idx == 0 && i == q) {
+            return true;
+          } else if (len_idx == 0 && i != q) {
+            return false;
+          } 
+        }
+      }
+    }
+  }
+  return false;
+}
+
+int op_idx(int p, int q) {
+  int tmp_RB;
+  int idx[2] = {p, 2};
+  for (int i = p+1; i <= q; i++) {
+    // find the largest bracket and ignore it
+    if (tokens[i].type == TK_LB) {
+      tmp_RB = i+1;
+      while (check_parentheses(i, tmp_RB) == false) {
+        tmp_RB++;
+      }
+      i = tmp_RB;
+      continue;
+    }
+    // find the op with lowest precedence
+    if (tokens[i].type == TK_PLUS || tokens[i].type == TK_MINUS) {
+      if (idx[1] >= 1) {
+        idx[0] = i;
+        idx[1] = 1;
+      }
+    } else if (tokens[i].type == TK_MUL || tokens[i].type == TK_DIV) {
+      if (idx[1] == 2) {
+        idx[0] = i;
+        idx[1] = 2;
+      }
+    }
+  }
+  return idx[0];
+}
+
+
+static word_t eval(int p, int q) {
+  if (p > q) {
+    printf("eval p > q wrong\n");
+    assert(0);
+  }
+  else if (p == q) {
+    return atoi(tokens[p].str);
+  }
+  else if (check_parentheses(p, q) == true) {
+    return eval(p + 1, q - 1);
+  }
+  else {
+    int op = op_idx(p, q);
+    word_t val1 = eval(p, op - 1);
+    word_t val2 = eval(op + 1, q);
+
+    switch (tokens[op].type) {
+      case TK_PLUS: return val1 + val2;
+      case TK_MINUS: return val1 - val2;
+      case TK_MUL: return val1 * val2;
+      case TK_DIV: return val1 / val2;
+      default: assert(0);
+    }
+  }
+  assert(0);
+  return 0;
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
@@ -144,10 +225,5 @@ word_t expr(char *e, bool *success) {
   }
   
   /* TODO: Insert codes to evaluate the expression. */
-  for (int i = 0; i < 5; i++) {
-    printf("%d  ", tokens[i].type);
-  }
-  // TODO();
-
-  return 0;
+  return eval(0, nr_token-1);
 }

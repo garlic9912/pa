@@ -98,7 +98,7 @@ static int cmd_x(char *args) {
 
 
 
-static int cmd_ep(char *args) {
+static int cmd_p(char *args) {
   bool a = true;
   expr(args, &a);
   return 0;
@@ -121,7 +121,7 @@ static struct {
   { "s", "Let the program execute N instructions in a single step and then pause.When N is not given, the default is 1", cmd_s },
   { "info", "Print register status or print monitoring point information", cmd_info },
   { "x", "Scan memory based on four bytes", cmd_x },
-  { "ep", "Expression evaluation", cmd_ep },
+  { "p", "Expression evaluation", cmd_p },
 };
 
 #define NR_CMD ARRLEN(cmd_table)
