@@ -214,6 +214,7 @@ static word_t eval(int p, int q) {
       default: assert(0);
     }
   }
+  puts("There is a problem with the calculation of the given expression\n");
   assert(0);
   return 0;
 }
