@@ -100,6 +100,7 @@ static int cmd_x(char *args) {
 
 static int cmd_p(char *args) {
   bool a = true;
+  puts(args);
   return expr(args, &a);
 }
 
