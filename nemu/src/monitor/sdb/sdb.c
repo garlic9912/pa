@@ -99,7 +99,8 @@ static int cmd_x(char *args) {
 
 
 static int cmd_ep(char *args) {
-  
+  bool a = true;
+  expr(args, &a);
   return 0;
 }
 
