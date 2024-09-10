@@ -13,6 +13,7 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+#include <string.h>
 #include <isa.h>
 
 /* We use the POSIX regex functions to process regular expressions.
@@ -22,9 +23,10 @@
 
 enum {
   TK_NOTYPE = 256, TK_EQ,
-
   /* TODO: Add more token types */
-
+  TK_PLUS, TK_MINUS, TK_MUL, TK_DIV,
+  TK_LB, TK_RB, TK_NUM, TK_HEX,
+  TK_REG
 };
 
 static struct rule {
@@ -35,9 +37,16 @@ static struct rule {
   /* TODO: Add more rules.
    * Pay attention to the precedence level of different rules.
    */
-
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
+  {"\\+", TK_PLUS},         // plus
+  {"\\-", TK_MINUS},         // minus
+  {"\\*", TK_MUL},         // mutiply
+  {"\\/", TK_DIV},         // divide
+  {"\\(", TK_LB},         // left brac
+  {"\\)", TK_RB},         // right brac
+  {"[0-9]+", TK_NUM},   // numbers (one or more digits)
+  // {"0[xX][0-9a-fA-F]+", TK_HEX}, // hexadecimal numbers
+  // {"\\$[a-z0-9]+", TK_REG}, // registers
   {"==", TK_EQ},        // equal
 };
 
@@ -80,6 +89,7 @@ static bool make_token(char *e) {
   while (e[position] != '\0') {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
+      // match successfully
       if (regexec(&re[i], e + position, 1, &pmatch, 0) == 0 && pmatch.rm_so == 0) {
         char *substr_start = e + position;
         int substr_len = pmatch.rm_eo;
@@ -95,7 +105,22 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
-          default: TODO();
+          case(TK_PLUS):
+          case(TK_MINUS):
+          case(TK_MUL):
+          case(TK_DIV):
+          case(TK_LB):
+          case(TK_RB):
+            tokens[nr_token++].type = rules[i].token_type;
+            break;       
+          case(TK_NUM):
+            tokens[nr_token].type = rules[i].token_type;
+            strncpy(tokens[nr_token].str, substr_start, substr_len);
+            tokens[nr_token].str[substr_len] = '\0';
+            nr_token++;
+            break;                 
+          default: 
+            break;
         }
 
         break;
