@@ -22,25 +22,82 @@
 
 // this should be enough
 static char buf[65536] = {};
+static int idx = 0;
+static int flag = 0;
+static int depth = 0;
 static char code_buf[65536 + 128] = {}; // a little larger than `buf`
 static char *code_format =
 "#include <stdio.h>\n"
 "int main() { "
-"  unsigned result = %s; "
-"  printf(\"%%u\", result); "
+"  long result = %s; "
+"  printf(\"%%ld\", result); "
 "  return 0; "
 "}";
+
+static int choose(int n) {
+  return rand() % n;
+}
+
+
+static void gen_num() {
+  int tmp[3];
+  int len = 0;
+  int num = rand() % 1000 + 1;
+  while (num != 0) {
+    int x = num % 10;
+    tmp[len++] = (char)(x + '0');
+    num /= 10;
+  }
+  for (int i = len-1; i >= 0; i--) {
+    if (idx+1 <= 120){
+      buf[idx++] = tmp[i];
+    } else {
+      flag = 1;
+      return;
+    }
+  }
+}
+
+
+static void gen(char c) {
+  if (idx+1 <= 120){
+    buf[idx++] = c;
+  } else {
+    flag = 1;
+    return;
+  }  
+}
+
+
+static void gen_rand_op() { 
+  if (idx+1 <= 120){
+    switch(choose(4)) {
+      case 0: buf[idx++] = '+'; break;
+      case 1: buf[idx++] = '-'; break;
+      case 2: buf[idx++] = '*'; break;
+      case 3: buf[idx++] = '/'; break;
+    }
+  } else {
+    flag = 1;
+    return;
+  } 
+}
 
 
 
 static void gen_rand_expr() {
+  if (++depth > 30) {
+    flag = 1;
+    return;
+  }
   switch (choose(3)) {
     case 0: gen_num(); break;
     case 1: gen('('); gen_rand_expr(); gen(')'); break;
     default: gen_rand_expr(); gen_rand_op(); gen_rand_expr(); break;
   }  
-  buf[0] = '\0';
+  buf[idx] = '\0';
 }
+
 
 int main(int argc, char *argv[]) {
   int seed = time(0);
@@ -52,6 +109,8 @@ int main(int argc, char *argv[]) {
   int i;
   for (i = 0; i < loop; i ++) {
     gen_rand_expr();
+
+    if (flag == 1) return 0;
 
     sprintf(code_buf, code_format, buf);
 
@@ -66,11 +125,11 @@ int main(int argc, char *argv[]) {
     fp = popen("/tmp/.expr", "r");
     assert(fp != NULL);
 
-    int result;
-    ret = fscanf(fp, "%d", &result);
+    long result;
+    ret = fscanf(fp, "%ld", &result);
     pclose(fp);
 
-    printf("%u => %s\n", result, buf);
+    printf("%ld %s\n", result, buf);
   }
   return 0;
 }
