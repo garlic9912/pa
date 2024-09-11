@@ -163,7 +163,7 @@ static bool check_parentheses(int p, int q) {
 int op_idx(int p, int q) {
   int tmp_RB;
   int idx[2] = {p, 2};
-  for (int i = p+1; i <= q; i++) {
+  for (int i = p; i <= q; i++) {
     // find the largest bracket and ignore it
     if (tokens[i].type == TK_LB) {
       tmp_RB = i+1;
