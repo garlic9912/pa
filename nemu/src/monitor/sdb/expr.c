@@ -213,7 +213,7 @@ static word_t eval(int p, int q) {
       }
       return ret;
     } else if (tokens[p].type == TK_HEX) {
-      // return strtol(n + strlen(n) + 1, NULL, 16);
+      return strtol(tokens[p].str, NULL, 16);
     }
   }
   else if (check_parentheses(p, q) == true) {
