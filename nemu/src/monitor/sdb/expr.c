@@ -218,15 +218,14 @@ static word_t eval(int p, int q) {
     else if (tokens[p].type == TK_HEX) {
       return strtol(tokens[p].str, NULL, 16);
     } 
-    // else if (tokens[p].type == TK_DEREF) {
-    //   paddr_t addr = strtol(tokens[p+1].str, NULL, 16);
-    //   puts("111111111111111111111111111");
-    //   return paddr_read(addr, 4);
-    // }
   }
   else if (check_parentheses(p, q) == true) {
     return eval(p + 1, q - 1);
   } 
+  else if (tokens[p].type == TK_DEREF && p+1 == q) {
+    paddr_t addr = strtol(tokens[p+1].str, NULL, 16);
+    return paddr_read(addr, 4);
+  }
   else {
     int op = op_idx(p, q);
     word_t val1 = eval(p, op - 1);
@@ -259,9 +258,9 @@ word_t expr(char *e, bool *success) {
     }
   } 
 
-  for (int i = 0; i < nr_token; i++) {
-    printf("%d => %s\n", tokens[i].type, tokens[i].str);
-  }
+  // for (int i = 0; i < nr_token; i++) {
+  //   printf("%d => %s\n", tokens[i].type, tokens[i].str);
+  // }
 
   return eval(0, nr_token-1);
 }
