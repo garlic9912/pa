@@ -78,7 +78,7 @@ static int cmd_info(char *args) {
   // print watch
   // ...
 
-  return -1;
+  return 0;
 }
 
 
