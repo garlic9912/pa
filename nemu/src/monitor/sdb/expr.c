@@ -28,7 +28,7 @@ enum {
   /* TODO: Add more token types */
   TK_PLUS, TK_MINUS, TK_MUL, TK_DIV,
   TK_LB, TK_RB, TK_NUM, TK_HEX,
-  TK_REG, TK_DEREF
+  TK_REG, TK_DEREF, TK_AND, TK_NEQ
 };
 
 static struct rule {
@@ -50,6 +50,8 @@ static struct rule {
   {"[0-9]+", TK_NUM},   // numbers (one or more digits)
   {"\\$[a-z0-9]+", TK_REG}, // registers
   {"==", TK_EQ},        // equal
+  {"&&", TK_AND},       // and
+  {"!=", TK_NEQ},       // non equal 
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -113,6 +115,9 @@ static bool make_token(char *e) {
           case(TK_DIV):
           case(TK_LB):
           case(TK_RB):
+          case(TK_EQ):
+          case(TK_NEQ):
+          case(TK_AND):
             tokens[nr_token++].type = rules[i].token_type;
             break;       
           case(TK_NUM):
