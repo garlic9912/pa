@@ -46,7 +46,7 @@ static struct rule {
   {"\\(", TK_LB},         // left brac
   {"\\)", TK_RB},         // right brac
   {"[0-9]+", TK_NUM},   // numbers (one or more digits)
-  // {"0[xX][0-9a-fA-F]+", TK_HEX}, // hexadecimal numbers
+  {"0[xX][0-9a-fA-F]+", TK_HEX}, // hexadecimal numbers
   {"\\$[a-z0-9]+", TK_REG}, // registers
   {"==", TK_EQ},        // equal
 };
@@ -115,6 +115,7 @@ static bool make_token(char *e) {
             tokens[nr_token++].type = rules[i].token_type;
             break;       
           case(TK_NUM):
+          case(TK_HEX):
             tokens[nr_token].type = rules[i].token_type;
             strncpy(tokens[nr_token].str, substr_start, substr_len);
             tokens[nr_token].str[substr_len] = '\0';
