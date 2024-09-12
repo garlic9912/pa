@@ -200,11 +200,17 @@ static word_t eval(int p, int q) {
     assert(0);
   }
   else if (p == q) {
-    return atoi(tokens[p].str);
+    // num
+    if (tokens[p].type == TK_NUM) {
+      return atoi(tokens[p].str);
+    } else if (tokens[p].type == TK_REG) {
+      bool success = true;
+      return isa_reg_str2val(tokens[p].str, &success);
+    }
   }
   else if (check_parentheses(p, q) == true) {
     return eval(p + 1, q - 1);
-  }
+  } 
   else {
     int op = op_idx(p, q);
     word_t val1 = eval(p, op - 1);
