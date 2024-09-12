@@ -45,8 +45,8 @@ static struct rule {
   {"\\/", TK_DIV},         // divide
   {"\\(", TK_LB},         // left brac
   {"\\)", TK_RB},         // right brac
-  {"[0-9]+", TK_NUM},   // numbers (one or more digits)
   {"0[xX][0-9a-fA-F]+", TK_HEX}, // hexadecimal numbers
+  {"[0-9]+", TK_NUM},   // numbers (one or more digits)
   {"\\$[a-z0-9]+", TK_REG}, // registers
   {"==", TK_EQ},        // equal
 };
