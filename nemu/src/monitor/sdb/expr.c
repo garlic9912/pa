@@ -263,9 +263,28 @@ word_t expr(char *e, bool *success) {
     }
   } 
 
-  // for (int i = 0; i < nr_token; i++) {
-  //   printf("%d => %s\n", tokens[i].type, tokens[i].str);
-  // }
+  // two expression
+  for (int i = 0; i < nr_token; i++) {
+    word_t e1_val = 0;
+    word_t e2_val = 0;
+    if (tokens[i].type == TK_EQ || tokens[i].type == TK_NEQ || tokens[i].type == TK_AND) {
+      e1_val = eval(0, i-1);
+      e2_val = eval(i+1, nr_token-1);
+    }
+    // ==
+    if (tokens[i].type == TK_EQ) {
+      return e1_val == e2_val;
+    }
+    // != 
+    if (tokens[i].type == TK_NEQ) {
+      return e1_val != e2_val;
+    }
+    // &&
+    if (tokens[i].type == TK_AND) {
+      return e1_val && e2_val;
+    }    
+  }
 
+  // one expression
   return eval(0, nr_token-1);
 }
