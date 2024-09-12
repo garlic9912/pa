@@ -122,7 +122,7 @@ static bool make_token(char *e) {
             break;   
           case(TK_REG):
             tokens[nr_token].type = rules[i].token_type; 
-            strncpy(tokens[nr_token].str, substr_start+1, substr_len-1);    
+            strncpy(tokens[nr_token].str, substr_start, substr_len);    
             tokens[nr_token].str[substr_len-1] = '\0';         
           default: 
             break;
@@ -235,9 +235,9 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-  for (int i = 0; i < nr_token; i++) {
-    printf("%s\n", tokens[i].str);
-  }
+  // for (int i = 0; i < nr_token; i++) {
+  //   printf("%s\n", tokens[i].str);
+  // }
   
   /* TODO: Insert codes to evaluate the expression. */
   return eval(0, nr_token-1);
