@@ -100,7 +100,7 @@ static int cmd_x(char *args) {
 
 static int cmd_p(char *args) {
   bool a = true;
-  printf("%d\n", expr(args, &a));
+  printf("%x\n", expr(args, &a));
   return 0;
 }
 
