@@ -206,7 +206,11 @@ static word_t eval(int p, int q) {
       return atoi(tokens[p].str);
     } else if (tokens[p].type == TK_REG) {
       bool success = true;
-      return isa_reg_str2val(tokens[p].str, &success);
+      word_t ret = isa_reg_str2val(tokens[p].str, &success);
+      if (success == false) {
+        assert(0);
+      }
+      return ret;
     }
   }
   else if (check_parentheses(p, q) == true) {

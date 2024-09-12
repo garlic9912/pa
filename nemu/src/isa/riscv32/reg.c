@@ -44,7 +44,6 @@ word_t isa_reg_str2val(const char *s, bool *success) {
   if (index != -1) {
     return gpr(index);
   }
-
-  assert(0);
+  *success = false;
   return 0;
 }
