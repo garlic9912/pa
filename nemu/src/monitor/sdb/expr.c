@@ -204,6 +204,7 @@ static word_t eval(int p, int q) {
     if (tokens[p].type == TK_NUM) {
       return atoi(tokens[p].str);
     } else if (tokens[p].type == TK_REG) {
+      puts("11111111111111111111111111");
       bool success = true;
       return isa_reg_str2val(tokens[p].str, &success);
     }
