@@ -212,6 +212,8 @@ static word_t eval(int p, int q) {
         assert(0);
       }
       return ret;
+    } else if (tokens[p].type == TK_HEX) {
+      
     }
   }
   else if (check_parentheses(p, q) == true) {
