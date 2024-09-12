@@ -205,7 +205,6 @@ static word_t eval(int p, int q) {
     if (tokens[p].type == TK_NUM) {
       return atoi(tokens[p].str);
     } else if (tokens[p].type == TK_REG) {
-      puts("11111111111111111111111111");
       bool success = true;
       return isa_reg_str2val(tokens[p].str, &success);
     }
@@ -236,9 +235,9 @@ word_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-  for (int i = 0; i < nr_token; i++) {
-    printf("%s\n", tokens[i].str);
-  }
+  // for (int i = 0; i < nr_token; i++) {
+  //   printf("%s\n", tokens[i].str);
+  // }
   
   /* TODO: Insert codes to evaluate the expression. */
   return eval(0, nr_token-1);

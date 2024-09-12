@@ -14,6 +14,7 @@
 ***************************************************************************************/
 
 #include <isa.h>
+#include <stdlib.h>
 #include "local-include/reg.h"
 
 const char *regs[] = {
@@ -31,5 +32,19 @@ void isa_reg_display() {
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
+  // find the index of the given reg's name in regs[]
+  int index = -1;
+  for (int i = 0; i < sizeof(regs)/sizeof(char*); i++) {
+    if (strcmp(regs[i], s) == 0) {
+      index = i;
+      break;
+    }
+  }
+  // return the content of the given reg
+  if (index != -1) {
+    return gpr(index);
+  }
+
+  assert(0);
   return 0;
 }
