@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <isa.h>
+#include <memory/paddr.h>
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -27,7 +28,7 @@ enum {
   /* TODO: Add more token types */
   TK_PLUS, TK_MINUS, TK_MUL, TK_DIV,
   TK_LB, TK_RB, TK_NUM, TK_HEX,
-  TK_REG
+  TK_REG, TK_DEREF
 };
 
 static struct rule {
@@ -205,15 +206,21 @@ static word_t eval(int p, int q) {
     // num
     if (tokens[p].type == TK_NUM) {
       return atoi(tokens[p].str);
-    } else if (tokens[p].type == TK_REG) {
+    } 
+    else if (tokens[p].type == TK_REG) {
       bool success = true;
       word_t ret = isa_reg_str2val(tokens[p].str, &success);
       if (success == false) {
         assert(0);
       }
       return ret;
-    } else if (tokens[p].type == TK_HEX) {
+    } 
+    else if (tokens[p].type == TK_HEX) {
       return strtol(tokens[p].str, NULL, 16);
+    } 
+    else if (tokens[p].type == TK_DEREF) {
+      paddr_t addr = strtol(tokens[p+1].str, NULL, 16);
+      return paddr_read(addr, 1);
     }
   }
   else if (check_parentheses(p, q) == true) {
@@ -241,11 +248,15 @@ word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
-  }
-  // for (int i = 0; i < nr_token; i++) {
-  //   printf("%s\n", tokens[i].str);
-  // }
-  
+  } 
   /* TODO: Insert codes to evaluate the expression. */
+  for (int i = 0; i < nr_token; i ++) {
+    if (tokens[i].type == '*' && (i == 0 || tokens[i - 1].type == TK_PLUS || 
+    tokens[i - 1].type == TK_MINUS || tokens[i - 1].type == TK_MUL || 
+    tokens[i - 1].type == TK_DIV || tokens[i - 1].type == TK_LB  ) ) {
+      tokens[i].type = TK_DEREF;
+    }
+  } 
+
   return eval(0, nr_token-1);
 }
