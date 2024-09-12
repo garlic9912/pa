@@ -87,7 +87,7 @@ static int cmd_x(char *args) {
   char *n = strtok(args, " ");
   // starting address
   paddr_t addr = strtol(n + strlen(n) + 1, NULL, 16);
-  printf(FMT_WORD "\n", addr);
+  printf("%s\n", n+strlen(n)+1);
   panic("1234");
   
   for (int i = 0; i < atoi(n); i++) {
