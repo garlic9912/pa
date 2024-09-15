@@ -42,8 +42,13 @@ WP* new_wp() {
     puts("there is no free wp\n");
     assert(0);
   }
+  // remove wp form free_
   ret = free_;
   free_ = free_->next;
+  // add wp to head
+  ret->next = head->next;
+  head = ret;
+
   return ret;
 }
 
@@ -56,3 +61,4 @@ void free_wp(WP *wp) {
   wp->next = free_->next;
   free_ = wp; 
 }
+
