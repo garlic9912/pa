@@ -51,6 +51,27 @@ WP* new_wp() {
   return ret;
 }
 
+
+bool check() {
+  if (head != NULL) {
+    bool a = true;
+    WP *wp = head;
+    while (wp != NULL) {
+      word_t now_val = expr(wp->expression, &a);
+      if (now_val != wp->last_val) {
+        puts("The program stopped because the monitored variable changed.\n");
+        printf("watch point %d: %s\n", wp->NO, wp->expression);
+        printf("last value: %d\n", wp->last_val);
+        printf("now value: %d\n", now_val);
+        return true;
+      }
+      wp = wp->next;
+    }
+  } 
+  return false; 
+}
+
+
 // Return wp to the free_ list
 void free_wp(WP *wp) {
   if (wp == NULL) {

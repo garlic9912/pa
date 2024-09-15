@@ -25,11 +25,14 @@ typedef struct watchpoint {
   struct watchpoint *next;
 
   /* TODO: Add more members if necessary */
-  word_t expr_val;
+  
+  word_t last_val;
+  char *expression;
 
 } WP;
 
 WP* new_wp();
 void free_wp(WP *wp);
+bool check();
 
 #endif
