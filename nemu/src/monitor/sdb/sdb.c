@@ -105,6 +105,14 @@ static int cmd_p(char *args) {
 }
 
 
+static int cmd_w(char *args) {
+  WP* wp = new_wp();
+  strcpy(wp->expr, args);
+  printf("%s\n", wp->expr);
+  return 0;
+}
+
+
 
 static int cmd_help(char *args);
 
@@ -122,6 +130,7 @@ static struct {
   { "info", "Print register status or print monitoring point information", cmd_info },
   { "x", "Scan memory based on four bytes", cmd_x },
   { "p", "Expression evaluation", cmd_p },
+  { "w", "Watch point", cmd_w }, 
 };
 
 #define NR_CMD ARRLEN(cmd_table)
