@@ -110,6 +110,7 @@ static int cmd_w(char *args) {
   WP* wp = new_wp();
   puts("11111111111111111111\n");
   strcpy(wp->expr, args);
+  puts("11111111111111111111\n");
   printf("%s\n", wp->expr);
   return 0;
 }
