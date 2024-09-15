@@ -106,9 +106,9 @@ static int cmd_p(char *args) {
 
 
 static int cmd_w(char *args) {
+  printf("%s", args);
   bool a = true;
   WP* wp = new_wp();
-  puts("1111111111111111111111111111");
   wp->last_val = expr(args, &a);
   wp->expression = args;
   
