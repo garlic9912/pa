@@ -106,8 +106,9 @@ static int cmd_p(char *args) {
 
 
 static int cmd_w(char *args) {
+  bool a = true;
   WP* wp = new_wp();
-  wp->expr = args;
+  wp->expr_val = expr(args, &a);
   return 0;
 }
 
