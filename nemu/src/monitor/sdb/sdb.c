@@ -106,13 +106,8 @@ static int cmd_p(char *args) {
 
 
 static int cmd_w(char *args) {
-  printf("%s\n", args);
   WP* wp = new_wp();
-  
-
-  
   wp->expr = args;
-  printf("%s\n", wp->expr);
   return 0;
 }
 
