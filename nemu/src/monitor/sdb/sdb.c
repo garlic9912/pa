@@ -108,6 +108,14 @@ static int cmd_p(char *args) {
 static int cmd_w(char *args) {
   printf("%s\n", args);
   WP* wp = new_wp();
+  
+  // 分配足够的空间存储 args 的内容
+  wp->expr = (char *)malloc(strlen(args) + 1);  // +1 是为了存储字符串末尾的 '\0'
+  if (wp->expr == NULL) {
+    printf("Memory allocation failed\n");
+    return -1; // 内存分配失败，返回错误
+  }
+  
   strcpy(wp->expr, args);
   printf("%s\n", wp->expr);
   return 0;
