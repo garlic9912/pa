@@ -21,7 +21,7 @@ void engine_start();
 int is_exit_status_bad();
 
 int main(int argc, char *argv[]) {
-  int a = 0;
+  volatile int a = 0;
   a = a + 1;
 
   /* Initialize the monitor. */
