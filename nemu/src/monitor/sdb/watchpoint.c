@@ -75,13 +75,35 @@ bool checkwp() {
 
 
 // Return wp to the free_ list
-void free_wp(WP *wp) {
-  if (wp == NULL) {
-    puts("the given wp is NULL error");
-    assert(0);
+void free_wp(int no) {
+  if (head == NULL) {
+    puts("there is no watchpoints to delete");
+    return;
   }
-  wp->next = free_->next;
-  free_ = wp; 
+
+  bool flag = false;
+  WP *wp = head->next;
+  WP *prev = head;
+  if (head->NO == no) {
+    flag = true;
+    wp = head;
+    head = head->next;
+    wp->next = free_;
+    free_ = wp;
+  }
+  while (wp != NULL) {
+    if (wp->NO == no) {
+      flag = true;
+      prev->next = wp->next;
+      wp->next = free_;
+      free_ = wp;
+    }
+    prev = wp;
+    wp = wp->next;
+  }
+  if (flag == false) {
+    puts("the given NO is wrong, please try another NO");
+  }
 }
 
 

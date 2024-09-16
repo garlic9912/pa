@@ -75,7 +75,7 @@ static int cmd_info(char *args) {
     isa_reg_display();
     return 0;
   }
-  
+
   // print watch
   if (strcmp(args, "w") == 0) {
     wp_display();
@@ -118,6 +118,12 @@ static int cmd_w(char *args) {
 }
 
 
+static int cmd_d(char *args) {
+  free_wp(atoi(args));
+  return 0;
+}
+
+
 
 static int cmd_help(char *args);
 
@@ -136,6 +142,7 @@ static struct {
   { "x", "Scan memory based on four bytes", cmd_x },
   { "p", "Expression evaluation", cmd_p },
   { "w", "Watch point", cmd_w }, 
+  { "d", "Delete the given NO of watchpoinit", cmd_d },
 };
 
 #define NR_CMD ARRLEN(cmd_table)
