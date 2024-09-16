@@ -99,6 +99,7 @@ static int cmd_x(char *args) {
 
 
 static int cmd_p(char *args) {
+  printf("%s", args);
   bool a = true;
   printf(FMT_WORD"\n", expr(args, &a));
   return 0;
