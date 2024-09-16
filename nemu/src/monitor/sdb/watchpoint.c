@@ -86,17 +86,24 @@ void free_wp(int no) {
   WP *prev = head;
   if (head->NO == no) {
     flag = true;
+    // head
     wp = head;
     head = head->next;
+    // init wp
+    wp->alarm_time = 1;
+    // free
     wp->next = free_;
     free_ = wp;
+    return;
   }
   while (wp != NULL) {
     if (wp->NO == no) {
       flag = true;
       prev->next = wp->next;
+      wp->alarm_time = 1;
       wp->next = free_;
       free_ = wp;
+      return;
     }
     prev = wp;
     wp = wp->next;
