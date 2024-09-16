@@ -60,9 +60,9 @@ bool checkwp() {
       word_t now_val = expr(wp->expression, &a);
       if (now_val != wp->last_val) {
         puts("The program stopped because the monitored variable changed.\n");
-        printf("watch point %d: %s\n", wp->NO, wp->expression);
-        printf("last value: %d\n", wp->last_val);
-        printf("now value: %d\n", now_val);
+        printf("watch point" FMT_WORD": %s\n", wp->NO, wp->expression);
+        printf("last value:" FMT_WORD"\n", wp->last_val);
+        printf("now value:" FMT_WORD"\n", now_val);
         return true;
       }
       wp = wp->next;
