@@ -90,9 +90,9 @@ void free_wp(WP *wp) {
 // print all watchpoints info
 void wp_display() {
   WP *wp = head;
-  puts("NO    expr    last_val");
+  puts("NO    expr");
   while (wp != NULL) {
-    printf("%d    %s    "   FMT_WORD"\n", wp->NO, wp->expression, wp->last_val);
+    printf("%d    %s\n", wp->NO, wp->expression);
     wp = wp->next;
   }
 }
