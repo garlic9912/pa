@@ -109,7 +109,7 @@ static int cmd_w(char *args) {
   bool a = true;
   WP* wp = new_wp();
   wp->last_val = expr(args, &a);
-  wp->expression = args;
+  strcpy(wp->expression, args);
   return 0;
 }
 
