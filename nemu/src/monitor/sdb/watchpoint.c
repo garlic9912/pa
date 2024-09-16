@@ -52,7 +52,7 @@ WP* new_wp() {
 }
 
 
-bool check() {
+bool checkwp() {
   if (head != NULL) {
     bool a = true;
     WP *wp = head;
