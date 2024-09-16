@@ -45,7 +45,7 @@ WP* new_wp() {
   ret = free_;
   free_ = free_->next;
   // add wp to head
-  ret->next = head->next;
+  ret->next = head;
   head = ret;
 
   return ret;
