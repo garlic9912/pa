@@ -120,7 +120,6 @@ static int cmd_w(char *args) {
 
 static int cmd_d(char *args) {
   free_wp(atoi(args));
-  panic("1111111111111");
   return 0;
 }
 
