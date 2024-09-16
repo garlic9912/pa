@@ -75,8 +75,12 @@ static int cmd_info(char *args) {
     isa_reg_display();
     return 0;
   }
+  
   // print watch
-  // ...
+  if (strcmp(args, "w") == 0) {
+    wp_display();
+    return 0;
+  }  
 
   return 0;
 }
