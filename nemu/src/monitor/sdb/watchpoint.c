@@ -26,6 +26,7 @@ void init_wp_pool() {
   for (i = 0; i < NR_WP; i ++) {
     wp_pool[i].NO = i;
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
+    wp_pool[i].alarm_time = 1;
   }
 
   head = NULL;
@@ -58,7 +59,8 @@ bool checkwp() {
     WP *wp = head;
     while (wp != NULL) {
       word_t now_val = expr(wp->expression, &a);
-      if (now_val != wp->last_val) {
+      if (now_val != wp->last_val && wp->alarm_time) {
+        wp->alarm_time -= 1;
         puts("The program stopped because the monitored variable changed.\n");
         printf("watch point %d: %s\n", wp->NO, wp->expression);
         printf("last value:" FMT_WORD"\n", wp->last_val);

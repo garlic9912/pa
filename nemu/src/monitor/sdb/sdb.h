@@ -28,6 +28,7 @@ typedef struct watchpoint {
   
   word_t last_val;
   char expression[64];
+  int alarm_time;
 
 } WP;
 
