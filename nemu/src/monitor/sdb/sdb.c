@@ -99,7 +99,6 @@ static int cmd_x(char *args) {
 
 
 static int cmd_p(char *args) {
-  printf("%s", args);
   bool a = true;
   printf(FMT_WORD"\n", expr(args, &a));
   return 0;
@@ -107,7 +106,6 @@ static int cmd_p(char *args) {
 
 
 static int cmd_w(char *args) {
-  puts("111111111111111111111111");
   printf("%s", args);
   bool a = true;
   WP* wp = new_wp();
@@ -195,6 +193,7 @@ void sdb_mainloop() {
     int i;
     for (i = 0; i < NR_CMD; i ++) {
       if (strcmp(cmd, cmd_table[i].name) == 0) {
+        printf("%s", args);
         if (cmd_table[i].handler(args) < 0) { return; }
         break;
       }
