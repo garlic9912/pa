@@ -32,8 +32,8 @@ endif
 
 ### Extract instruction set architecture (`ISA`) and platform from `$ARCH`. Example: `ARCH=x86_64-qemu -> ISA=x86_64; PLATFORM=qemu`
 ARCH_SPLIT = $(subst -, ,$(ARCH))
-ISA        = $(word 1,$(ARCH_SPLIT))
-PLATFORM   = $(word 2,$(ARCH_SPLIT))
+ISA        = $(word 1,$(ARCH_SPLIT))  # riscv32
+PLATFORM   = $(word 2,$(ARCH_SPLIT))  # nemu-interpreter
 
 ### Check if there is something to build
 ifeq ($(flavor SRCS), undefined)
