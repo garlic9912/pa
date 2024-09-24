@@ -106,6 +106,7 @@ endif
 
 ifeq ($(BATCH_ENABLE), 1)
     CFLAGS += -DBATCH_ENABLE
+	CXXFLAGS += -DBATCH_ENABLE
 endif
 
 ### Rule (compile): a single `.c` -> `.o` (gcc)
