@@ -104,10 +104,7 @@ endif
 
 ## 5. Compilation Rules
 
-ifneq ($(BATCH_ENABLE), 1)
-    CFLAGS += -DBATCH_ENABLE
-	CXXFLAGS += -DBATCH_ENABLE
-endif
+CFLAGS += $(if $(BATCH_ENABLE),-DBATCH_ENABLE)
 
 ### Rule (compile): a single `.c` -> `.o` (gcc)
 $(DST_DIR)/%.o: %.c
