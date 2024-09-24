@@ -104,7 +104,7 @@ endif
 
 ## 5. Compilation Rules
 
-ifeq ($(BATCH_ENABLE), 1)
+ifneq ($(BATCH_ENABLE), 1)
     CFLAGS += -DBATCH_ENABLE
 	CXXFLAGS += -DBATCH_ENABLE
 endif
