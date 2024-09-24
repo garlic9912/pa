@@ -87,6 +87,11 @@ CFLAGS   += -O2 -MMD -Wall -Werror $(INCFLAGS) \
             -DARCH_H=\"$(ARCH_H)\" \
             -fno-asynchronous-unwind-tables -fno-builtin -fno-stack-protector \
             -Wno-main -U_FORTIFY_SOURCE -fvisibility=hidden
+
+########################################################
+CFLAGS += $(if $(BATCH_ENABLE),-DBATCH_ENABLE)
+########################################################
+
 CXXFLAGS +=  $(CFLAGS) -ffreestanding -fno-rtti -fno-exceptions
 ASFLAGS  += -MMD $(INCFLAGS)
 LDFLAGS  += -z noexecstack
@@ -103,8 +108,6 @@ ifeq ($(wildcard $(shell which $(CC))),)
 endif
 
 ## 5. Compilation Rules
-
-CFLAGS += $(if $(BATCH_ENABLE),-DBATCH_ENABLE)
 
 ### Rule (compile): a single `.c` -> `.o` (gcc)
 $(DST_DIR)/%.o: %.c
