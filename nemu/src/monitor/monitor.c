@@ -102,7 +102,9 @@ static int parse_args(int argc, char *argv[]) {
 
 void init_monitor(int argc, char *argv[]) {
   /* Perform some global initialization. */
-  sdb_set_batch_mode();
+  #ifdef BATCH_ENABLE
+    sdb_set_batch_mode();
+  #endif
 
   /* Parse arguments. */
   parse_args(argc, argv);

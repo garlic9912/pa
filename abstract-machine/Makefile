@@ -104,6 +104,10 @@ endif
 
 ## 5. Compilation Rules
 
+ifeq ($(BATCH_ENABLE), 1)
+    CFLAGS += -DBATCH_ENABLE
+endif
+
 ### Rule (compile): a single `.c` -> `.o` (gcc)
 $(DST_DIR)/%.o: %.c
 	@mkdir -p $(dir $@) && echo + CC $<
