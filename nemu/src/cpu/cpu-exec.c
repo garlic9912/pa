@@ -44,7 +44,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if (g_print_step) { 
     IFDEF(CONFIG_ITRACE, puts(_this->logbuf));  
   }
-
+  puts("111111111111111111111111111");
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
 // watch point function
@@ -72,7 +72,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   p_ring += sprintf(p_ring, "   ");
   // 0x80000000:( 00 00 02 97 auipc   t0, 0x0)
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc); 
-  // ---
+  // ========
   p_ring += snprintf(p_ring, sizeof(s->logbuf), FMT_WORD ":", s->pc);
   int ilen = s->snpc - s->pc;
   // (0x80000000:) 00 00 02 97 (auipc   t0, 0x0)
@@ -80,7 +80,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   uint8_t *inst = (uint8_t *)&s->isa.inst.val;
   for (i = ilen - 1; i >= 0; i --) {
     p += snprintf(p, 4, " %02x", inst[i]);
-    // ----
+    // ========
     p_ring += snprintf(p_ring, 4, " %02x", inst[i]);
   }
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
@@ -88,8 +88,10 @@ static void exec_once(Decode *s, vaddr_t pc) {
   if (space_len < 0) space_len = 0;
   space_len = space_len * 3 + 1;
   memset(p, ' ', space_len);
+  // ========
   memset(p_ring, ' ', space_len);
   p += space_len;
+  // ========
   p_ring += space_len;
 
 #ifndef CONFIG_ISA_loongarch32r
@@ -97,7 +99,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   // (0x80000000: 00 00 02 97) auipc   t0, 0x0
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
-  // ----
+  // ========
   disassemble(p_ring, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
   // update the idx of ringbuf
