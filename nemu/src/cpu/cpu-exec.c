@@ -31,14 +31,15 @@ CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
-// static char ringbuf[20][128];
-// static idx = 0;
+static char ringbuf[20][128];
+static int idx = 0;
 
 void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
-  if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
+  // if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
+  // if (ITRACE_COND && nemu_state == )
 #endif
   if (g_print_step) { 
     IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); 
@@ -55,27 +56,36 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 }
 
 static void exec_once(Decode *s, vaddr_t pc) {
+  // update the idx of ringbuf
+  if (idx == 20) idx = 0;
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
   cpu.pc = s->dnpc;
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
-  // p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
+  char *p_ring = ringbuf[idx];
+  // 0x80000000:( 00 00 02 97 auipc   t0, 0x0)
+  p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
+  // ---
+  p_ring += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
   int ilen = s->snpc - s->pc;
   // (0x80000000:) 00 00 02 97 (auipc   t0, 0x0)
   int i;
   uint8_t *inst = (uint8_t *)&s->isa.inst.val;
   for (i = ilen - 1; i >= 0; i --) {
     p += snprintf(p, 4, " %02x", inst[i]);
+    // ----
+    p_ring += snprintf(p, 4, " %02x", inst[i]);
   }
-  // ----
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
   int space_len = ilen_max - ilen;
   if (space_len < 0) space_len = 0;
   space_len = space_len * 3 + 1;
   memset(p, ' ', space_len);
+  memset(p_ring, ' ', space_len);
   p += space_len;
+  p_ring += space_len;
 
 #ifndef CONFIG_ISA_loongarch32r
   void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
@@ -83,6 +93,10 @@ static void exec_once(Decode *s, vaddr_t pc) {
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
   // ----
+  disassemble(p_ring, s->logbuf + sizeof(s->logbuf) - p,
+      MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+  // update the idx of ringbuf
+  idx++;
 #else
   p[0] = '\0'; // the upstream llvm does not support loongarch32r
 #endif
