@@ -130,18 +130,24 @@ static void statistic() {
 }
 
 void assert_fail_msg() {
+  Decode *ts = &s;
   isa_reg_display();
 
   char *p_ring = ringbuf[idx];
-  uint8_t inst = (uint8_t)s.isa.inst.val;
-  p_ring += snprintf(p_ring, sizeof(s.logbuf), FMT_WORD ":", s.pc);
-  p_ring += snprintf(p_ring, 4, " %02x", inst);
+  p_ring += snprintf(p_ring, sizeof(s.logbuf), FMT_WORD ":",ts->pc);
+  int ilen = ts->snpc - ts->pc;
+  int i;
+  uint8_t *inst = (uint8_t *)&ts->isa.inst.val;
+  for (i = ilen - 1; i >= 0; i --) {
+    p_ring += snprintf(p_ring, 4, " %02x", inst[i]);
+  }
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
-  int space_len = ilen_max - 1;
+  int space_len = ilen_max - ilen;
   if (space_len < 0) space_len = 0;
   space_len = space_len * 3 + 1;
   memset(p_ring, ' ', space_len);
   p_ring += space_len;
+
 
   if (flag == 1) idx = 10;
   for (int i = 0; i < idx; i++) {
