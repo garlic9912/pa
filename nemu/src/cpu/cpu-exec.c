@@ -31,6 +31,8 @@ CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
+// static char ringbuf[20][128];
+// static idx = 0;
 
 void device_update();
 
@@ -39,7 +41,10 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
   // 0x80000000:( 00 00 02 97 auipc   t0, 0x0)
-  if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
+  // if (g_print_step) { 
+  //   IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); 
+  // }
+  // ----
 
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
@@ -66,6 +71,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   for (i = ilen - 1; i >= 0; i --) {
     p += snprintf(p, 4, " %02x", inst[i]);
   }
+  // ----
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
   int space_len = ilen_max - ilen;
   if (space_len < 0) space_len = 0;
@@ -78,6 +84,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   // (0x80000000: 00 00 02 97) auipc   t0, 0x0
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+  // ----
 #else
   p[0] = '\0'; // the upstream llvm does not support loongarch32r
 #endif
