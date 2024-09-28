@@ -39,6 +39,7 @@ void device_update();
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
+  puts(_this->logbuf);
 #endif
   // 0x80000000:( 00 00 02 97 auipc   t0, 0x0)
   // if (g_print_step) { 
