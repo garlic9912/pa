@@ -134,7 +134,7 @@ void assert_fail_msg() {
   isa_reg_display();
 
   char *p_ring = ringbuf[idx];
-  p_ring += sprintf(p_ring, "   ");
+  p_ring += sprintf(p_ring, "-->");
   p_ring += snprintf(p_ring, sizeof(s.logbuf), FMT_WORD ":",ts->pc);
   int ilen = ts->snpc - ts->pc;
   int i;
