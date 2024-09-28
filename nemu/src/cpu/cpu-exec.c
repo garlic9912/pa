@@ -148,8 +148,9 @@ void assert_fail_msg() {
   space_len = space_len * 3 + 1;
   memset(p_ring, ' ', space_len);
   p_ring += space_len;
-
-
+  void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
+  disassemble(p_ring, ts->logbuf + sizeof(ts->logbuf) - p_ring,
+      MUXDEF(CONFIG_ISA_x86, ts->snpc, ts->pc), (uint8_t *)&ts->isa.inst.val, ilen);
   if (flag == 1) idx = 10;
   for (int i = 0; i < idx; i++) {
     puts(ringbuf[i]);
