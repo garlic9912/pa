@@ -39,7 +39,7 @@ void device_update();
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   // if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
-  if (ITRACE_COND && nemu_state.state == NEMU_STOP) {
+  if (ITRACE_COND && nemu_state.state == NEMU_ABORT) {
     for (int i = 0; i < 20; i++) {
       log_write("%s\n", ringbuf[i]);
     }
