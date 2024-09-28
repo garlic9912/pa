@@ -125,7 +125,7 @@ static void statistic() {
 void assert_fail_msg() {
   isa_reg_display();
   for (int i = 0; i < 20; i++) {
-    log_write("%s\n", ringbuf[i]);
+    puts(ringbuf[i]);
   }
   statistic();
 }
