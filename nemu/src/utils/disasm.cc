@@ -40,12 +40,24 @@
 #error Please use LLVM with major version >= 11
 #endif
 
+
+// 包含了 LLVM 相关的头文件，用于反汇编功能。
 using namespace llvm;
 
+
+// 全局变量声明：
+// gDisassembler：用于反汇编指令的对象。
+// gSTI：用于存储目标架构子目标信息的对象。
+// gIP：用于打印反汇编结果的对象。
 static llvm::MCDisassembler *gDisassembler = nullptr;
 static llvm::MCSubtargetInfo *gSTI = nullptr;
 static llvm::MCInstPrinter *gIP = nullptr;
 
+
+
+
+// extern "C" 是 C++ 中的一个关键字组合，用于解决 C++ 和 C 语言之间的链接问题
+// init_disasm 函数用于初始化反汇编器。
 extern "C" void init_disasm(const char *triple) {
   llvm::InitializeAllTargetInfos();
   llvm::InitializeAllTargetMCs();
@@ -92,6 +104,8 @@ extern "C" void init_disasm(const char *triple) {
     gIP->applyTargetSpecificCLOption("no-aliases");
 }
 
+
+// disassemble 函数用于反汇编给定的机器码。
 extern "C" void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte) {
   MCInst inst;
   llvm::ArrayRef<uint8_t> arr(code, nbyte);
