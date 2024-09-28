@@ -62,6 +62,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
+  p += '\0';
   puts(p);
   int ilen = s->snpc - s->pc;
   // (0x80000000:) 00 00 02 97 (auipc   t0, 0x0)
