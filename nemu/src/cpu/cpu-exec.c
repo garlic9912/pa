@@ -133,6 +133,7 @@ void assert_fail_msg() {
   Decode *ts = &s;
   isa_reg_display();
 
+  // ===
   char *p_ring = ringbuf[idx];
   p_ring += sprintf(p_ring, "==>");
   p_ring += snprintf(p_ring, sizeof(s.logbuf), FMT_WORD ":",ts->pc);
@@ -155,6 +156,8 @@ void assert_fail_msg() {
   for (int i = 0; i < idx; i++) {
     puts(ringbuf[i]);
   }
+
+  // ===
   statistic();
 }
 
