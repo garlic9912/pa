@@ -71,7 +71,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   char *p_ring = ringbuf[idx];
   p_ring += sprintf(p_ring, "   ");
   // 0x80000000:( 00 00 02 97 auipc   t0, 0x0)
-  p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
+  p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc); 
   // ---
   p_ring += snprintf(p_ring, sizeof(s->logbuf), FMT_WORD ":", s->pc);
   int ilen = s->snpc - s->pc;
