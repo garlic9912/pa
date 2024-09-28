@@ -33,6 +33,7 @@ static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 static char ringbuf[20][128];
 static int idx = 0;
+static int flag = 0;
 
 void device_update();
 
@@ -56,7 +57,10 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 
 static void exec_once(Decode *s, vaddr_t pc) {
   // update the idx of ringbuf
-  if (idx == 20) idx = 0;
+  if (idx == 20) {
+    idx = 0;
+    flag = 1;
+  }
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
@@ -124,7 +128,8 @@ static void statistic() {
 
 void assert_fail_msg() {
   isa_reg_display();
-  for (int i = 0; i < 20; i++) {
+  if (flag == 1) idx = 50;
+  for (int i = 0; i < idx; i++) {
     puts(ringbuf[i]);
   }
   statistic();
