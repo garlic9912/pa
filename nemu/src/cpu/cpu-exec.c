@@ -61,7 +61,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
     idx = 0;
     flag = 1;
   }
-  memset(ringbuf[idx], ' ', sizeof(ringbuf[0]));
+  strcpy(ringbuf[idx], "");
   s->pc = pc;
   s->snpc = pc;
   isa_exec_once(s);
