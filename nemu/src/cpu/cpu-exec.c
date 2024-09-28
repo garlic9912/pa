@@ -31,14 +31,19 @@ CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
+Decode s;
+
+#ifdef CONFIG_IRINGTRACE_COND
 static char ringbuf[10][128];
 static int idx = 0;
 static int flag = 0;
-Decode s;
+#endif
+
 
 void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
+#ifdef CONFIG_IRINGTRACE_COND
   // update the idx of ringbuf
   if (idx == 10) { idx = 0; flag = 1;}  
   strcpy(ringbuf[idx], "");
@@ -46,6 +51,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   p_ring += sprintf(p_ring, "   ");
   strcpy(p_ring, _this->logbuf);
   idx++;
+#endif
 
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
@@ -117,10 +123,10 @@ static void statistic() {
 }
 
 void assert_fail_msg() {
-  Decode *ts = &s;
   isa_reg_display();
-
-  // ===
+  statistic();
+#ifdef CONFIG_IRINGTRACE_COND
+  Decode *ts = &s;
   if (idx == 10) {
     idx = 0;
     flag = 1;
@@ -149,9 +155,7 @@ void assert_fail_msg() {
   for (int i = 0; i < idx; i++) {
     puts(ringbuf[i]);
   }
-
-  // ===
-  statistic();
+#endif
 }
 
 /* Simulate how the CPU works. */
