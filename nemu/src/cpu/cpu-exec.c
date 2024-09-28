@@ -134,6 +134,10 @@ void assert_fail_msg() {
   isa_reg_display();
 
   // ===
+  if (idx == 10) {
+    idx = 0;
+    flag = 1;
+  }  
   char *p_ring = ringbuf[idx];
   p_ring += sprintf(p_ring, "==>");
   p_ring += snprintf(p_ring, sizeof(s.logbuf), FMT_WORD ":",ts->pc);
