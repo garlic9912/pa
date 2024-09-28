@@ -68,7 +68,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   // 0x80000000:( 00 00 02 97 auipc   t0, 0x0)
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
   // ---
-  p_ring += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
+  p_ring += snprintf(p_ring, sizeof(s->logbuf), FMT_WORD ":", s->pc);
   int ilen = s->snpc - s->pc;
   // (0x80000000:) 00 00 02 97 (auipc   t0, 0x0)
   int i;
@@ -76,7 +76,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   for (i = ilen - 1; i >= 0; i --) {
     p += snprintf(p, 4, " %02x", inst[i]);
     // ----
-    p_ring += snprintf(p, 4, " %02x", inst[i]);
+    p_ring += snprintf(p_ring, 4, " %02x", inst[i]);
   }
   int ilen_max = MUXDEF(CONFIG_ISA_x86, 8, 4);
   int space_len = ilen_max - ilen;
