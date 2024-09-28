@@ -34,6 +34,7 @@ static bool g_print_step = false;
 static char ringbuf[10][128];
 static int idx = 0;
 static int flag = 0;
+Decode s;
 
 void device_update();
 
@@ -44,7 +45,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   if (g_print_step) { 
     IFDEF(CONFIG_ITRACE, puts(_this->logbuf));  
   }
-  puts("111111111111111111111111111");
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
 // watch point function
@@ -111,7 +111,6 @@ static void exec_once(Decode *s, vaddr_t pc) {
 }
 
 static void execute(uint64_t n) {
-  Decode s;
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
