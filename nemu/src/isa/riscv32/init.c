@@ -22,8 +22,32 @@ static const uint32_t img [] = {
   0x00000297,  // auipc t0,0
   0x00000a13,   // li	s4,0
   0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
+  0x00000a13,   // li	s4,0
   0x00028823,  // sb  zero,16(t0)
-  0xf102c503,  // lbu fff,16(t0)   
+  0xf102c503,  // lbu fff,16(t0)   <<<<>>>>
   0x00100073,  // ebreak (used as nemu_trap)
   0xdeadbeef,  // some data
 };
