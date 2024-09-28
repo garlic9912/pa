@@ -131,6 +131,8 @@ static void statistic() {
 
 void assert_fail_msg() {
   isa_reg_display();
+
+
   if (flag == 1) idx = 10;
   for (int i = 0; i < idx; i++) {
     puts(ringbuf[i]);
