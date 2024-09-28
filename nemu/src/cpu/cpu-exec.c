@@ -69,7 +69,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   char *p_ring = ringbuf[idx];
-  p_ring += 3;
+  p_ring += sprintf(p_ring, "   ");
   // 0x80000000:( 00 00 02 97 auipc   t0, 0x0)
   p += snprintf(p, sizeof(s->logbuf), FMT_WORD ":", s->pc);
   // ---
