@@ -23,9 +23,11 @@ compile_git:
 $(BINARY):: compile_git
 
 # Some convenient rules
+ARGS_FTRACE = --ftrace= $(AMK_HOME)/tests/cpu-tests/
 
 override ARGS ?= --log=$(BUILD_DIR)/nemu-log.txt
 override ARGS += $(ARGS_DIFF)
+override ARGS += 
 
 # Command to execute NEMU
 IMG ?=
