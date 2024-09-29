@@ -129,12 +129,12 @@ endmenu
 menu "Testing and Debugging"
 
 # ==================================================== #
-config MTRACE_COND
+config MTRACE
 bool "Enable mtrace"
 default "false"  
 
 
-config IRINGTRACE_COND
+config IRINGTRACE
   bool "Enable iringtrace"
   default "false"  
 

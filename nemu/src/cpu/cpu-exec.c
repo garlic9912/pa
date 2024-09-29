@@ -33,7 +33,7 @@ static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 Decode s;
 
-#ifdef CONFIG_IRINGTRACE_COND
+#ifdef CONFIG_IRINGTRACE
 static char ringbuf[10][128];
 static int idx = 0;
 static int flag = 0;
@@ -43,7 +43,7 @@ static int flag = 0;
 void device_update();
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
-#ifdef CONFIG_IRINGTRACE_COND
+#ifdef CONFIG_IRINGTRACE
   // update the idx of ringbuf
   if (idx == 10) { idx = 0; flag = 1;}  
   strcpy(ringbuf[idx], "");
@@ -125,7 +125,7 @@ static void statistic() {
 void assert_fail_msg() {
   isa_reg_display();
   statistic();
-#ifdef CONFIG_IRINGTRACE_COND
+#ifdef CONFIG_IRINGTRACE
   Decode *ts = &s;
   if (idx == 10) {
     idx = 0;
