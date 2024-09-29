@@ -52,8 +52,7 @@ void init_mem() {
 }
 
 word_t paddr_read(paddr_t addr, int len) {
-  printf("PC: "FMT_PADDR"\n", cpu.pc);
-  printf("read: "FMT_PADDR"\n", addr);
+  if (cpu.pc != addr) printf("read: "FMT_PADDR"\n", addr);
   if (likely(in_pmem(addr))) return pmem_read(addr, len);
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
   out_of_bound(addr);
