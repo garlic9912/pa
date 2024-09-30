@@ -131,8 +131,6 @@ void init_elf_file() {
   elf_hdr.ehdr = *(Elf32_Ehdr *)buf;
 
   // Find the section header table
-  // printf("%d,   %d", elf_hdr.ehdr.e_phoff, elf_hdr.ehdr.e_shoff);
-  // panic("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   shdr = (Elf32_Shdr *)((char *)buf + elf_hdr.ehdr.e_shoff);
 
   // Find the symbol table and string table indexes
@@ -145,6 +143,8 @@ void init_elf_file() {
       strtab_idx = i;
     }
   }
+  printf("%d,  %d\n", symtab_idx, strtab_idx);
+  panic("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
   // Get the symbol table and string table addresses
   symtab = (Elf32_Sym *)((char *)buf + shdr[symtab_idx].sh_offset);
