@@ -103,9 +103,9 @@ typedef struct {
 void ftrace(word_t pc) {
   // acquire the infomation of elf
   FILE *fp = NULL;
-  char *buf;
   Elf32_Shdr *shdr;
   Elf32_Sym *symtab;
+  char *buf;
   char *strtab;
   int symtab_idx, strtab_idx;
   union {
@@ -134,6 +134,8 @@ void ftrace(word_t pc) {
   elf_hdr.ehdr = *(Elf32_Ehdr *)buf;
 
   // Find the section header table
+  printf(FMT_WORD" , "FMT_WORD, elf_hdr.ehdr.e_phoff, elf_hdr.ehdr.e_shoff);
+  panic("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   shdr = (Elf32_Shdr *)((char *)buf + elf_hdr.ehdr.e_shoff);
 
   // Find the symbol table and string table indexes
