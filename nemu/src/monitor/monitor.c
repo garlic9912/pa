@@ -55,7 +55,7 @@ FILE *elf_fp = NULL;
   void init_elf(const char *elf_file) {
     elf_fp = stdout;
     if (elf_file != NULL) {
-      FILE *fp = fopen(elf_file, "w");
+      FILE *fp = fopen(elf_file, "r");
       Assert(fp, "Can not open '%s'", elf_file);
       elf_fp = fp;
       printf("%s", elf_file);
