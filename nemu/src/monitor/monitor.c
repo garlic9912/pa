@@ -53,12 +53,8 @@ FILE *elf_fp = NULL;
 
 #ifdef CONFIG_FTRACE
   void init_elf(const char *elf_file) {
-    char c;
     elf_fp = fopen(elf_file, "r");
     Assert(elf_fp, "Can not open '%s'", elf_file);
-    while ((c = fgetc(elf_fp))) {
-      printf("%c", c);
-    }
   }
 #endif
 
