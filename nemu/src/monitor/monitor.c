@@ -46,8 +46,22 @@ void sdb_set_batch_mode();
 static char *log_file = NULL;
 static char *diff_so_file = NULL;
 static char *img_file = NULL;
-static char *elf_file = NULL;
 static int difftest_port = 1234;
+static char *elf_file = NULL;
+FILE *elf_fp = NULL;
+
+
+#ifdef CONFIG_FTRACE
+  void init_elf(const char *elf_file) {
+    elf_fp = stdout;
+    if (elf_file != NULL) {
+      FILE *fp = fopen(elf_file, "w");
+      Assert(fp, "Can not open '%s'", elf_file);
+      elf_fp = fp;
+      printf("%s", elf_file);
+    }
+  }
+#endif
 
 static long load_img() {
   if (img_file == NULL) {
@@ -109,6 +123,7 @@ void init_monitor(int argc, char *argv[]) {
   /* Parse arguments. */
   parse_args(argc, argv);
 
+
   /* Set random seed. */
   init_rand();
 
@@ -132,6 +147,8 @@ void init_monitor(int argc, char *argv[]) {
 
   /* Initialize the simple debugger. */
   init_sdb();
+
+  init_elf(elf_file);
 
 #ifndef CONFIG_ISA_loongarch32r
   IFDEF(CONFIG_ITRACE, init_disasm(

@@ -129,9 +129,14 @@ endmenu
 menu "Testing and Debugging"
 
 # ==================================================== #
-config MTRACE
-bool "Enable mtrace"
+config FTRACE
+bool "Enable ftrace"
 default "false"  
+
+
+config MTRACE
+  bool "Enable mtrace"
+  default "false"  
 
 
 config IRINGTRACE

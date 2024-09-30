@@ -14,8 +14,8 @@ LDFLAGS   += --gc-sections -e _start
 ########################
 WORK_DIR  = $(shell pwd)
 ARGS_FTRACE = --ftrace=$(WORK_DIR)/build/$(IMAGE).elf
-########################
 NEMUFLAGS += $(ARGS_FTRACE)
+########################
 NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt
 
 CFLAGS += -DMAINARGS=\"$(mainargs)\"

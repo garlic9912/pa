@@ -32,6 +32,8 @@ uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 Decode s;
+extern FILE* elf_fp;
+
 
 #ifdef CONFIG_IRINGTRACE
 static char ringbuf[10][128];
