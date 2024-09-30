@@ -56,7 +56,7 @@ FILE *elf_fp = NULL;
     char c;
     elf_fp = fopen(elf_file, "r");
     Assert(elf_fp, "Can not open '%s'", elf_file);
-    while ((c = fgetc(elf_fp)) != EOF) {
+    while ((c = fgetc(elf_fp))) {
       printf("%c", c);
     }
   }
