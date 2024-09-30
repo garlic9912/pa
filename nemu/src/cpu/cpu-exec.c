@@ -134,7 +134,7 @@ void ftrace(word_t pc) {
   elf_hdr.ehdr = *(Elf32_Ehdr *)buf;
 
   // Find the section header table
-  printf(FMT_WORD" , "FMT_WORD, elf_hdr.ehdr.e_phoff, elf_hdr.ehdr.e_shoff);
+  printf("%d,   %d", elf_hdr.ehdr.e_phoff, elf_hdr.ehdr.e_shoff);
   panic("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   shdr = (Elf32_Shdr *)((char *)buf + elf_hdr.ehdr.e_shoff);
 
