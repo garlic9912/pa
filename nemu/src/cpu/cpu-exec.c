@@ -97,10 +97,7 @@ typedef struct {
 
 
 
-
-
-// pc is next position
-void ftrace(word_t pc) {
+void init_elf_file() {
   // acquire the infomation of elf
   FILE *fp = NULL;
   Elf32_Shdr *shdr;
@@ -134,8 +131,8 @@ void ftrace(word_t pc) {
   elf_hdr.ehdr = *(Elf32_Ehdr *)buf;
 
   // Find the section header table
-  printf("%d,   %d", elf_hdr.ehdr.e_phoff, elf_hdr.ehdr.e_shoff);
-  panic("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  // printf("%d,   %d", elf_hdr.ehdr.e_phoff, elf_hdr.ehdr.e_shoff);
+  // panic("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   shdr = (Elf32_Shdr *)((char *)buf + elf_hdr.ehdr.e_shoff);
 
   // Find the symbol table and string table indexes
@@ -161,7 +158,13 @@ void ftrace(word_t pc) {
 
   // Free allocated memory and close the file
   free(buf);
-  fclose(fp);
+  fclose(fp);  
+}
+
+
+// pc is next position
+void ftrace(word_t pc) {
+  init_elf_file();
 }
 #endif
 
