@@ -51,13 +51,12 @@ static char *elf_file = NULL;
 FILE *elf_fp = NULL;
 
 
-#ifdef CONFIG_FTRACE
-  void init_elf(const char *elf_file) {
-    elf_fp = fopen(elf_file, "r");
-    printf("%s\n", elf_file);
-    Assert(elf_fp, "Can not open '%s'", elf_file);
-  }
-#endif
+// #ifdef CONFIG_FTRACE
+//   void init_elf(const char *elf_file) {
+//     elf_fp = fopen(elf_file, "r");
+//     Assert(elf_fp, "Can not open '%s'", elf_file);
+//   }
+// #endif
 
 static long load_img() {
   if (img_file == NULL) {
@@ -143,7 +142,7 @@ void init_monitor(int argc, char *argv[]) {
   /* Initialize the simple debugger. */
   init_sdb();
 
-  init_elf(elf_file);
+  // init_elf(elf_file);
 
 #ifndef CONFIG_ISA_loongarch32r
   IFDEF(CONFIG_ITRACE, init_disasm(
