@@ -12,8 +12,7 @@ LDFLAGS   += -T $(AM_HOME)/scripts/linker.ld \
              --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start
 ########################
-WORK_DIR  = $(shell pwd)
-ARGS_FTRACE = --ftrace=$(WORK_DIR)/build/$(IMAGE).elf
+ARGS_FTRACE = --ftrace=$(IMAGE).elf
 NEMUFLAGS += $(ARGS_FTRACE)
 ########################
 NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt
