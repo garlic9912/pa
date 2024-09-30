@@ -96,14 +96,15 @@ typedef struct {
 } Elf32_Sym;
 
 
+// symtab, strtab
+Elf32_Sym *symtab;
+char *strtab;
 
 void init_elf_file() {
   // acquire the infomation of elf
   FILE *fp = NULL;
   Elf32_Shdr *shdr;
-  Elf32_Sym *symtab;
   char *buf;
-  char *strtab;
   int symtab_idx, strtab_idx;
   union {
     Elf32_Ehdr ehdr;
@@ -144,18 +145,16 @@ void init_elf_file() {
     }
   }
   strtab_idx--;
-  // printf("%d,  %d\n", symtab_idx, strtab_idx);
-  // panic("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
   // Get the symbol table and string table addresses
   symtab = (Elf32_Sym *)((char *)buf + shdr[symtab_idx].sh_offset);
   strtab = (char *)((char *)buf + shdr[strtab_idx].sh_offset);
 
   // Print symbols
-  for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
-    const char *name = strtab + symtab[i].st_name;
-    printf("Symbol: %s, Value: 0x%08X, Size: %u\n", name, symtab[i].st_value, symtab[i].st_size);
-  }
+  // for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
+  //   const char *name = strtab + symtab[i].st_name;
+  //   printf("Symbol: %s, Value: 0x%08X, Size: %u\n", name, symtab[i].st_value, symtab[i].st_size);
+  // }
 
   // Free allocated memory and close the file
   free(buf);
