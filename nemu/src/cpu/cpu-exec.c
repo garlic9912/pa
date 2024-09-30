@@ -143,8 +143,9 @@ void init_elf_file() {
       strtab_idx = i;
     }
   }
-  printf("%d,  %d\n", symtab_idx, strtab_idx);
-  panic("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  strtab_idx--;
+  // printf("%d,  %d\n", symtab_idx, strtab_idx);
+  // panic("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
   // Get the symbol table and string table addresses
   symtab = (Elf32_Sym *)((char *)buf + shdr[symtab_idx].sh_offset);
