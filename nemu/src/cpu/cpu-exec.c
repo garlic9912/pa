@@ -123,10 +123,6 @@ void ftrace(word_t pc) {
     
   // Allocate memory for the whole file
   buf = (char *)malloc(fsize);
-  if (buf == NULL) {
-      panic("Cannot allocate memory");
-      fclose(fp);
-  }
 
   // Read the whole file into the buffer
   if (fread(buf, 1, fsize, fp) != fsize) {
@@ -149,12 +145,6 @@ void ftrace(word_t pc) {
     if (shdr[i].sh_type == SHT_STRTAB && i == elf_hdr.ehdr.e_shstrndx) {
       strtab_idx = i;
     }
-  }
-
-  if (symtab_idx == -1 || strtab_idx == -1) {
-    panic("Symbol table or string table not found\n");
-    free(buf);
-    fclose(fp);
   }
 
   // Get the symbol table and string table addresses
