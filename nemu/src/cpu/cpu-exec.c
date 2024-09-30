@@ -32,7 +32,9 @@ uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
 Decode s;
-extern FILE* elf_fp;
+extern char *elf_file;
+
+void device_update();
 
 
 #ifdef CONFIG_IRINGTRACE
@@ -42,7 +44,136 @@ static int flag = 0;
 #endif
 
 
-void device_update();
+#ifdef CONFIG_FTRACE
+// ELF constants and types
+#define EI_NIDENT 16
+#define SHN_UNDEF 0
+#define PT_LOAD 1
+#define SHT_STRTAB 3
+#define SHT_SYMTAB 2
+#define ELFCLASS32 1
+#define ELFCLASS64 2
+
+// ELF header structure definitions
+typedef struct {
+    unsigned char e_ident[EI_NIDENT]; // ELF file identification
+    uint16_t e_type;                  // File type
+    uint16_t e_machine;               // Machine type
+    uint32_t e_version;               // File version
+    uint32_t e_entry;                 // Entry point address
+    uint32_t e_phoff;                 // Program header table offset
+    uint32_t e_shoff;                 // Section header table offset
+    uint32_t e_flags;                 // Processor-specific flags
+    uint16_t e_ehsize;                // ELF header size in bytes
+    uint16_t e_phentsize;             // Program header entry size
+    uint16_t e_phnum;                 // Number of entries in program header table
+    uint16_t e_shentsize;             // Section header entry size
+    uint16_t e_shnum;                 // Number of entries in section header table
+    uint16_t e_shstrndx;              // Section name string table index
+} Elf32_Ehdr;
+
+typedef struct {
+    uint32_t sh_name;                 // Section name (index in string tbl)
+    uint32_t sh_type;                 // Section type
+    uint32_t sh_flags;                // Section flags
+    uint32_t sh_addr;                 // Section virtual addr at execution
+    uint32_t sh_offset;               // Section file offset
+    uint32_t sh_size;                 // Section size in bytes
+    uint32_t sh_link;                 // Link to another section
+    uint32_t sh_info;                 // Additional information
+    uint32_t sh_addralign;            // Section alignment
+    uint32_t sh_entsize;              // Entry size if section holds table
+} Elf32_Shdr;
+
+typedef struct {
+    uint32_t st_name;                 // Symbol name (index in string tbl)
+    uint32_t st_value;                // Value of the symbol
+    uint32_t st_size;                 // Size of the symbol
+    unsigned char st_info;            // Information about the symbol
+    unsigned char st_other;           // Other information
+    uint16_t st_shndx;                // Section index
+} Elf32_Sym;
+
+
+
+
+
+// pc is next position
+void ftrace(word_t pc) {
+  // acquire the infomation of elf
+  FILE *fp = NULL;
+  char *buf;
+  Elf32_Shdr *shdr;
+  Elf32_Sym *symtab;
+  char *strtab;
+  int symtab_idx, strtab_idx;
+  union {
+    Elf32_Ehdr ehdr;
+  } elf_hdr;
+  // open the file
+  if ((fp = fopen(elf_file, "rb")) == NULL) {
+      panic("Cannot open file");
+  } 
+
+  // Seek to the end of the file to get its size
+  fseek(fp, 0, SEEK_END);
+  long fsize = ftell(fp);
+  rewind(fp);
+    
+  // Allocate memory for the whole file
+  buf = (char *)malloc(fsize);
+  if (buf == NULL) {
+      panic("Cannot allocate memory");
+      fclose(fp);
+  }
+
+  // Read the whole file into the buffer
+  if (fread(buf, 1, fsize, fp) != fsize) {
+      panic("Error reading file");
+      free(buf);
+      fclose(fp);
+  }    
+
+  elf_hdr.ehdr = *(Elf32_Ehdr *)buf;
+
+  // Find the section header table
+  shdr = (Elf32_Shdr *)((char *)buf + elf_hdr.ehdr.e_shoff);
+
+  // Find the symbol table and string table indexes
+  symtab_idx = strtab_idx = -1;
+  for (int i = 0; i < elf_hdr.ehdr.e_shnum; ++i) {
+    if (shdr[i].sh_type == SHT_SYMTAB) {
+      symtab_idx = i;
+    }
+    if (shdr[i].sh_type == SHT_STRTAB && i == elf_hdr.ehdr.e_shstrndx) {
+      strtab_idx = i;
+    }
+  }
+
+  if (symtab_idx == -1 || strtab_idx == -1) {
+    panic("Symbol table or string table not found\n");
+    free(buf);
+    fclose(fp);
+  }
+
+  // Get the symbol table and string table addresses
+  symtab = (Elf32_Sym *)((char *)buf + shdr[symtab_idx].sh_offset);
+  strtab = (char *)((char *)buf + shdr[strtab_idx].sh_offset);
+
+  // Print symbols
+  for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
+    const char *name = strtab + symtab[i].st_name;
+    printf("Symbol: %s, Value: 0x%08X, Size: %u\n", name, symtab[i].st_value, symtab[i].st_size);
+  }
+
+  // Free allocated memory and close the file
+  free(buf);
+  fclose(fp);
+}
+#endif
+
+
+
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_IRINGTRACE
@@ -74,8 +205,14 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
   s->snpc = pc;
+
   isa_exec_once(s);
   cpu.pc = s->dnpc;
+
+#ifdef CONFIG_FTRACE
+  ftrace(cpu.pc);
+#endif
+
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
   // 0x80000000:( 00 00 02 97 auipc   t0, 0x0)
