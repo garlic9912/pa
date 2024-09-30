@@ -244,7 +244,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   cpu.pc = s->dnpc;
 
 #ifdef CONFIG_FTRACE
-  if (flag-- > 0) ftrace(pc, cpu.pc);
+  ftrace(pc, cpu.pc);
 #endif
 
 #ifdef CONFIG_ITRACE
