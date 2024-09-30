@@ -108,8 +108,6 @@ void init_monitor(int argc, char *argv[]) {
 
   /* Parse arguments. */
   parse_args(argc, argv);
-  printf("elf_file:%s\n", elf_file);
-  panic("1111111111111111111111111111");
 
   /* Set random seed. */
   init_rand();
