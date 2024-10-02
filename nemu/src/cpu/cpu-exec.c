@@ -55,7 +55,7 @@ static int flag = 0;
 #define ELFCLASS32 1
 #define ELFCLASS64 2
 
-#define ELF32_ST_TYPE(info) (((info) >> 4) & 0xf)
+#define ELF32_ST_TYPE(info) ((info) & 0xf)
 #define STT_FUNC    2
 
 // ELF header structure definitions
