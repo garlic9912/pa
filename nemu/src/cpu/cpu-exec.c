@@ -168,8 +168,8 @@ void init_elf_file() {
 void ftrace(word_t old_pc, word_t new_pc) {
   printf("%x, %x", old_pc, new_pc);
   init_elf_file();
-  char *old_fun_name = "";
-  char *new_fun_name = "";
+  char old_fun_name[20];
+  char new_fun_name[20];
   word_t new_fun_pos;
   int if_call = 0;
   if (new_pc == old_pc + 4) return;
