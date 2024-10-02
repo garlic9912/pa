@@ -246,7 +246,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   cpu.pc = s->dnpc;
 
 #ifdef CONFIG_FTRACE
-  init_elf_file();
+  if(flag-- > 0) init_elf_file();
   // ftrace(pc, cpu.pc);
   free(buf);
 #endif
