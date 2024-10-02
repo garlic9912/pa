@@ -225,9 +225,9 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
-  // if (g_print_step) { 
-  //   IFDEF(CONFIG_ITRACE, puts(_this->logbuf));  
-  // }
+  if (g_print_step) { 
+    IFDEF(CONFIG_ITRACE, puts(_this->logbuf));  
+  }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
 // watch point function
@@ -245,11 +245,6 @@ static void exec_once(Decode *s, vaddr_t pc) {
   isa_exec_once(s);
   cpu.pc = s->dnpc;
 
-#ifdef CONFIG_FTRACE
-  init_elf_file();
-  ftrace(pc, cpu.pc);
-  free(buf);
-#endif
 
 #ifdef CONFIG_ITRACE
   char *p = s->logbuf;
@@ -274,6 +269,15 @@ static void exec_once(Decode *s, vaddr_t pc) {
   // (0x80000000: 00 00 02 97) auipc   t0, 0x0
   disassemble(p, s->logbuf + sizeof(s->logbuf) - p,
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
+      
+#ifdef CONFIG_FTRACE
+if (strstr(p, "jal") != NULL || strstr(p, "jalr") != NULL || strstr(p, "ret") != NULL) {
+  init_elf_file();
+  ftrace(pc, cpu.pc);
+  free(buf);
+}
+#endif      
+  
 #else
   p[0] = '\0'; // the upstream llvm does not support loongarch32r
 #endif
