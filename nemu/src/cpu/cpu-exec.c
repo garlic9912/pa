@@ -166,6 +166,8 @@ void init_elf_file() {
 
 // pc is next position
 void ftrace(word_t old_pc, word_t new_pc) {
+  printf("%x, %x", old_pc, new_pc);
+  panic("!!!!!!!!!!!!!!!");
   init_elf_file();
   char *old_fun_name = "";
   char *new_fun_name = "";
