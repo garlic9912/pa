@@ -177,7 +177,7 @@ void ftrace(word_t old_pc, word_t new_pc) {
   if (new_pc == old_pc + 4) return;
   // acquire the name of pc_position
   for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
-    if (ELF32_ST_TYPE(symtab[i].st_info) != STT_FUNC) continue;
+    // if (ELF32_ST_TYPE(symtab[i].st_info) != STT_FUNC) continue;
     char *name = strtab + symtab[i].st_name;
     if (name == NULL) continue;
     word_t pos_start = symtab[i].st_value;
