@@ -150,7 +150,7 @@ void init_elf_file() {
       strtab_idx = i;
     }
   }
-  // strtab_idx--;
+  strtab_idx--;
 
   // Get the symbol table and string table addresses
   symtab = (Elf32_Sym *)((char *)buf + shdr[symtab_idx].sh_offset);
