@@ -169,7 +169,6 @@ void init_elf_file() {
 
 // pc is next position
 void ftrace(word_t old_pc, word_t new_pc) {
-  init_elf_file();
   char old_fun_name[20];
   char new_fun_name[20];
   word_t new_fun_pos;
@@ -247,6 +246,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
   cpu.pc = s->dnpc;
 
 #ifdef CONFIG_FTRACE
+  init_elf_file();
   ftrace(pc, cpu.pc);
 #endif
 
