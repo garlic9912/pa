@@ -158,6 +158,7 @@ void init_elf_file() {
     // const char *name = strtab + symtab[i].st_name;
     // printf("Symbol: %s, Value: 0x%08X, Size: %u\n", name, symtab[i].st_value, symtab[i].st_size);
     printf("%c\n", symtab[i].st_info);
+    printf("%c\n", symtab[i].st_other);
   }
 
   // Free allocated memory and close the file
