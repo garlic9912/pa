@@ -154,14 +154,19 @@ void init_elf_file() {
   strtab = (char *)((char *)buf + shdr[strtab_idx].sh_offset);
 
   // Print symbols
-  for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
-    const char *name = strtab + symtab[i].st_name;
-    printf("Symbol: %s, Value: 0x%08X, Size: %u\n", name, symtab[i].st_value, symtab[i].st_size);
-  }
+  // for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
+  //   const char *name = strtab + symtab[i].st_name;
+  //   printf("Symbol: %s, Value: 0x%08X, Size: %u\n", name, symtab[i].st_value, symtab[i].st_size);
+  // }
 
   // Free allocated memory and close the file
   free(buf);
   fclose(fp);  
+
+  for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
+    const char *name = strtab + symtab[i].st_name;
+    printf("Symbol: %s, Value: 0x%08X, Size: %u\n", name, symtab[i].st_value, symtab[i].st_size);
+  }  
 }
 
 
