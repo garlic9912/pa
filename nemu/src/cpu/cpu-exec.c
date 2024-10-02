@@ -271,7 +271,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
       MUXDEF(CONFIG_ISA_x86, s->snpc, s->pc), (uint8_t *)&s->isa.inst.val, ilen);
       
 #ifdef CONFIG_FTRACE
-if (strstr(p, "jal") != NULL && strstr(p, "jalr") != NULL && strstr(p, "ret") != NULL) {
+if (strstr(p, "jal") != NULL || strstr(p, "jalr") != NULL || strstr(p, "ret") != NULL) {
   init_elf_file();
   ftrace(pc, cpu.pc);
   free(buf);
