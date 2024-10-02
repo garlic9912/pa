@@ -154,12 +154,10 @@ void init_elf_file() {
   strtab = (char *)((char *)buf + shdr[strtab_idx].sh_offset);
 
   // Print symbols
-  for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
-    // const char *name = strtab + symtab[i].st_name;
-    // printf("Symbol: %s, Value: 0x%08X, Size: %u\n", name, symtab[i].st_value, symtab[i].st_size);
-    printf("%c\n", symtab[i].st_info);
-    printf("%c\n", symtab[i].st_other);
-  }
+  // for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
+  //   const char *name = strtab + symtab[i].st_name;
+  //   printf("Symbol: %s, Value: 0x%08X, Size: %u\n", name, symtab[i].st_value, symtab[i].st_size);
+  // }
 
   // Free allocated memory and close the file
   fclose(fp);   
@@ -169,41 +167,41 @@ void init_elf_file() {
 // pc is next position
 void ftrace(word_t old_pc, word_t new_pc) {
   init_elf_file();
-  // char old_fun_name[20];
-  // char new_fun_name[20];
-  // word_t new_fun_pos;
-  // int if_call = 0;
-  // if (new_pc == old_pc + 4) return;
-  // // acquire the name of pc_position
-  // for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
-  //   char *name = strtab + symtab[i].st_name;
-  //   if (name == NULL) continue;
-  //   word_t pos_start = symtab[i].st_value;
-  //   word_t size = symtab[i].st_size;
-  //   if (old_pc >= pos_start && old_pc <= pos_start + size - 4) strcpy(old_fun_name, name);
-  //   if (new_pc >= pos_start && new_pc <= pos_start + size - 4) {
-  //     strcpy(new_fun_name, name);
-  //     new_fun_pos = pos_start;
-  //     if (new_pc == pos_start) if_call = 1;
-  //   }
-  // }
-  // // in the same function
-  // if (strcmp(old_fun_name, new_fun_name) == 0) return;
+  char old_fun_name[20];
+  char new_fun_name[20];
+  word_t new_fun_pos;
+  int if_call = 0;
+  if (new_pc == old_pc + 4) return;
+  // acquire the name of pc_position
+  for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
+    char *name = strtab + symtab[i].st_name;
+    if (name == NULL) continue;
+    word_t pos_start = symtab[i].st_value;
+    word_t size = symtab[i].st_size;
+    if (old_pc >= pos_start && old_pc <= pos_start + size - 4) strcpy(old_fun_name, name);
+    if (new_pc >= pos_start && new_pc <= pos_start + size - 4) {
+      strcpy(new_fun_name, name);
+      new_fun_pos = pos_start;
+      if (new_pc == pos_start) if_call = 1;
+    }
+  }
+  // in the same function
+  if (strcmp(old_fun_name, new_fun_name) == 0) return;
 
-  // // in the different function
-  // if (if_call == 1) {
-  //   for (int i = 0; i < depth; i++) {
-  //     printf(" ");
-  //   }
-  //   depth++;
-  //   printf("call [%s@"FMT_WORD"]\n", new_fun_name, new_fun_pos);
-  // } else {
-  //   depth--;
-  //   for (int i = 0; i < depth; i++) {
-  //     printf(" ");
-  //   }    
-  //   printf("ret [%s]\n", new_fun_name);
-  // }
+  // in the different function
+  if (if_call == 1) {
+    for (int i = 0; i < depth; i++) {
+      printf(" ");
+    }
+    depth++;
+    printf("call [%s@"FMT_WORD"]\n", new_fun_name, new_fun_pos);
+  } else {
+    depth--;
+    for (int i = 0; i < depth; i++) {
+      printf(" ");
+    }    
+    printf("ret [%s]\n", new_fun_name);
+  }
 }
 #endif
 
