@@ -174,6 +174,7 @@ void ftrace(word_t old_pc, word_t new_pc) {
   if (new_pc == old_pc + 4) return;
   // acquire the name of pc_position
   for (int i = 0; i < shdr[symtab_idx].sh_size / sizeof(Elf32_Sym); ++i) {
+    printf("%c", symtab[i].st_info);
     char *name = strtab + symtab[i].st_name;
     if (name == NULL) continue;
     word_t pos_start = symtab[i].st_value;
@@ -222,9 +223,9 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
-  // if (g_print_step) { 
-  //   IFDEF(CONFIG_ITRACE, puts(_this->logbuf));  
-  // }
+  if (g_print_step) { 
+    IFDEF(CONFIG_ITRACE, puts(_this->logbuf));  
+  }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
 // watch point function
