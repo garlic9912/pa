@@ -248,6 +248,7 @@ static void exec_once(Decode *s, vaddr_t pc) {
 #ifdef CONFIG_FTRACE
   init_elf_file();
   ftrace(pc, cpu.pc);
+  free(buf);
 #endif
 
 #ifdef CONFIG_ITRACE
