@@ -58,7 +58,6 @@ int printf(const char *fmt, ...) {
     putch(c);
     x++;
   }
-  putch(c);
   return x;
 }
 
