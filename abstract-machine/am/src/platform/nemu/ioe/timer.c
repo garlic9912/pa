@@ -1,7 +1,6 @@
 #include <am.h>
 #include <nemu.h>
-#include <time.h>
-
+#include </home/garlic/ics2023/abstract-machine/am/src/riscv/riscv.h>
 
 void __am_timer_init() {
 }
