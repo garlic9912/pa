@@ -51,14 +51,10 @@ int printf(const char *fmt, ...) {
     }
   }
   
-  int x = 0;
-  char c = out[x];
-  while(c != '\0') {
-    c = out[x];
-    putch(c);
-    x++;
+  for (int x = 0; x < count; x++) {
+    putch(out[x]);
   }
-  return x;
+  return count;
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
