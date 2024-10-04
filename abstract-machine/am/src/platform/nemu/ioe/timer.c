@@ -2,7 +2,10 @@
 #include <nemu.h>
 #include </home/garlic/ics2023/abstract-machine/am/src/riscv/riscv.h>
 
+static uint64_t sys_init_time;
+
 void __am_timer_init() {
+  sys_init_time =(  ( (uint64_t)inl(RTC_ADDR+4) << 32 ) + (uint64_t)inl(RTC_ADDR) );  
 }
 
 
