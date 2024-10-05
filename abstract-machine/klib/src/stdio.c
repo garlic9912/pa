@@ -44,6 +44,9 @@ int printf(const char *fmt, ...) {
           strcpy(out+count, buf);
           count += len2;
           break;
+        case 'c':
+          char tmp_c = va_arg(args, int);
+          out[count++] = tmp_c;
       } 
       i++;
     } else {
