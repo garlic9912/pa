@@ -72,26 +72,29 @@ void *memset(void *s, int c, size_t n) {
 
 
 void *memmove(void *dst, const void *src, size_t n) {
-    char *d = dst;
-    const char *s = src;
 
-    if (d < s) {
-        // 如果 dest 在 src 之前，则从后向前复制
-        for (size_t i = n; i > 0; --i) {
-            *d = *s;
-            ++d;
-            ++s;
-        }
-    } else {
-        // 如果 dest 在 src 之后，则从前向后复制
-        for (size_t i = 0; i < n; ++i) {
-            *d = *s;
-            ++d;
-            ++s;
-        }
-    }
-
-    return dst; // 返回目标指针  
+   void * ret = dst;
+   if (dst <= src || (char *)dst >= ((char *)src + n))
+   {  // 若dst和src区域没有重叠，则从起始处开始逐一拷贝
+      while (n--)
+      {
+         *(char *)dst = *(char *)src;
+         dst = (char *)dst + 1;
+         src = (char *)src + 1;
+      }
+   }
+   else
+   {  // 若dst和src 区域交叉，则从尾部开始向起始位置拷贝，这样可以避免数据冲突
+      dst = (char *)dst + n - 1;
+      src = (char *)src + n - 1;
+      while (n--)
+      {
+         *(char *)dst = *(char *)src;
+         dst = (char *)dst - 1;
+         src = (char *)src - 1;
+      }
+   }
+  return ret;
 }
 
 void *memcpy(void *out, const void *in, size_t n) {
