@@ -75,7 +75,7 @@ void *memmove(void *dst, const void *src, size_t n) {
 
    void * ret = dst;
    if (dst <= src || (char *)dst >= ((char *)src + n))
-   {  // 若dst和src区域没有重叠，则从起始处开始逐一拷贝
+   {  // do not overlap
       while (n--)
       {
          *(char *)dst = *(char *)src;
@@ -84,7 +84,7 @@ void *memmove(void *dst, const void *src, size_t n) {
       }
    }
    else
-   {  // 若dst和src 区域交叉，则从尾部开始向起始位置拷贝，这样可以避免数据冲突
+   {  // overlap
       dst = (char *)dst + n - 1;
       src = (char *)src + n - 1;
       while (n--)
@@ -98,7 +98,14 @@ void *memmove(void *dst, const void *src, size_t n) {
 }
 
 void *memcpy(void *out, const void *in, size_t n) {
-  panic("Not implemented");
+  char *dst = (char *)out;
+  char *src = (char *)in;
+  while (n--) {
+    *dst = *src;
+    dst++;
+    src++;
+  }
+  return out;
 }
 
 int memcmp(const void *s1, const void *s2, size_t n) {
