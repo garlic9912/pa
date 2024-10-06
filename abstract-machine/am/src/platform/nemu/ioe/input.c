@@ -12,12 +12,11 @@ static uint32_t keymap[256] = {
 
 
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
-  kbd->keydown = false;
-  kbd->keycode = AM_KEY_NONE;
-
-  // uint8_t code = inb(KBD_ADDR);
-  if (keymap[2] != AM_KEY_NONE) {
-    kbd->keycode = keymap[2];
+  uint8_t code = inb(KBD_ADDR);
+  if (keymap[code] != AM_KEY_NONE) {
+    kbd->keycode = keymap[code];
     kbd->keydown = true;
   }
+  kbd->keydown = false;
+  kbd->keycode = AM_KEY_NONE;
 }
