@@ -16,10 +16,9 @@ void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   kbd->keydown = false;
   kbd->keycode = AM_KEY_NONE;
 
-  uint32_t code = (uint32_t)inl(KBD_ADDR);
-  if (code == AM_KEY_NONE) panic("11111111111");
+  uint8_t code = (uint8_t)inl(KBD_ADDR);
   if (code != AM_KEY_NONE) {
-    kbd->keycode = AM_KEY_Y;
+    kbd->keycode = code | KEYDOWN_MASK;
     kbd->keydown = true;
   }
 }
