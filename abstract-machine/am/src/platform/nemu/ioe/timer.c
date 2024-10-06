@@ -1,6 +1,7 @@
 #include <am.h>
 #include <nemu.h>
 #include <klib.h>
+#include </home/garlic/ics2023/abstract-machine/am/src/riscv/riscv.h>
 
 static uint64_t sys_init_time;
 

@@ -1,15 +1,16 @@
 #include <am.h>
 #include <nemu.h>
+#include </home/garlic/ics2023/abstract-machine/am/src/riscv/riscv.h>
 
 #define KEYDOWN_MASK 0x8000
 
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   kbd->keydown = false;
-  kbd->keycode = AM_KEY_3;
+  kbd->keycode = AM_KEY_NONE;
 
-  int key_code = (int)inl(KBD_ADDR);
-  if (key_code != AM_KEY_NONE) {
+  uint32_t code = (uint32_t)inl(KBD_ADDR);
+  if (code != AM_KEY_NONE) {
+    kbd->keycode = code;
     kbd->keydown = true;
-    kbd->keycode = AM_KEY_3;
   }
 }
