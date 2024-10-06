@@ -5,18 +5,26 @@
 #define KEYDOWN_MASK 0x8000
 
 
-static uint32_t keymap[256] = {
-  AM_KEY_NONE,
-  AM_KEYS(AM_KEY_NAMES)
-};
+// static uint32_t keymap[256] = {
+//   AM_KEY_NONE,
+//   AM_KEYS(AM_KEY_NAMES)
+// };
 
 
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
-  kbd->keydown = false;
-  kbd->keycode = AM_KEY_NONE | 0;
+  // kbd->keydown = false;
+  // kbd->keycode = AM_KEY_NONE | 0;
   // uint8_t code = inb(KBD_ADDR);
-  if (keymap[2] != AM_KEY_NONE) {
-    kbd->keycode = keymap[2] | KEYDOWN_MASK;
+  // if (keymap[code] != AM_KEY_NONE) {
+  //   kbd->keycode = keymap[code] | KEYDOWN_MASK;
+  //   kbd->keydown = true;
+  // }
+  uint32_t code = inl(KBD_ADDR);
+  if (code && KEYDOWN_MASK == KEYDOWN_MASK) {
+    kbd->keycode = code;
     kbd->keydown = true;
+  } else {
+    kbd->keycode = code;
+    kbd->keydown = false;
   }
 }
