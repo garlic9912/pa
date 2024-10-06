@@ -1,6 +1,5 @@
 #include <am.h>
 #include <nemu.h>
-#include </home/garlic/ics2023/abstract-machine/am/src/riscv/riscv.h>
 
 #define KEYDOWN_MASK 0x8000
 
