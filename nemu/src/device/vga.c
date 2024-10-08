@@ -74,6 +74,8 @@ static inline void update_screen() {
 void vga_update_screen() {
   // TODO: call `update_screen()` when the sync register is non-zero,
   // then zero out the sync register
+  uint32_t flag = vgactl_port_base[1];
+  if (flag != 0) update_screen();
 }
 
 void init_vga() {
