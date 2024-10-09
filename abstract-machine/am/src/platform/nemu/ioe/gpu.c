@@ -32,11 +32,11 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       outl(FB_ADDR + 4*i, color_buf[i]);
     }
   }
-  int i = 0;
+  int k = 0;
   if (ctl->pixels != NULL) {
-    while (*((uint32_t *)(ctl->pixels) + i) != 0) {
-      color_buf[idx++] = *((uint32_t *)(ctl->pixels) + i);
-      i++;
+    while (*((uint32_t *)(ctl->pixels) + k) != 0) {
+      color_buf[idx++] = *((uint32_t *)(ctl->pixels) + k);
+      k++;
     }
   }
 }
