@@ -92,9 +92,9 @@ void vga_update_screen() {
   rect->h = h;
 
   // pixels
-  uint32_t *pixels;
-  pixels = (uint32_t *)(CONFIG_FB_ADDR+8);
-  vmem = pixels;
+  // uint32_t *pixels;
+  // pixels = (uint32_t *)(CONFIG_FB_ADDR+8);
+  // vmem = pixels;
   // sync
 
   int flag = vgactl_port_base[1];
