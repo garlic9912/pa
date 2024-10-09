@@ -76,27 +76,22 @@ void vga_update_screen() {
   // TODO: call `update_screen()` when the sync register is non-zero,
   // then zero out the sync register
 
-  uint32_t *FB_ADDR = (uint32_t *)CONFIG_FB_ADDR;
+  // uint32_t *FB_ADDR = (uint32_t *)CONFIG_FB_ADDR;
 
-  // x, y
-  int x, y;
-  x = FB_ADDR[0];
-  y = FB_ADDR[1];
-  // w, h
-  int w, h;
-  w = FB_ADDR[3];
-  h = FB_ADDR[4];  
-  rect->x = x;
-  rect->y = y;
-  rect->w = w;
-  rect->h = h;
+  // // x, y
+  // int x, y;
+  // x = FB_ADDR[0];
+  // y = FB_ADDR[1];
+  // // w, h
+  // int w, h;
+  // w = FB_ADDR[3];
+  // h = FB_ADDR[4];  
+  // rect->x = x;
+  // rect->y = y;
+  // rect->w = w;
+  // rect->h = h;
 
-  // pixels
-  uint32_t *pixels;
-  pixels = (uint32_t *)(CONFIG_FB_ADDR+8);
-  vmem = pixels;
   // sync
-
   int flag = vgactl_port_base[1];
   if (flag != 0) update_screen();
   vgactl_port_base[1] = 0;
