@@ -31,6 +31,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     for (int i = 0; i < idx; i++) {
       outl(FB_ADDR + 4*i, color_buf[i]);
     }
+    idx = 0;
   }
   int k = 0;
   if (ctl->pixels != NULL) {
