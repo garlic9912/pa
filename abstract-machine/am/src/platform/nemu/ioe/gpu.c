@@ -4,7 +4,6 @@
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
 static int idx = 0;
-static uint32_t color_buf[32 * 32];
 
 void __am_gpu_init() {
   int i;
@@ -25,21 +24,18 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  // sync
-  if (ctl->sync) {
-    outl(SYNC_ADDR, 1);
-    for (int i = 0; i < idx; i++) {
-      outl(FB_ADDR + 4*i, color_buf[i]);
-    }
-    idx = 0;
-  }
   int k = 0;
   if (ctl->pixels != NULL) {
     while (*((uint32_t *)(ctl->pixels) + k) != 0) {
-      color_buf[idx++] = *((uint32_t *)(ctl->pixels) + k);
+      outl(FB_ADDR + idx*4, *((uint32_t *)(ctl->pixels) + k));
       k++;
     }
   }
+  // sync
+  if (ctl->sync) {
+    outl(SYNC_ADDR, 1);
+    idx = 0;
+  }  
 }
 
 void __am_gpu_status(AM_GPU_STATUS_T *status) {
