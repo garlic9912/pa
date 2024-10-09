@@ -23,9 +23,8 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   // pixels
-  int N = inl(VGACTL_ADDR) >> 16 / ctl->w;
-  int w = inl(VGACTL_ADDR) >> 16 / N;
-  int h = (inl(VGACTL_ADDR) & 0xffff) / N;
+  int w = inl(VGACTL_ADDR) >> 16 / 32;
+  int h = (inl(VGACTL_ADDR) & 0xffff) / 32;
   for (int i = 0; i < w * h; i++) {
     outl(FB_ADDR + i*4, ((uint32_t *)(ctl->pixels))[i]);
   }
