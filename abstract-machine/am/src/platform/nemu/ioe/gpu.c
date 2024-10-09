@@ -22,7 +22,15 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  
+  // x, y
+  outl(FB_ADDR, ctl->x);
+  outl(FB_ADDR+4, ctl->y);
+  // pixels
+  outl(FB_ADDR+8, (uint32_t)(ctl->pixels));
+  // w, h
+  outl(FB_ADDR+12, ctl->w);
+  outl(FB_ADDR+16, ctl->h);  
+  // sync
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
