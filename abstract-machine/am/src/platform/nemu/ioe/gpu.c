@@ -3,6 +3,9 @@
 
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
+static int idx = 0;
+static uint32_t color_buf[32 * 32];
+
 void __am_gpu_init() {
   int i;
   int w = 400;  // TODO: get the correct width
@@ -22,15 +25,19 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  // pixels
-  int w = inl(VGACTL_ADDR) >> 16 / 32;
-  int h = (inl(VGACTL_ADDR) & 0xffff) / 32;
-  for (int i = 0; i < w * h; i++) {
-    outl(FB_ADDR + i*4, ((uint32_t *)(ctl->pixels))[i]);
-  }
   // sync
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
+    for (int i = 0; i < idx; i++) {
+      outl(FB_ADDR + 4*i, color_buf[i]);
+    }
+  }
+  int i = 0;
+  if (ctl->pixels != NULL) {
+    while (*((uint32_t *)(ctl->pixels) + i) != 0) {
+      color_buf[idx++] = *((uint32_t *)(ctl->pixels) + i);
+      i++;
+    }
   }
 }
 
