@@ -40,7 +40,7 @@ static uint32_t *vgactl_port_base = NULL;
 
 static SDL_Renderer *renderer = NULL;
 static SDL_Texture *texture = NULL;
-static SDL_Rect *rect;
+static SDL_Rect *rect = NULL;
 
 static void init_screen() {
   SDL_Window *window = NULL;
@@ -92,9 +92,9 @@ void vga_update_screen() {
   rect->h = h;
 
   // pixels
-  // uint32_t *pixels;
-  // pixels = (uint32_t *)(CONFIG_FB_ADDR+8);
-  // vmem = pixels;
+  uint32_t *pixels;
+  pixels = (uint32_t *)(CONFIG_FB_ADDR+8);
+  vmem = pixels;
   // sync
 
   int flag = vgactl_port_base[1];
