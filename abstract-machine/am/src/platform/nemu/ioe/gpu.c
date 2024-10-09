@@ -6,7 +6,7 @@
 void __am_gpu_init() {
   int i;
   int w = 400;  // TODO: get the correct width
-  int h = 301;  // TODO: get the correct height
+  int h = 300;  // TODO: get the correct height
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   for (i = 0; i < w * h; i ++) fb[i] = i;
   outl(SYNC_ADDR, 1);  
@@ -22,6 +22,7 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
+  
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
