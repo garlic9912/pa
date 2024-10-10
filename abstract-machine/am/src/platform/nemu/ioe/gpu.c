@@ -3,8 +3,6 @@
 
 #define SYNC_ADDR (VGACTL_ADDR + 4)
 
-static int idx = 0;
-
 void __am_gpu_init() {
   int i;
   int w = 400;  // TODO: get the correct width
@@ -24,17 +22,16 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  int k = 0;
-  if (ctl->pixels != NULL) {
-    while (*((uint32_t *)(ctl->pixels) + k) != 0) {
-      outl(FB_ADDR + idx*4, *((uint32_t *)(ctl->pixels) + k));
-      k++;
-    }
+  int w = ctl->w, h = ctl->h;
+  int block_size = w * h;
+  int x = ctl->x, y = ctl->y;
+  uint32_t start = x + y;
+  for (int i = 0; i < block_size; i++) {
+    outl(start + i*4, *((uint32_t *)(ctl->pixels) + i));
   }
   // sync
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
-    idx = 0;
   }  
 }
 
