@@ -23,10 +23,9 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   int w = ctl->w, h = ctl->h;
-  int N = 32;
   int block_size = w * h;
-  int x = ctl->x / w, y = ctl->y / h;
-  uint32_t start = FB_ADDR + x*block_size*4 + y * N * block_size * 4;
+  int x = ctl->x, y = ctl->y;
+  uint32_t start = FB_ADDR + x*block_size*4 + y * 32 * block_size * 4;
   for (int i = 0; i < block_size; i++) {
     outl(start + i*4, *((uint32_t *)(ctl->pixels) + i));
   }
