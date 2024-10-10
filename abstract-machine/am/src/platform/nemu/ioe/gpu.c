@@ -26,7 +26,7 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   int k = 0;
   if (ctl->pixels != NULL) {
-    while (k < 108) {
+    while (*((uint32_t *)(ctl->pixels) + k) != 0) {
       outl(FB_ADDR + idx*4, *((uint32_t *)(ctl->pixels) + k));
       k++;
     }
