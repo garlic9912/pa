@@ -169,8 +169,8 @@ void init_elf_file() {
 
 // pc is next position
 void ftrace(word_t old_pc, word_t new_pc) {
-  char old_fun_name[20];
-  char new_fun_name[20];
+  char old_fun_name[20] = {};
+  char new_fun_name[20] = {};
   word_t new_fun_pos;
   int if_call = 0;
   if (new_pc == old_pc + 4) return;
