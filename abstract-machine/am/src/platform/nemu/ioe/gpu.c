@@ -22,12 +22,12 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  int width = inl(VGACTL_ADDR) >> 16;
+  // int width = inl(VGACTL_ADDR) >> 16;
   int w = ctl->w, h = ctl->h;
   // int N = (int)(width / w);
   int block_size = w * h;
   int x = ctl->x, y = ctl->y;
-  uint32_t start = FB_ADDR + x + y*width;
+  uint32_t start = FB_ADDR + x*4 + y*4;
   for (int i = 0; i < block_size; i++) {
     outl(start + 4*i, *((uint32_t *)(ctl->pixels) + i));
   }
