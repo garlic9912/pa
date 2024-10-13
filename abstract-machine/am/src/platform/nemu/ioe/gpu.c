@@ -22,7 +22,7 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  // int width = inl(VGACTL_ADDR) >> 16;
+  int width = inl(VGACTL_ADDR) >> 16;
   int w = ctl->w, h = ctl->h;
   // int N = (int)(width / w);
   // int block_size = w * h;
@@ -30,7 +30,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   // *((uint32_t *)(ctl->pixels) + i)
   for (int i = y; i < y+h; i++) {
     for (int j = x; j < x+w; j++) {
-      outl(FB_ADDR+4*w*(i-y)+4*(j-x), *((uint32_t *)(ctl->pixels) + (i-y)*w + (j-x)));
+      outl(FB_ADDR+4*i*width+4*j, *((uint32_t *)(ctl->pixels) + (i-y)*w + (j-x)));
     }
   }
   // sync
