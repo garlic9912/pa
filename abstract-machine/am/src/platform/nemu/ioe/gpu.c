@@ -25,11 +25,13 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   // int width = inl(VGACTL_ADDR) >> 16;
   int w = ctl->w, h = ctl->h;
   // int N = (int)(width / w);
-  int block_size = w * h;
+  // int block_size = w * h;
   int x = ctl->x, y = ctl->y;
-  uint32_t start = FB_ADDR + x*4 + y*4;
-  for (int i = 0; i < block_size; i++) {
-    outl(start + 4*i, *((uint32_t *)(ctl->pixels) + i));
+  // *((uint32_t *)(ctl->pixels) + i)
+  for (int i = y; i < y+h; i++) {
+    for (int j = x; j < x+w; j++) {
+      outl(FB_ADDR+4*i+4*j, *((uint32_t *)(ctl->pixels) + (i-y)*w + (j-x)));
+    }
   }
   // sync
   if (ctl->sync) {
