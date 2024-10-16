@@ -25,7 +25,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));
 
   // register event handler
-  user_handler = handler;
+  user_handler = handler;   // 回调函数:simple_trap()
 
   return true;
 }
@@ -34,6 +34,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   return NULL;
 }
 
+// 触发一个自陷
 void yield() {
 #ifdef __riscv_e
   asm volatile("li a5, -1; ecall");
@@ -46,5 +47,6 @@ bool ienabled() {
   return false;
 }
 
+// 中断的开关，1是开启
 void iset(bool enable) {
 }
