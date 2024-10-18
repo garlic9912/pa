@@ -29,9 +29,6 @@
 
 CPU_state cpu = {};
 
-  // // 针对riscv32, 你需要将mstatus初始化为0x1800, 来让difftest正常工作
-  // cpu.csr[0x300] = 0x1800;
-
 uint64_t g_nr_guest_inst = 0;
 static uint64_t g_timer = 0; // unit: us
 static bool g_print_step = false;
