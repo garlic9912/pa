@@ -27,7 +27,7 @@
  */
 #define MAX_INST_TO_PRINT 10
 
-CPU_state cpu = {.csr[0x300]=0x1800};
+CPU_state cpu = {};
 
   // // 针对riscv32, 你需要将mstatus初始化为0x1800, 来让difftest正常工作
   // cpu.csr[0x300] = 0x1800;
