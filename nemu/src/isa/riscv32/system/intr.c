@@ -22,7 +22,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   // mepc <- pc
   cpu.csr[0x341] = epc;
   // mcause <- NO
-  if (NO == (word_t)(-1)) cpu.csr[0x342] = 11;
+  if (NO == -1) cpu.csr[0x342] = 11;
   // 处理程序的地址 mtvec
   word_t addr = cpu.csr[0x305];
   return addr;
