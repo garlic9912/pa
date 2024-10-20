@@ -30,6 +30,10 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   printf("1111");
 #endif
 
+#ifdef CONFIG_TRACE
+  printf("1111111112222");
+#endif
+
   // 处理程序的地址 mtvec
   word_t addr = cpu.csr[0x305];
   return addr;
