@@ -29,7 +29,9 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.csr[0x342] = NO;
   // 处理程序的地址 mtvec
   word_t addr = cpu.csr[0x305];
-IFDEF(CONFIG_ETRACE, printf("11111"));
+#ifdef CONFIG_ETRACE
+  printf("mcause:%x\nmepc:%x\n", NO, epc);
+#endif
   return addr;
 }
 
