@@ -14,7 +14,10 @@
 ***************************************************************************************/
 
 #include <isa.h>
+#include <cpu/difftest.h>
 #include </home/garlic/ics2023/nemu/src/monitor/sdb/sdb.h>
+
+
 
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
@@ -26,6 +29,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   cpu.csr[0x342] = NO;
   // 处理程序的地址 mtvec
   word_t addr = cpu.csr[0x305];
+IFDEF(CONFIG_ITRACE, printf("11111"));
   return addr;
 }
 

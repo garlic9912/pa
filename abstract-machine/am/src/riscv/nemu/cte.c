@@ -14,11 +14,6 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-// etrace
-#ifdef CONFIG_ETRACE
-  printf("1111");
-#endif
-
   return c;
 }
 
