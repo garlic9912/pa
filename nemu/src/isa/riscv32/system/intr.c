@@ -14,9 +14,8 @@
 ***************************************************************************************/
 
 #include <isa.h>
-#include <cpu/difftest.h>
+#include <generated/autoconf.h>
 #include </home/garlic/ics2023/nemu/src/monitor/sdb/sdb.h>
-
 
 
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
