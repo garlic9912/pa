@@ -53,8 +53,8 @@ int printf(const char *fmt, ...) {
       out[count++] = fmt[i++];
     }
   }
-  
-  for (int x = 0; x < count; x++) {
+  out[count] = '\0';
+  for (int x = 0; x <= count; x++) {
     putch(out[x]);
   }
   va_end(args);
