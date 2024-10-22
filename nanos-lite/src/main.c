@@ -1,4 +1,4 @@
-#include </home/garlic/ics2023/nanos-lite/include/common.h>
+#include <common.h>
 
 void init_mm(void);
 void init_device(void);
