@@ -41,7 +41,7 @@ int printf(const char *fmt, ...) {
               buf[k] = buf[len2 - k - 1];
               buf[len2 - k - 1] = temp;
           }
-          for (int x = 0; x < len2; x++) {
+          for (int x = 0; x <= len2; x++) {
             putch(buf[x]);
           }
           count += len2;
