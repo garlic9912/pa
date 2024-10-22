@@ -20,7 +20,7 @@ int printf(const char *fmt, ...) {
         case 's': 
           char *str = va_arg(args, char *);
           int len1 = strlen(str);
-          for (int x = 0; x <= len1; x++) {
+          for (int x = 0; x < len1; x++) {
             putch(*(str + x));
           }
           count += len1;
@@ -48,7 +48,7 @@ int printf(const char *fmt, ...) {
           break;
         case 'c':
           int tmp_c = va_arg(args, int);
-          putch(tmp_c);
+          putch((char)(tmp_c));
           count++;
       } 
       i++;
