@@ -9,7 +9,7 @@
 //#define TIME_SHARING
 
 #include <am.h>
-#include </home/garlic/ics2023/abstract-machine/klib/include/klib.h>
+#include <klib.h>
 #include <klib-macros.h>
 #include <debug.h>
 
