@@ -6,8 +6,6 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 int printf(const char *fmt, ...) {
-  char out[256];
-
   va_list args;
   va_start(args, fmt);
   // i -> fmt
@@ -22,7 +20,9 @@ int printf(const char *fmt, ...) {
         case 's': 
           char *str = va_arg(args, char *);
           int len1 = strlen(str);
-          strcpy(out+count, str);
+          for (int x = 0; x < len1; x++) {
+            putch(*(str + x));
+          }
           count += len1;
           break;
         case 'd':
@@ -41,21 +41,21 @@ int printf(const char *fmt, ...) {
               buf[k] = buf[len2 - k - 1];
               buf[len2 - k - 1] = temp;
           }
-          strcpy(out+count, buf);
+          for (int x = 0; x < len2; x++) {
+            putch(buf[x]);
+          }
           count += len2;
           break;
         case 'c':
           int tmp_c = va_arg(args, int);
-          out[count++] = tmp_c;
+          putch(tmp_c);
+          count++;
       } 
       i++;
     } else {
-      out[count++] = fmt[i++];
+      putch(fmt[i++]);
+      count++;
     }
-  }
-  out[count] = '\0';
-  for (int x = 0; x <= count; x++) {
-    putch(out[x]);
   }
   va_end(args);
   return count;
