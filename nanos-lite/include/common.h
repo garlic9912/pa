@@ -1,3 +1,4 @@
+// 通过nanos-lite/include/common.h中一些与实验进度相关的宏来控制Nanos-lite的功能
 #ifndef __COMMON_H__
 #define __COMMON_H__
 
