@@ -57,6 +57,7 @@ int printf(const char *fmt, ...) {
       count++;
     }
   }
+  putch('\0');
   va_end(args);
   return count;
 }
