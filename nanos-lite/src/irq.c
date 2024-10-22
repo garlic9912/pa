@@ -1,4 +1,4 @@
-#include <common.h>
+#include </home/garlic/ics2023/nanos-lite/include/common.h>
 
 static Context* do_event(Event e, Context* c) {
   switch (e.event) {
