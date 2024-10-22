@@ -54,7 +54,7 @@ int printf(const char *fmt, ...) {
     }
   }
   out[count] = '\0';
-  for (int x = 0; x <= 10; x++) {
+  for (int x = 0; x <= count; x++) {
     putch(out[x]);
   }
   va_end(args);
