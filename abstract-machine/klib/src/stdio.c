@@ -54,7 +54,7 @@ int printf(const char *fmt, ...) {
     }
   }
   
-  for (int x = 0; x < count; x++) {
+  for (int x = 0; x <= count; x++) {
     putch(out[x]);
   }
   return count;
