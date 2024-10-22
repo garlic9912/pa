@@ -65,7 +65,7 @@ static int decode_exec(Decode *s) {
 }
 
   INSTPAT_START();
-  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , R, s->dnpc = CSRs(0x341) + 4);
+  INSTPAT("0011000 00010 00000 000 00000 11100 11", mret   , R, s->dnpc = CSRs(0x341));
   INSTPAT("??????? ????? ????? 010 ????? 11100 11", csrr   , I, word_t t = CSRs(imm); CSRs(imm) = t | src1; R(rd) = t);
   INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , I, s->dnpc = isa_raise_intr(R(17) , s->snpc-4));
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrw   , I, word_t t = CSRs(imm); CSRs(imm) = src1; R(rd) = t);
