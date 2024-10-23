@@ -22,11 +22,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // 读取文件
   ramdisk_read(&ehdr, 0, get_ramdisk_size());
   // 读取 Program Headers
-  // Elf32_Phdr phdr[ehdr.e_phnum];
+  Elf32_Phdr phdr[ehdr.e_phnum];
 for (int i = 0; i < ehdr.e_phnum; ++i) {
-  printf("%d\n", ehdr.e_phnum);
+  printf("%d\n", phdr[i].p_type);
 }  
-panic("222222");
   return 0;
 }
 
