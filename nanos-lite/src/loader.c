@@ -1,9 +1,5 @@
 #include <proc.h>
 #include <elf.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
 
 #ifdef __LP64__
 # define Elf_Ehdr Elf64_Ehdr
@@ -13,18 +9,17 @@
 # define Elf_Phdr Elf32_Phdr
 #endif
 
+extern size_t ramdisk_read(void *buf, size_t offset, size_t len);
+extern size_t get_ramdisk_size();
+
+
 // extern char *elf_loader_file;
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   // Elf64_Ehdr 是 64 位系统的 ELF 头部结构体
   Elf64_Ehdr ehdr; 
   // 读取文件
-  int fd = open("/home/garlic/ics2023/nanos-lite/build/nanos-lite-riscv32-nemu.elf", O_RDONLY);
-  size_t n = read(fd, &ehdr, sizeof(ehdr));
-  if (n != sizeof(ehdr)) {
-    panic("Failed to read ELF header");
-    close(fd);
-  }
+  ramdisk_read(&ehdr, 0, get_ramdisk_size());
   // 读取 Program Headers
   Elf64_Phdr phdr[ehdr.e_phnum];
 for (int i = 0; i < ehdr.e_phnum; ++i) {
