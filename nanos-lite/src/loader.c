@@ -24,7 +24,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // 读取 Program Headers
   Elf64_Phdr phdr[ehdr.e_phnum];
 for (int i = 0; i < ehdr.e_phnum; ++i) {
-  printf("%s\n", phdr[i].p_type);
+  printf("%d\n", phdr[i].p_type);
 }  
 
   return 0;
