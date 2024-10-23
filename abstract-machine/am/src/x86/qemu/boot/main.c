@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <elf.h>
+#include <.h>
 #include <x86/x86.h>
 
 #define SECTSIZE 512
@@ -39,9 +39,9 @@ static void load_program(uint32_t filesz, uint32_t memsz, uint32_t paddr, uint32
   }
 }
 
-static void load_elf64(Elf64_Ehdr *elf) {
-  Elf64_Phdr *ph = (Elf64_Phdr *)((char *)elf + elf->e_phoff);
-  for (int i = 0; i < elf->e_phnum; i++, ph++) {
+static void load_elf64(Elf64_Ehdr *) {
+  Elf64_Phdr *ph = (Elf64_Phdr *)((char *) + ->e_phoff);
+  for (int i = 0; i < ->e_phnum; i++, ph++) {
     load_program(
       (uint32_t)ph->p_filesz,
       (uint32_t)ph->p_memsz,
@@ -51,9 +51,9 @@ static void load_elf64(Elf64_Ehdr *elf) {
   }
 }
 
-static void load_elf32(Elf32_Ehdr *elf) {
-  Elf32_Phdr *ph = (Elf32_Phdr *)((char *)elf + elf->e_phoff);
-  for (int i = 0; i < elf->e_phnum; i++, ph++) {
+static void load_elf32(Elf32_Ehdr *) {
+  Elf32_Phdr *ph = (Elf32_Phdr *)((char *) + ->e_phoff);
+  for (int i = 0; i < ->e_phnum; i++, ph++) {
     load_program(
       (uint32_t)ph->p_filesz,
       (uint32_t)ph->p_memsz,
@@ -71,7 +71,7 @@ void load_kernel(void) {
   if (!is_ap) {
     // load argument (string) to memory
     copy_from_disk((void *)MAINARG_ADDR, 1024, -1024);
-    // load elf header to memory
+    // load  header to memory
     copy_from_disk(elf32, 4096, 0);
     if (elf32->e_machine == EM_X86_64) {
       load_elf64(elf64);

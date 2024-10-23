@@ -12,13 +12,13 @@ LDFLAGS   += -T $(AM_HOME)/scripts/linker.ld \
              --defsym=_pmem_start=0x80000000 --defsym=_entry_offset=0x0
 LDFLAGS   += --gc-sections -e _start
 ########################
-ARGS_FTRACE = --ftrace=$(IMAGE).elf
+ARGS_FTRACE = --ftrace=$(IMAGE).
 NEMUFLAGS += $(ARGS_FTRACE)
 
-# ARGS_LOADER = --loader=/home/garlic/ics2023/nanos-lite/build/nanos-lite-riscv32-nemu.elf
+# ARGS_LOADER = --loader=/home/garlic/ics2023/nanos-lite/build/nanos-lite-riscv32-nemu.
 # NEMUFLAGS += $(ARGS_LOADER)
 ########################
-NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt
+NEMUFLAGS += -l $(shell dirname $(IMAGE).)/nemu-log.txt
 
 CFLAGS += -DMAINARGS=\"$(mainargs)\"
 CFLAGS += -I$(AM_HOME)/am/src/platform/nemu/include
