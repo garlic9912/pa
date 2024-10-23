@@ -10,6 +10,7 @@
 #endif
 
 extern size_t ramdisk_read(void *buf, size_t offset, size_t len);
+size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 extern size_t get_ramdisk_size();
 
 
@@ -21,9 +22,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // 读取文件
   ramdisk_read(&ehdr, 0, get_ramdisk_size());
   // 读取 Program Headers
-  // Elf64_Phdr phdr[ehdr.e_phnum];
+  Elf64_Phdr phdr[ehdr.e_phnum];
 for (int i = 0; i < ehdr.e_phnum; ++i) {
-  panic("okokokokokokokokookokokok");
+  printf("%s\n", phdr[i].p_type);
 }  
 
   return 0;
