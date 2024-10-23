@@ -18,8 +18,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   int fd = open("nanos-lite/build/nanos-lite-riscv32-nemu.elf", O_RDONLY);
   size_t n = read(fd, &ehdr, sizeof(ehdr));
   if (n != sizeof(ehdr)) {
-    close(fd);
     panic("Failed to read ELF header");
+    close(fd);
   }
   // 读取 Program Headers
   Elf64_Phdr phdr[ehdr.e_phnum];
