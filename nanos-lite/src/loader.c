@@ -19,6 +19,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // Elf64_Ehdr 是 64 位系统的 ELF 头部结构体
   Elf64_Ehdr ehdr; 
   // 读取文件
+  panic("okokokokokokokokookokokok");
   ramdisk_read(&ehdr, 0, get_ramdisk_size());
   // 读取 Program Headers
   Elf64_Phdr phdr[ehdr.e_phnum];
