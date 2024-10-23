@@ -15,8 +15,8 @@ LDFLAGS   += --gc-sections -e _start
 ARGS_FTRACE = --ftrace=$(IMAGE).elf
 NEMUFLAGS += $(ARGS_FTRACE)
 
-ARGS_LOADER = --loader=/home/garlic/ics2023/nanos-lite/build/nanos-lite-riscv32-nemu.elf
-NEMUFLAGS += $(ARGS_LOADER)
+# ARGS_LOADER = --loader=/home/garlic/ics2023/nanos-lite/build/nanos-lite-riscv32-nemu.elf
+# NEMUFLAGS += $(ARGS_LOADER)
 ########################
 NEMUFLAGS += -l $(shell dirname $(IMAGE).elf)/nemu-log.txt
 
