@@ -21,19 +21,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // 读取文件
   ramdisk_read(&ehdr, 0, get_ramdisk_size());
   // 读取 Program Headers
-  Elf64_Phdr phdr[ehdr.e_phnum];
+  // Elf64_Phdr phdr[ehdr.e_phnum];
 for (int i = 0; i < ehdr.e_phnum; ++i) {
-    printf("Program %d:\n", i);
-    printf("Type: %x\n", phdr[i].p_type);
-    printf("Offset: %lx\n", phdr[i].p_offset);
-    printf("Virtual Address: %lx\n", phdr[i].p_vaddr);
-    printf("Physical Address: %lx\n", phdr[i].p_paddr);
-    printf("File Size: %lx\n", phdr[i].p_filesz);
-    printf("Memory Size: %lx\n", phdr[i].p_memsz);
-    printf("Flags: %lx\n", phdr[i].p_flags);
-    printf("Alignment: %lx\n", phdr[i].p_align);
+  panic("okokokokokokokokookokokok");
 }  
-panic("okokokokokokokokookokokok");
+
   return 0;
 }
 
