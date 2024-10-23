@@ -29,6 +29,7 @@ int main() {
   init_proc();
 
   Log("Finish initialization");
+  Log("mother fucker\n");
 
 #ifdef HAS_CTE
   yield();
