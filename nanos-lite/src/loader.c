@@ -17,12 +17,12 @@ extern size_t get_ramdisk_size();
 // extern char *elf_loader_file;
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  // Elf64_Ehdr 是 64 位系统的 ELF 头部结构体
   Elf32_Ehdr ehdr; 
   // 读取文件
   ramdisk_read(&ehdr, 0, get_ramdisk_size());
   // 读取 Program Headers
   Elf32_Phdr phdr[ehdr.e_phnum];
+  ramdisk_read(phdr, ehdr.e_phoff, ehdr.e_phnum * ehdr.e_phentsize);
 for (int i = 0; i < ehdr.e_phnum; ++i) {
   printf("%d\n", phdr[i].p_type);
 }  
