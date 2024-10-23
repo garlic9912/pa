@@ -50,6 +50,10 @@ int printf(const char *fmt, ...) {
           int tmp_c = va_arg(args, int);
           putch((char)(tmp_c));
           count++;
+          break;
+        // case 'p':
+        //   int *addr = (int *)va_arg(args, int);
+          
       } 
       i++;
     } else {
