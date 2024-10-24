@@ -7,7 +7,7 @@
 static char a[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
 
-int base_conversion(int num, int base) {
+int base_conversion(unsigned int num, int base) {
   int idx = 0;
   int len = 0;
   char buf[64];
@@ -48,12 +48,12 @@ int printf(const char *fmt, ...) {
           count += len_d;
           break;
         case 'c':
-          int tmp_c = va_arg(args, int);
+          unsigned int tmp_c = va_arg(args, int);
           putch((char)(tmp_c));
           count++;
           break;
         case 'x':
-          int num_x = va_arg(args, int);
+          unsigned int num_x = va_arg(args, int);
           int len_x = base_conversion(num_x, 16);
           count += len_x;
           break;
