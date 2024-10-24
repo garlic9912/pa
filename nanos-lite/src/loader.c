@@ -29,7 +29,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   for (int i = 0; i < ehdr.e_phnum; ++i) {
     // LOAD Type
     if (phdr[i].p_type == PT_LOAD) {
-      printf("%x\n", phdr[i].p_vaddr-ramdisk_start);
+      printf("%x\n", ramdisk_start);
       // ramdisk_write(&phdr[i].p_vaddr, phdr[i].p_vaddr-ramdisk_start, phdr[i].p_memsz);
       // memset(&phdr[i].p_vaddr+phdr[i].p_filesz, 0, phdr[i].p_memsz-phdr[i].p_filesz);
     }
