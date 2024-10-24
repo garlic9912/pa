@@ -22,7 +22,7 @@ extern size_t get_ramdisk_size();
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Ehdr ehdr; 
   // 读取文件
-  ramdisk_read(&ehdr, 0, get_ramdisk_size());
+  ramdisk_read(&ehdr, 0, ramdisk_start);
   // 读取 Program Headers
   Elf32_Phdr phdr[ehdr.e_phnum];
   ramdisk_read(phdr, ehdr.e_phoff, ehdr.e_phnum * ehdr.e_phentsize);
