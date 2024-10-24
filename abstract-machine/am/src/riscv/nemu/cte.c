@@ -2,6 +2,8 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+// static Context* (*yield_handler)(Event, Context*) = NULL;
+// static Context* (*syscall_handler)(Event, Context*) = NULL;
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
@@ -24,7 +26,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   asm volatile("csrw mtvec, %0" : : "r"(__am_asm_trap));
 
   // register event handler
-  user_handler = handler;   // 回调函数:simple_trap()
+  user_handler = handler;   // 回调函数
 
   return true;
 }
