@@ -24,6 +24,5 @@ enum {
   SYS_gettimeofday
 };
 
-int _yield();
 
 #endif
