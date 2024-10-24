@@ -1,5 +1,5 @@
 #include <common.h>
-#include </home/garlic/ics2023/navy-apps/libs/libos/src/syscall.h>
+#include "/home/garlic/ics2023/navy-apps/libs/libos/src/syscall.h"
 
 
 int sys_yield() {
