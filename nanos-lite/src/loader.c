@@ -22,18 +22,18 @@ extern size_t get_ramdisk_size();
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Ehdr ehdr; 
   // 读取文件
-  ramdisk_read(&ehdr, 0, ramdisk_start);
+  ramdisk_read(&ehdr, 0, get_ramdisk_size());
   // 读取 Program Headers
   Elf32_Phdr phdr[ehdr.e_phnum];
   ramdisk_read(phdr, ehdr.e_phoff, ehdr.e_phnum * ehdr.e_phentsize);
   for (int i = 0; i < ehdr.e_phnum; ++i) {
     // LOAD Type
     if (phdr[i].p_type == PT_LOAD) {
-      uint32_t addr = phdr[i].p_vaddr+phdr[i].p_filesz;
-      // printf("%x\n", phdr[i].p_vaddr+phdr[i].p_filesz);
+      // uint32_t addr = phdr[i].p_vaddr+phdr[i].p_filesz;
+      printf("%x\n", phdr[i].p_vaddr);
       // ramdisk_write(&phdr[i].p_vaddr, phdr[i].p_vaddr-&ramdisk_start, phdr[i].p_memsz);
-      memcpy(&phdr[i].p_vaddr, &ramdisk_start+phdr[i].p_offset, phdr[i].p_memsz);
-      memset(&addr, 0, phdr[i].p_memsz-phdr[i].p_filesz);
+      // memcpy(&phdr[i].p_vaddr, &ramdisk_start+phdr[i].p_offset, phdr[i].p_memsz);
+      // memset(&addr, 0, phdr[i].p_memsz-phdr[i].p_filesz);
     }
   }  
   return ehdr.e_entry;
