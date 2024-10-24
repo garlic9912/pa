@@ -8,13 +8,15 @@ static char a[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', '
 
 
 int base_conversion(int num, int base) {
+  int idx = 0;
   int len = 0;
   char buf[64];
   while (num != 0) {
-    buf[len++] = a[num % base];
+    buf[idx++] = a[num % base];
     num /= base;
   }
-  for (; len >= 1; len--) putch(buf[len-1]);
+  len = idx;
+  for (; idx >= 1; idx--) putch(buf[idx-1]);
   return len;
 }
 
