@@ -43,12 +43,12 @@ int printf(const char *fmt, ...) {
           count += len1;
           break;
         case 'd':
-          int num_d = va_arg(args, int);
+          unsigned int num_d = va_arg(args, int);
           int len_d = base_conversion(num_d, 10);
           count += len_d;
           break;
         case 'c':
-          unsigned int tmp_c = va_arg(args, int);
+          int tmp_c = va_arg(args, int);
           putch((char)(tmp_c));
           count++;
           break;
