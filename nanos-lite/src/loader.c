@@ -36,7 +36,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       // memset(&addr, 0, phdr[i].p_memsz-phdr[i].p_filesz);
     }
   }  
-  return ehdr.e_entry;
+  return 0;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
