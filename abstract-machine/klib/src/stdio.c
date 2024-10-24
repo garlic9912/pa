@@ -41,7 +41,8 @@ int printf(const char *fmt, ...) {
           count += len1;
           break;
         case 'd':
-          int len_d = base_conversion(va_arg(args, int), 10);
+          int num_d = va_arg(args, int);
+          int len_d = base_conversion(num_d, 10);
           count += len_d;
           break;
         case 'c':
@@ -50,7 +51,8 @@ int printf(const char *fmt, ...) {
           count++;
           break;
         case 'x':
-          int len_x = base_conversion(va_arg(args, int), 16);
+          int num_x = va_arg(args, int);
+          int len_x = base_conversion(num_x, 16);
           count += len_x;
           break;
       } 
