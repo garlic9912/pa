@@ -16,7 +16,8 @@ int base_conversion(unsigned int num, int base) {
     num /= base;
   }
   len = idx;
-  for (idx = idx-1; idx >= 0; idx--) putch(buf[idx-1]);
+  if (idx == 0) putch(0);
+  for (; idx >= 1; idx--) putch(buf[idx-1]);
   return len;
 }
 
@@ -48,7 +49,7 @@ int printf(const char *fmt, ...) {
           count += len_d;
           break;
         case 'c':
-          int tmp_c = va_arg(args, int);
+          unsigned int tmp_c = va_arg(args, int);
           putch((char)(tmp_c));
           count++;
           break;
