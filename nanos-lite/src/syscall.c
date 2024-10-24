@@ -6,7 +6,7 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
     case 1: 
-      printf("111111111111\n"); break;
+      printf("222222222222222\n"); break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
