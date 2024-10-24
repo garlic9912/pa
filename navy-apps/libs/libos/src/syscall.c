@@ -46,11 +46,15 @@
 #endif
 
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
+  // 在 C/C++ 中，register 存储类说明符用于建议编译器将变量存储在寄存器中以提高访问速度
+  // intptr_t：在 <stdint.h> 中定义，用于表示指针的整数类型。它保证足够大以容纳任何指针
   register intptr_t _gpr1 asm (GPR1) = type;
   register intptr_t _gpr2 asm (GPR2) = a0;
   register intptr_t _gpr3 asm (GPR3) = a1;
   register intptr_t _gpr4 asm (GPR4) = a2;
   register intptr_t ret asm (GPRx);
+  // : "=r" (ret)：输出操作数，指示 ret 变量将从寄存器中获取结果
+  // : "r"(_gpr1)：输入操作数，指示 _gpr1 变量将作为输入参数传递给寄存器。
   asm volatile (SYSCALL : "=r" (ret) : "r"(_gpr1), "r"(_gpr2), "r"(_gpr3), "r"(_gpr4));
   return ret;
 }
