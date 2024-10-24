@@ -9,7 +9,7 @@ static char a[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', '
 
 int base_conversion(int num, int base) {
   int len = 0;
-  char buf[32];
+  char buf[64];
   while (num != 0) {
     buf[len++] = a[num % base];
     num /= base;
