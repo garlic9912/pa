@@ -4,6 +4,21 @@
 #include <stdarg.h>
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
+static char a[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+
+int base_conversion(int num, int base) {
+  int len = 0;
+  char buf[32];
+  while (num != 0) {
+    buf[len++] = a[num % base];
+    num /= base;
+  }
+  for (; len >= 1; len--) putch(buf[len-1]);
+  return len;
+}
+
+
 
 int printf(const char *fmt, ...) {
   va_list args;
@@ -26,34 +41,18 @@ int printf(const char *fmt, ...) {
           count += len1;
           break;
         case 'd':
-          int idx = 0;
-          char buf[32];
-          int num = va_arg(args, int);
-          while (num != 0) {
-            buf[idx++] = '0' + (num % 10);
-            num /= 10;
-          }
-          buf[idx] = '\0';
-          // reversal
-          int len2 = strlen(buf);
-          for (int k = 0; k < len2 / 2; k++) {
-              char temp = buf[k];
-              buf[k] = buf[len2 - k - 1];
-              buf[len2 - k - 1] = temp;
-          }
-          for (int x = 0; x <= len2; x++) {
-            putch(buf[x]);
-          }
-          count += len2;
+          int len_d = base_conversion(va_arg(args, int), 10);
+          count += len_d;
           break;
         case 'c':
           int tmp_c = va_arg(args, int);
           putch((char)(tmp_c));
           count++;
           break;
-        // case 'p':
-        //   int *addr = (int *)va_arg(args, int);
-          
+        case 'x':
+          int len_x = base_conversion(va_arg(args, int), 16);
+          count += len_x;
+          break;
       } 
       i++;
     } else {
