@@ -2,6 +2,12 @@
 #include "/home/garlic/ics2023/navy-apps/libs/libos/src/syscall.h"
 
 
+// int sys_yield() {
+//   yield();
+//   return 0;
+// }
+
+
 int sys_yield() {
   yield();
   return 0;

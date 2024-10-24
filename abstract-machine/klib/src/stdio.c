@@ -16,7 +16,7 @@ int base_conversion(unsigned int num, int base) {
     num /= base;
   }
   len = idx;
-  for (; idx >= 1; idx--) putch(buf[idx-1]);
+  for (idx = idx-1; idx >= 0; idx--) putch(buf[idx-1]);
   return len;
 }
 
