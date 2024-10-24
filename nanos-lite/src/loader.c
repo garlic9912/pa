@@ -30,12 +30,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     // LOAD Type
     if (phdr[i].p_type == PT_LOAD) {
       uint32_t addr = phdr[i].p_vaddr+phdr[i].p_filesz;
-      // ramdisk_write(&phdr[i].p_vaddr, phdr[i].p_vaddr-&ramdisk_start, phdr[i].p_memsz);
-      memcpy(&phdr[i].p_vaddr, &ramdisk_start+phdr[i].p_offset, phdr[i].p_memsz);
+      ramdisk_write(&phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_memsz);
+      // memcpy(&phdr[i].p_vaddr, &ramdisk_start+phdr[i].p_offset, phdr[i].p_memsz);
       memset(&addr, 0, phdr[i].p_memsz-phdr[i].p_filesz);
     }
   }  
-  return 0;
+  return ehdr.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
