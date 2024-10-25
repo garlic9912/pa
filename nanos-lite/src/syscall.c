@@ -37,8 +37,6 @@ int sys_yield() {
 }
 
 void do_syscall(Context *c) {
-
-  panic("1111111111111111111111111111");
   // 返回值，给strace使用
   int ret = 0;
 
@@ -47,6 +45,8 @@ void do_syscall(Context *c) {
   a[1] = c->GPR2;
   a[2] = c->GPR3;
   a[3] = c->GPR4;
+
+  panic("syscall: %d", a[0]);
 
   switch (a[0]) {
     case SYS_yield: 
