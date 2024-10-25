@@ -34,7 +34,7 @@ int sys_write(int fd, char *buf, int len) {
       putch(*(buf + i));
     }
   } 
-  return 13;
+  return len;
 }
 
 void sys_exit(int status) {
