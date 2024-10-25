@@ -29,11 +29,11 @@ static const char* syscall_names[] = {
 // 返回值有特殊要求
 int sys_write(int fd, char *buf, int len) {
   // stdout 和 stderr
-  if (fd == 1 || fd == 2) {
-    for (int i = 0; i < len; i++) {
-      putch(*(buf + i));
-    }
-  } 
+  // if (fd == 1 || fd == 2) {
+  //   for (int i = 0; i < len; i++) {
+  //     putch(*(buf + i));
+  //   }
+  // } 
   return 13;
 }
 
