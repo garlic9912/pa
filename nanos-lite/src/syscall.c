@@ -59,6 +59,7 @@ void do_syscall(Context *c) {
   switch (a[0]) {
     case SYS_write:
       ret = sys_write(a[1], (char *)a[2], a[3]);
+      panic("%d", ret);
       c->GPRx = ret;
       break;
     case SYS_yield: 
