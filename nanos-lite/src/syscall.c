@@ -51,10 +51,10 @@ void do_syscall(Context *c) {
   int ret = 0;
 
   uintptr_t a[4];
-  a[0] = c->GPR1;
-  a[1] = c->GPR2;
-  a[2] = c->GPR3;
-  a[3] = c->GPR4;
+  a[0] = c->GPR1;  // type
+  a[1] = c->GPR2;  // 参数1
+  a[2] = c->GPR3;  // 参数2
+  a[3] = c->GPR4;  // 参数3
 
   switch (a[0]) {
     case SYS_write:
