@@ -48,8 +48,6 @@ void do_syscall(Context *c) {
 
   printf("syscall: %d", a[0]);
 
-  panic("syscall: %d", a[0]);
-
   switch (a[0]) {
     case SYS_yield: 
       ret = sys_yield();
