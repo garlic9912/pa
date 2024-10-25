@@ -26,6 +26,16 @@ static const char* syscall_names[] = {
 };
 #endif
 
+// 返回值有特殊要求
+int sys_write(int fd, char *buf, int len) {
+  // stdout 和 stderr
+  if (fd == 1 || fd == 2) {
+    for (int i = 0; i < len; i++) {
+      putch(*(buf + i));
+    }
+  } 
+  return len;
+}
 
 void sys_exit(int status) {
   halt(status);
@@ -47,6 +57,9 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;
 
   switch (a[0]) {
+    case SYS_write:
+      sys_write((int)a[1], (char *)a[2], (int)a[3]);
+      break;
     case SYS_yield: 
       ret = sys_yield();
       c->GPRx = ret;
