@@ -45,7 +45,6 @@ int printf(const char *fmt, ...) {
           break;
         case 'd':
           unsigned int num_d = va_arg(args, int);
-          panic("111");
           int len_d = base_conversion(num_d, 10);
           count += len_d;
           break;
