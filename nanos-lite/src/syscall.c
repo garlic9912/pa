@@ -26,7 +26,11 @@ static const char* syscall_names[] = {
 };
 #endif
 
-// 返回值有特殊要求
+int sys_brk(void *addr) {
+  return 0;  // 成功
+}
+
+
 int sys_write(int fd, char *buf, int len) {
   // stdout 和 stderr
   if (fd == 1 || fd == 2) {
@@ -46,6 +50,9 @@ int sys_yield() {
   return 0;
 }
 
+
+
+
 void do_syscall(Context *c) {
   // 返回值，给strace使用
   int ret = 0;
@@ -57,6 +64,10 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;  // 参数3
 
   switch (a[0]) {
+    case SYS_brk:
+      ret = sys_brk((void *)a[1]);
+      c->GPRx = ret;
+      break;
     case SYS_write:
       ret = sys_write(a[1], (char *)a[2], a[3]);
       c->GPRx = ret;
