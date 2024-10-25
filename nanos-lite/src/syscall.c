@@ -34,6 +34,7 @@ int sys_write(int fd, char *buf, int len) {
       putch(*(buf + i));
     }
   } 
+  panic("%d", len);
   return len;
 }
 
@@ -59,7 +60,6 @@ void do_syscall(Context *c) {
   switch (a[0]) {
     case SYS_write:
       ret = sys_write((int)a[1], (char *)a[2], (int)a[3]);
-      panic("%d", ret);
       c->GPRx = ret;
       break;
     case SYS_yield: 
