@@ -10,7 +10,7 @@
 
 
 // strace
-#define CONFIG_STRACE
+// #define CONFIG_STRACE
 
 
 #include <am.h>

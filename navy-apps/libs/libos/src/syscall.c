@@ -45,6 +45,11 @@
 #error _syscall_ is not implemented
 #endif
 
+
+// program break 的初始值
+extern char _end;
+static char *program_break = &_end;
+
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   // 在 C/C++ 中，register 存储类说明符用于建议编译器将变量存储在寄存器中以提高访问速度
   // intptr_t：在 <stdint.h> 中定义，用于表示指针的整数类型。它保证足够大以容纳任何指针
@@ -74,6 +79,14 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
+  // 新的 program break 的位置
+  char *addr = program_break;
+  intptr_t new_break =  (intptr_t)program_break + increment;
+  int ret = _syscall_(SYS_brk, new_break, 0, 0);
+  if (ret == 0) {
+    program_break = (char *)new_break;
+    return (void *)addr;
+  }
   return (void *)-1;
 }
 
