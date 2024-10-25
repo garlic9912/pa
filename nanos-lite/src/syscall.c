@@ -1,7 +1,7 @@
 #include <common.h>
 #include "/home/garlic/ics2023/navy-apps/libs/libos/src/syscall.h"
 
-
+#ifdef CONFIG_STRACE
 static const char* syscall_names[] = {
   "SYS_exit",
   "SYS_yield",
@@ -24,6 +24,7 @@ static const char* syscall_names[] = {
   "SYS_times",
   "SYS_gettimeofday"
 };
+#endif
 
 
 void sys_exit(int status) {
@@ -36,6 +37,8 @@ int sys_yield() {
 }
 
 void do_syscall(Context *c) {
+
+  panic("1111111111111111111111111111");
   // 返回值，给strace使用
   int ret = 0;
 
