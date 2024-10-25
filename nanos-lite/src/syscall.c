@@ -30,7 +30,6 @@ int sys_brk(void *addr) {
   return 0;  // 成功
 }
 
-
 int sys_write(int fd, char *buf, int len) {
   // stdout 和 stderr
   if (fd == 1 || fd == 2) {
