@@ -57,7 +57,7 @@ void do_syscall(Context *c) {
   }
 
 #ifdef CONFIG_STRACE
-  printf("%s:(%d, %d, %d)\nreturn: %d\n", syscall_names[a[0]], a[1], a[2], a[3], ret);
+  printf("%s:(%d, %d, %d), return: %d\n", syscall_names[a[0]], a[1], a[2], a[3], ret);
 #endif
 
 }
