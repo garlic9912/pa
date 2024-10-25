@@ -29,11 +29,11 @@ static const char* syscall_names[] = {
 // 返回值有特殊要求
 int sys_write(int fd, char *buf, int len) {
   // stdout 和 stderr
-  // if (fd == 1 || fd == 2) {
-  //   for (int i = 0; i < len; i++) {
-  //     putch(*(buf + i));
-  //   }
-  // } 
+  if (fd == 1 || fd == 2) {
+    for (int i = 0; i < len; i++) {
+      putch(*(buf + i));
+    }
+  } 
   return 13;
 }
 
@@ -55,7 +55,7 @@ void do_syscall(Context *c) {
   a[1] = c->GPR2;
   a[2] = c->GPR3;
   a[3] = c->GPR4;
-  // panic("%d, %d, %d, %d", a[0], a[1], a[2], a[3]);
+  panic("%d, %d, %d, %d", a[0], a[1], a[2], a[3]);
 
   switch (a[0]) {
     case SYS_write:
