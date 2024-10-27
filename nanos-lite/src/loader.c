@@ -22,6 +22,7 @@ extern size_t get_ramdisk_size();
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Ehdr ehdr; 
+  panic("filename: %s", filename);
   // 打开文件
   // int fd = fs_open(filename, 0, 0);
 
