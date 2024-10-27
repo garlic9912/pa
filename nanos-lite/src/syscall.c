@@ -1,5 +1,6 @@
 #include <common.h>
 #include "/home/garlic/ics2023/navy-apps/libs/libos/src/syscall.h"
+#include <fs.h>
 
 #ifdef CONFIG_STRACE
 static const char* syscall_names[] = {
@@ -26,18 +27,24 @@ static const char* syscall_names[] = {
 };
 #endif
 
+int sys_lseek(int fd, int offset, int whence) {
+  return fs_lseek(fd, offset, whence);
+}
+
+int sys_read(int fd, void *buf, size_t count) {
+  return fs_read(fd, buf, count);
+}
+
+int sys_open(const char *path, int flags, int mode) {
+  return fs_open(path, 0, 0);
+}
+
 int sys_brk(void *addr) {
   return 0;  // 成功
 }
 
 int sys_write(int fd, char *buf, int len) {
-  // stdout 和 stderr
-  if (fd == 1 || fd == 2) {
-    for (int i = 0; i < len; i++) {
-      putch(*(buf + i));
-    }
-  } 
-  return len;
+  return fs_write(fd, buf, len);
 }
 
 void sys_exit(int status) {
@@ -63,6 +70,18 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;  // 参数3
 
   switch (a[0]) {
+    case SYS_lseek:
+      ret = sys_lseek(a[1], a[2], a[3]);
+      c->GPRx = ret;
+      break;    
+    case SYS_read:
+      ret = sys_read(a[1], (char *)a[2], a[3]);
+      c->GPRx = ret;
+      break;     
+    case SYS_open:
+      ret = sys_open((char *)a[1], a[2], a[3]);
+      c->GPRx = ret;
+      break;      
     case SYS_brk:
       ret = sys_brk((void *)a[1]);
       c->GPRx = ret;
