@@ -1,5 +1,6 @@
 #include <proc.h>
 #include <elf.h>
+#include <fs.h>
 
 #ifdef __LP64__
 # define Elf_Ehdr Elf64_Ehdr
@@ -21,14 +22,23 @@ extern size_t get_ramdisk_size();
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Ehdr ehdr; 
-  // 读取文件
-  ramdisk_read(&ehdr, 0, get_ramdisk_size());
+  // 打开文件
+  int fd = fs_open(filename, 0, 0);
+
+  // 读取 ELF Headers
+  fs_read(fd, &ehdr, sizeof(Elf32_Ehdr));
+  // ramdisk_read(&ehdr, 0, get_ramdisk_size());
+
   // 读取 Program Headers
   Elf32_Phdr phdr[ehdr.e_phnum];
-  ramdisk_read(phdr, ehdr.e_phoff, ehdr.e_phnum * ehdr.e_phentsize);
+  fs_read(fd, phdr, ehdr.e_phnum * ehdr.e_phentsize);
+  // ramdisk_read(phdr, ehdr.e_phoff, ehdr.e_phnum * ehdr.e_phentsize);
+
+  // 加载
   for (int i = 0; i < ehdr.e_phnum; ++i) {
     // LOAD Type
     if (phdr[i].p_type == PT_LOAD) {
+      // fs_read();
       ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_memsz);
       memset((void *)(phdr[i].p_vaddr+phdr[i].p_filesz), 0, phdr[i].p_memsz-phdr[i].p_filesz);
     }
