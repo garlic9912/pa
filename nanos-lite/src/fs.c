@@ -120,7 +120,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
   }
   // SEEK_END: 则将文件的偏移量设置为，文件长度加offset
   else if (whence == SEEK_END) {
-    file_table[fd].open_offset = file_table[fd].size + offset;
+    file_table[fd].open_offset = file_table[fd].size + offset - 1;
   }
   return file_table[fd].open_offset;
 }
