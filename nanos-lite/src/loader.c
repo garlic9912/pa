@@ -42,13 +42,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // load the program
   for (int i = 0; i < ehdr.e_phnum; ++i) {
     if (phdr[i].p_type == PT_LOAD) {
-      printf("%x, %x, %x\n", phdr[i].p_vaddr, phdr[i].p_filesz, phdr[i].p_memsz);
+      // printf("%x, %x, %x\n", phdr[i].p_vaddr, phdr[i].p_filesz, phdr[i].p_memsz);
       ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_memsz);
       memset((void *)(phdr[i].p_vaddr+phdr[i].p_filesz), 0, phdr[i].p_memsz-phdr[i].p_filesz);
     }
   }  
   fs_close(fd);
-  // panic("%x\n", ehdr.e_entry);
+  panic("%x\n", ehdr.e_entry);
   return ehdr.e_entry;
 }
 
