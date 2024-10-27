@@ -23,24 +23,23 @@ extern size_t get_ramdisk_size();
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Ehdr ehdr; 
   // 打开文件
-  int fd = fs_open(filename, 0, 0);
+  // int fd = fs_open(filename, 0, 0);
 
   // 读取 ELF Headers
-  if (fs_read(fd, &ehdr, sizeof(Elf32_Ehdr)) != sizeof(Elf32_Ehdr)) {
-    panic("read ehdr wrong");
-  }
-  // ramdisk_read(&ehdr, 0, get_ramdisk_size());
+  // if (fs_read(fd, &ehdr, sizeof(Elf32_Ehdr)) != sizeof(Elf32_Ehdr)) {
+  //   panic("read ehdr wrong");
+  // }
+  ramdisk_read(&ehdr, 37656, get_ramdisk_size());
 
   // 读取 Program Headers
   Elf32_Phdr phdr[ehdr.e_phnum];
-  if (fs_read(fd, phdr, ehdr.e_phnum * ehdr.e_phentsize) != ehdr.e_phnum * ehdr.e_phentsize) {
-    panic("read phar wrong");
-  }
-  // ramdisk_read(phdr, ehdr.e_phoff, ehdr.e_phnum * ehdr.e_phentsize);
+  // if (fs_read(fd, phdr, ehdr.e_phnum * ehdr.e_phentsize) != ehdr.e_phnum * ehdr.e_phentsize) {
+  //   panic("read phar wrong");
+  // }
+  ramdisk_read(phdr, ehdr.e_phoff, ehdr.e_phnum * ehdr.e_phentsize);
 
-  // 加载
+  // load the program
   for (int i = 0; i < ehdr.e_phnum; ++i) {
-    // LOAD Type
     if (phdr[i].p_type == PT_LOAD) {
       ramdisk_read((void *)phdr[i].p_vaddr, phdr[i].p_offset, phdr[i].p_memsz);
       memset((void *)(phdr[i].p_vaddr+phdr[i].p_filesz), 0, phdr[i].p_memsz-phdr[i].p_filesz);
