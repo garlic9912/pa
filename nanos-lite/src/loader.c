@@ -41,7 +41,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   // 加载
   for (int i = 0; i < ehdr.e_phnum; ++i) {
-    panic("e_phnum: %d", ehdr.e_phnum);
+    // panic("e_phnum: %d", ehdr.e_phnum);
     // LOAD Type
     if (phdr[i].p_type == PT_LOAD) {
       // fs_read();
