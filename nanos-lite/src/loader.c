@@ -24,6 +24,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Ehdr ehdr; 
   // 打开文件
   int fd = fs_open(filename, 0, 0);
+  if (fd == -1) panic("error open");
+  panic("fd=%d", fd);
 
   // 读取 ELF Headers
   if (fs_read(fd, &ehdr, sizeof(Elf32_Ehdr)) != sizeof(Elf32_Ehdr)) {
