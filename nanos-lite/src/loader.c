@@ -27,13 +27,15 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   // 读取 ELF Headers
   if (fs_read(fd, &ehdr, sizeof(Elf32_Ehdr)) != sizeof(Elf32_Ehdr)) {
-    panic("read wrong");
+    panic("read ehdr wrong");
   }
   // ramdisk_read(&ehdr, 0, get_ramdisk_size());
 
   // 读取 Program Headers
   Elf32_Phdr phdr[ehdr.e_phnum];
-  fs_read(fd, phdr, ehdr.e_phnum * ehdr.e_phentsize);
+  if (fs_read(fd, phdr, ehdr.e_phnum * ehdr.e_phentsize) != ehdr.e_phnum * ehdr.e_phentsize) {
+    panic("read phar wrong");
+  }
   // ramdisk_read(phdr, ehdr.e_phoff, ehdr.e_phnum * ehdr.e_phentsize);
 
   // 加载
