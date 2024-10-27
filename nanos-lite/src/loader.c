@@ -26,7 +26,9 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   int fd = fs_open(filename, 0, 0);
 
   // 读取 ELF Headers
-  fs_read(fd, &ehdr, sizeof(Elf32_Ehdr));
+  if (fs_read(fd, &ehdr, sizeof(Elf32_Ehdr)) != sizeof(Elf32_Ehdr)) {
+    panic("read wrong");
+  }
   // ramdisk_read(&ehdr, 0, get_ramdisk_size());
 
   // 读取 Program Headers
