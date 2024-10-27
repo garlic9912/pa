@@ -129,10 +129,10 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 
 
 int fs_close(int fd) {
-  if (fd <= 2 || fd > sizeof(file_table)/sizeof(Finfo)) {
-    panic("fd:%d is wrong", fd);
-  }
-  file_table[fd].open_offset = 0;
+  // if (fd <= 2 || fd > sizeof(file_table)/sizeof(Finfo)) {
+  //   panic("fd:%d is wrong", fd);
+  // }
+  // file_table[fd].open_offset = 0;
   return 0;
 }
 
