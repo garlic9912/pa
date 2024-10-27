@@ -79,6 +79,55 @@ size_t fs_read(int fd, void *buf, size_t len) {
 }
 
 
+size_t fs_write(int fd, const void *buf, size_t len) {
+  // 处理stdout和stderr
+  if (fd == FD_STDOUT || fd == FD_STDERR) {
+    // 输出到串口
+    for (int i = 0; i < len; i++) putch(*((char *)buf+i));
+  }
+
+  size_t fsize, disk_offset, open_offset;
+  fsize = file_table[fd].size;
+  disk_offset = file_table[fd].disk_offset;
+  open_offset = file_table[fd].open_offset;  
+  // 计算文件的读写指针偏移量
+  size_t start_offset = disk_offset + open_offset;
+  // 越界判断
+  if (start_offset >= disk_offset + fsize) {
+    // panic("文件读写指针越界");
+    return -1;
+  }
+  // 读写字节是否缩短来防止越界
+  if (start_offset + len >= disk_offset + fsize) {
+    len = disk_offset + fsize - 1 - start_offset;
+  }  
+  ramdisk_write(buf, start_offset, len);
+  // 更新读写指针
+  file_table[fd].open_offset = open_offset + len;  
+  return len;
+}
+
+
+
+size_t fs_lseek(int fd, size_t offset, int whence){
+  // SEEK_SET: 参数offset 即为新的读写位置
+  if (whence == SEEK_SET) {
+    file_table[fd].open_offset = offset;
+  }
+  // SEEK_CUR: 以目前的读写位置往后增加offset 个位移量
+  else if (whence == SEEK_CUR) {
+    file_table[fd].open_offset += offset;
+  }
+  // SEEK_END: 则将文件的偏移量设置为，文件长度加offset
+  else if (whence == SEEK_END) {
+    file_table[fd].open_offset = file_table[fd].size - 1 + offset;
+  }
+  return file_table[fd].open_offset;
+}
+
+
+
+
 int fs_close(int fd) {
   if (fd <= 2 || fd > sizeof(file_table)/sizeof(Finfo)) {
     panic("fd:%d is wrong", fd);
@@ -89,10 +138,6 @@ int fs_close(int fd) {
 
 
 
-// size_t fs_write(int fd, const void *buf, size_t len) {
-//   // 处理 stdout 和 stderr
-
-// }
 
 
 

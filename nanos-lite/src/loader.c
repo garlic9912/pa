@@ -30,25 +30,24 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   if (fs_read(fd, &ehdr, sizeof(Elf32_Ehdr)) != sizeof(Elf32_Ehdr)) {
     panic("read ehdr wrong");
   }
-  // ramdisk_read(&ehdr, 37396, 37656);
 
   // 读取 Program Headers
   Elf32_Phdr phdr[ehdr.e_phnum];
   if (fs_read(fd, phdr, ehdr.e_phnum * ehdr.e_phentsize) != ehdr.e_phnum * ehdr.e_phentsize) {
     panic("read phar wrong");
   }
-  // ramdisk_read(phdr, ehdr.e_phoff, ehdr.e_phnum * ehdr.e_phentsize);
 
   // load the program
   for (int i = 0; i < ehdr.e_phnum; ++i) {
     if (phdr[i].p_type == PT_LOAD) {
       // printf("%x, %x, %x, %x\n", phdr[i].p_offset, phdr[i].p_vaddr, phdr[i].p_filesz, phdr[i].p_memsz);
-      ramdisk_read((void *)phdr[i].p_vaddr, 37396+phdr[i].p_offset, phdr[i].p_memsz);
+      // ramdisk_read((void *)phdr[i].p_vaddr, 37396+phdr[i].p_offset, phdr[i].p_memsz);
+      fs_lseek(fd, phdr[i].p_offset, SEEK_SET);
+      fs_read(fd, (void *)phdr[i].p_vaddr, phdr[i].p_memsz);
       memset((void *)(phdr[i].p_vaddr+phdr[i].p_filesz), 0, phdr[i].p_memsz-phdr[i].p_filesz);
     }
   }  
   fs_close(fd);
-  // panic("%x\n", ehdr.e_entry);
   return ehdr.e_entry;
 }
 
