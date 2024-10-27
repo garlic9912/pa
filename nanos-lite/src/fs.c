@@ -59,8 +59,8 @@ int fs_open(const char *pathname, int flags, int mode) {
 size_t fs_read(int fd, void *buf, size_t len) {
   size_t fsize, disk_offset, open_offset;
   fsize = file_table[fd].size;
+  panic("%d", fsize);
   disk_offset = file_table[fd].disk_offset;
-  panic("%d", disk_offset);
   open_offset = file_table[fd].open_offset;
   // 计算文件的读写指针偏移量
   size_t start_offset = disk_offset + open_offset;
