@@ -27,6 +27,10 @@ static const char* syscall_names[] = {
 };
 #endif
 
+int sys_close(int fd) {
+  return 0;
+}
+
 int sys_lseek(int fd, int offset, int whence) {
   return fs_lseek(fd, offset, whence);
 }
@@ -70,6 +74,10 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;  // 参数3
 
   switch (a[0]) {
+     case SYS_close:
+      ret = sys_close(a[1]);
+      c->GPRx = ret;
+      break;    
     case SYS_lseek:
       ret = sys_lseek(a[1], a[2], a[3]);
       c->GPRx = ret;
