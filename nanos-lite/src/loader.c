@@ -28,7 +28,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // 读取 ELF Headers
   fs_read(fd, &ehdr, sizeof(Elf32_Ehdr));
   // ramdisk_read(&ehdr, 0, get_ramdisk_size());
-    panic("111111111111111");
 
   // 读取 Program Headers
   Elf32_Phdr phdr[ehdr.e_phnum];
