@@ -21,7 +21,6 @@ extern size_t get_ramdisk_size();
 // extern char *elf_loader_file;
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  panic("111111111111111");
   Elf32_Ehdr ehdr; 
   // 打开文件
   int fd = fs_open(filename, 0, 0);
@@ -29,6 +28,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // 读取 ELF Headers
   fs_read(fd, &ehdr, sizeof(Elf32_Ehdr));
   // ramdisk_read(&ehdr, 0, get_ramdisk_size());
+    panic("111111111111111");
 
   // 读取 Program Headers
   Elf32_Phdr phdr[ehdr.e_phnum];
