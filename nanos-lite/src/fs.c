@@ -99,7 +99,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   }
   // 读写字节是否缩短来防止越界
   if (start_offset + len >= disk_offset + fsize) {
-    len = disk_offset + fsize - start_offset;
+    len = disk_offset + fsize - 1 - start_offset;
   }  
   ramdisk_write(buf, start_offset, len);
   // 更新读写指针
@@ -120,7 +120,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
   }
   // SEEK_END: 则将文件的偏移量设置为，文件长度加offset
   else if (whence == SEEK_END) {
-    file_table[fd].open_offset = file_table[fd].size - 1 + offset;
+    file_table[fd].open_offset = file_table[fd].size + offset;
   }
   return file_table[fd].open_offset;
 }
