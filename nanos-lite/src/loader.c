@@ -34,7 +34,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   // 读取 Program Headers
   Elf32_Phdr phdr[ehdr.e_phnum];
   if (fs_read(fd, phdr, ehdr.e_phnum * ehdr.e_phentsize) != ehdr.e_phnum * ehdr.e_phentsize) {
-    panic("read phar wrong");
+    panic("read phdr wrong");
   }
 
   // load the program
