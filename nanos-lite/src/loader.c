@@ -24,7 +24,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Ehdr ehdr; 
   // 打开文件
   int fd = fs_open(filename, 0, 0);
-  panic("fd = %d", fd);
+  // panic("fd = %d", fd);
 
   // 读取 ELF Headers
   if (fs_read(fd, &ehdr, sizeof(Elf32_Ehdr)) != sizeof(Elf32_Ehdr)) {
@@ -41,7 +41,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 
   // 加载
   for (int i = 0; i < ehdr.e_phnum; ++i) {
-    // panic("e_phnum: %d", ehdr.e_phnum);
+    panic("e_phnum: %d", ehdr.e_phnum);
     // LOAD Type
     if (phdr[i].p_type == PT_LOAD) {
       // fs_read();
