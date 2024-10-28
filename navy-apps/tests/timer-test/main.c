@@ -7,7 +7,11 @@ int main() {
     gettimeofday(&time, NULL);
     int utime = 500000;
     while (1) {
-        while (time.tv_usec < utime);  // 现在一直卡在这里
+        
+        // 现在一直卡在这里
+        while (time.tv_usec < utime) {
+            printf("%d", (int)time.tv_usec);
+        } 
         printf("time: %d\n", (int)time.tv_usec);
         utime += 500000;
     }
