@@ -16,6 +16,11 @@ int base_conversion(unsigned int num, int base) {
     num /= base;
   }
   len = idx;
+  // 16 进制打印0x
+  if (base == 16) {
+    putch('0');
+    putch('x');
+  }
   if (idx == 0) putch('0');
   for (; idx >= 1; idx--) putch(buf[idx-1]);
   return len;
@@ -54,14 +59,11 @@ int printf(const char *fmt, ...) {
           count++;
           break;
         case 'x':
-        case 'p':
+        case 'p':  // %p 直接将指针的值转成16进制打印即可
           unsigned int num_x = va_arg(args, int);
           int len_x = base_conversion(num_x, 16);
           count += len_x;
           break;
-        
-          // char *addr = va_arg(args, int);
-
       } 
       i++;
     } else {
