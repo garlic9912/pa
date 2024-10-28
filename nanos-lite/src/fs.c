@@ -83,7 +83,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   // 处理stdout和stderr
   if (fd == FD_STDOUT || fd == FD_STDERR) {
     // 输出到串口, 即设置对应的写函数
-    file_table[fd].write = serial_write;
+    file_table[fd].write = &serial_write;
   }
 
   size_t fsize, disk_offset, open_offset;
@@ -102,7 +102,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
     len = disk_offset + fsize - 1 - start_offset;
   }  
   // 设置写函数
-  file_table[fd].write = ramdisk_write;
+  file_table[fd].write = &ramdisk_write;
   // 执行
   file_table[fd].write(buf, start_offset, len);
   // 更新读写指针
