@@ -42,8 +42,8 @@ struct timeval
 
 int sys_gettimeofday(struct timeval *tv) {
   // 获取当前时间
-  panic("11111111111111111111111");
   tv->tv_sec = io_read(AM_TIMER_UPTIME).us / 1000000;
+  panic("%d", tv->tv_sec);
   tv->tv_usec = io_read(AM_TIMER_UPTIME).us % 1000000;
   return 1;
 }
