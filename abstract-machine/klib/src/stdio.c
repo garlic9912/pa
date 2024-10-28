@@ -31,9 +31,6 @@ int base_conversion(unsigned int num, int base) {
 int printf(const char *fmt, ...) {
   va_list args;
   va_start(args, fmt);
-  // i -> fmt
-  // count -> out
-  // pos -> ...
   int i = 0, count = 0;
   while (fmt[i] != '\0') {
     char c;

@@ -27,6 +27,13 @@ static const char* syscall_names[] = {
 };
 #endif
 
+int sys_gettimeofday(int *sec, int *usec) {
+  // 获取当前时间
+  *sec = io_read(AM_TIMER_UPTIME).us / 1000000;
+  *usec = io_read(AM_TIMER_UPTIME).us % 1000000;
+  return 1;
+}
+
 int sys_close(int fd) {
   return 0;
 }
@@ -81,6 +88,10 @@ void do_syscall(Context *c) {
   a[3] = c->GPR4;  // 参数3
 
   switch (a[0]) {
+     case SYS_gettimeofday:
+      ret = sys_gettimeofday((int *)a[1], (int *)a[2]);
+      c->GPRx = ret;
+      break;
      case SYS_close:
       ret = sys_close(a[1]);
       c->GPRx = ret;

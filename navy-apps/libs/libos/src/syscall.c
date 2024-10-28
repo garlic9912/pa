@@ -101,9 +101,11 @@ off_t _lseek(int fd, off_t offset, int whence) {
   return _syscall_(SYS_lseek, fd, offset, whence);
 }
 
+
+// 时间信息放到 tv结构体
+// 地时区的信息放到 tz结构体
 int _gettimeofday(struct timeval *tv, struct timezone *tz) {
-  _exit(SYS_gettimeofday);
-  return 0;
+  return _syscall_(SYS_gettimeofday, (intptr_t)(&(tv->tv_sec)), (intptr_t)(&(tv->tv_usec)), 0);
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
