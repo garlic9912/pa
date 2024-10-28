@@ -84,6 +84,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   if (fd == FD_STDOUT || fd == FD_STDERR) {
     // 输出到串口, 即设置对应的写函数
     file_table[fd].write = serial_write;
+    file_table[fd].write(buf, 0, len);
   } else {
     // 设置普通文件的写函数
     file_table[fd].write = ramdisk_write;
@@ -96,7 +97,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   size_t start_offset = disk_offset + open_offset;
   // 越界判断
   if (start_offset >= disk_offset + fsize) {
-    panic("文件读写指针越界");
+    // panic("文件读写指针越界");
     return -1;
   }
   // 读写字节是否缩短来防止越界
@@ -104,7 +105,6 @@ size_t fs_write(int fd, const void *buf, size_t len) {
     len = disk_offset + fsize - 1 - start_offset;
   }  
   // 执行
-  panic("111111111111111111");
   file_table[fd].write(buf, start_offset, len);
   // 更新读写指针
   file_table[fd].open_offset = open_offset + len;  
