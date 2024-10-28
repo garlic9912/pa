@@ -4,15 +4,14 @@
 
 int main() {
     struct timeval time;
-    int utime = 500000;
+    int stime = 1;
     while (1) {
-        // 现在一直卡在这里
-        while (time.tv_usec < utime) {
+        while (time.tv_sec < stime) {
             gettimeofday(&time, NULL);
-            printf("%d\n", (int)time.tv_usec);
+            // printf("%d\n", (int)time.tv_usec);
         } 
         printf("time: %d\n", (int)time.tv_usec);
-        utime += 500000;
+        stime += 1;
     }
     return 0;
 }
