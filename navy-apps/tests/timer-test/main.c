@@ -10,7 +10,7 @@ int main() {
         
         // 现在一直卡在这里
         while (time.tv_usec < utime) {
-            printf("%d", (int)time.tv_usec);
+            printf("%d\n", (int)time.tv_usec);
         } 
         printf("time: %d\n", (int)time.tv_usec);
         utime += 500000;
