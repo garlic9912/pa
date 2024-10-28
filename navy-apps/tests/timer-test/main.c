@@ -6,10 +6,9 @@ int main() {
     struct timeval time;
     int utime = 500000;
     while (1) {
-        gettimeofday(&time, NULL);
         // 现在一直卡在这里
         while (time.tv_usec < utime) {
-            printf("%d\n", (int)time.tv_usec);
+            gettimeofday(&time, NULL);
         } 
         printf("time: %d\n", (int)time.tv_usec);
         utime += 500000;
