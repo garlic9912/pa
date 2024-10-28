@@ -27,10 +27,23 @@ static const char* syscall_names[] = {
 };
 #endif
 
-int sys_gettimeofday(int *sec, int *usec) {
+
+struct timeval
+{
+#ifdef __USE_TIME_BITS64
+  __time64_t tv_sec;		/* Seconds.  */
+  __suseconds64_t tv_usec;	/* Microseconds.  */
+#else
+  int tv_sec;		/* Seconds.  */
+  int tv_usec;	/* Microseconds.  */
+#endif
+};
+
+
+int sys_gettimeofday(struct timeval *tv) {
   // 获取当前时间
-  *sec = io_read(AM_TIMER_UPTIME).us / 1000000;
-  *usec = io_read(AM_TIMER_UPTIME).us % 1000000;
+  tv->tv_sec = io_read(AM_TIMER_UPTIME).us / 1000000;
+  tv->tv_usec = io_read(AM_TIMER_UPTIME).us % 1000000;
   return 1;
 }
 
@@ -89,7 +102,7 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
      case SYS_gettimeofday:
-      ret = sys_gettimeofday((int *)a[1], (int *)a[2]);
+      ret = sys_gettimeofday((struct timeval *)a[1]);
       c->GPRx = ret;
       break;
      case SYS_close:
