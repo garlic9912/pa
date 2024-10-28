@@ -83,13 +83,11 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   // 处理stdout和stderr
   if (fd == FD_STDOUT || fd == FD_STDERR) {
     // 输出到串口, 即设置对应的写函数
-      for (int i = 0; i < len; i++) {
-        putch(*((char *)buf + i));
-      
-      }
-      return len;
+    file_table[fd].write = serial_write;
+  } else {
+    // 设置普通文件的写函数
+    file_table[fd].write = ramdisk_write;
   }
-
   size_t fsize, disk_offset, open_offset;
   fsize = file_table[fd].size;
   disk_offset = file_table[fd].disk_offset;
@@ -105,8 +103,6 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   if (start_offset + len >= disk_offset + fsize) {
     len = disk_offset + fsize - 1 - start_offset;
   }  
-  // 设置写函数
-  file_table[fd].write = &ramdisk_write;
   // 执行
   file_table[fd].write(buf, start_offset, len);
   // 更新读写指针
