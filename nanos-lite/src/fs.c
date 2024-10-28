@@ -84,6 +84,7 @@ size_t fs_write(int fd, const void *buf, size_t len) {
   if (fd == FD_STDOUT || fd == FD_STDERR) {
     // 输出到串口, 即设置对应的写函数
     file_table[fd].write = serial_write;
+    panic("111111111111111111");
   } else {
     // 设置普通文件的写函数
     file_table[fd].write = ramdisk_write;
