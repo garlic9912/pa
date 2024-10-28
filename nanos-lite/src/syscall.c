@@ -54,6 +54,7 @@ int sys_brk(void *addr) {
 
 int sys_write(int fd, char *buf, int len) {
   size_t ret = fs_write(fd, buf, len);
+  panic("%d", ret);
   if (ret < 0) panic("Write ERROR");
   return ret;
 }
