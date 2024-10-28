@@ -105,6 +105,7 @@ off_t _lseek(int fd, off_t offset, int whence) {
 // 时间信息放到 tv结构体
 // 地时区的信息放到 tz结构体
 int _gettimeofday(struct timeval *tv, struct timezone *tz) {
+  panic("111111111111111111");
   return _syscall_(SYS_gettimeofday, (intptr_t)tv, 0, 0);
 }
 
