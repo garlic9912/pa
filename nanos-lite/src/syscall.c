@@ -31,16 +31,21 @@ int sys_close(int fd) {
   return 0;
 }
 
-int sys_lseek(int fd, int offset, int whence) {
-  return fs_lseek(fd, offset, whence);
+size_t sys_lseek(int fd, int offset, int whence) {
+  size_t ret = fs_lseek(fd, offset, whence);
+  return ret;
 }
 
 int sys_read(int fd, void *buf, size_t count) {
-  return fs_read(fd, buf, count);
+  size_t ret = fs_read(fd, buf, count);
+  if (ret < 0) panic("Read ERROR");
+  return ret;
 }
 
 int sys_open(const char *path, int flags, int mode) {
-  return fs_open(path, 0, 0);
+  int ret = fs_open(path, 0, 0);
+  if (ret == -1) panic("Open ERROR");
+  return ret;
 }
 
 int sys_brk(void *addr) {
@@ -48,7 +53,9 @@ int sys_brk(void *addr) {
 }
 
 int sys_write(int fd, char *buf, int len) {
-  return fs_write(fd, buf, len);
+  size_t ret = fs_write(fd, buf, len);
+  if (ret < 0) panic("Write ERROR");
+  return ret;
 }
 
 void sys_exit(int status) {
