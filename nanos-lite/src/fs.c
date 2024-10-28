@@ -56,7 +56,7 @@ int fs_open(const char *pathname, int flags, int mode) {
 }
 
 
-size_t fs_read(int fd, void *buf, size_t len) {
+int fs_read(int fd, void *buf, size_t len) {
   size_t fsize, disk_offset, open_offset;
   fsize = file_table[fd].size;
   disk_offset = file_table[fd].disk_offset;
@@ -79,7 +79,7 @@ size_t fs_read(int fd, void *buf, size_t len) {
 }
 
 
-size_t fs_write(int fd, const void *buf, size_t len) {
+int fs_write(int fd, const void *buf, size_t len) {
   // 处理stdout和stderr
   if (fd == FD_STDOUT || fd == FD_STDERR) {
     // 输出到串口, 即设置对应的写函数

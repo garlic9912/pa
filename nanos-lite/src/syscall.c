@@ -37,7 +37,7 @@ size_t sys_lseek(int fd, int offset, int whence) {
 }
 
 int sys_read(int fd, void *buf, size_t count) {
-  size_t ret = fs_read(fd, buf, count);
+  int ret = fs_read(fd, buf, count);
   if (ret < 0) panic("Read ERROR");
   return ret;
 }
@@ -53,8 +53,7 @@ int sys_brk(void *addr) {
 }
 
 int sys_write(int fd, char *buf, int len) {
-  size_t ret = fs_write(fd, buf, len);
-  panic("%d", ret);
+  int ret = fs_write(fd, buf, len);
   if (ret < 0) panic("Write ERROR");
   return ret;
 }
