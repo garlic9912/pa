@@ -12,7 +12,7 @@ int main() {
             gettimeofday(&time, NULL);
             // printf("%d\n", (int)time.tv_usec);
         } 
-        printf("time: %d\n", (int)stime);
+        printf("time: %d\n", (int)tol_time);
         tol_time += 500000;
     }
     return 0;
