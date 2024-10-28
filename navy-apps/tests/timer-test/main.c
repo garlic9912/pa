@@ -4,10 +4,9 @@
 
 int main() {
     struct timeval time;
-    gettimeofday(&time, NULL);
     int utime = 500000;
     while (1) {
-        
+        gettimeofday(&time, NULL);
         // 现在一直卡在这里
         while (time.tv_usec < utime) {
             printf("%d\n", (int)time.tv_usec);
