@@ -34,8 +34,8 @@ struct timeval
   __time64_t tv_sec;		/* Seconds.  */
   __suseconds64_t tv_usec;	/* Microseconds.  */
 #else
-  int tv_sec;		/* Seconds.  */
-  int tv_usec;	/* Microseconds.  */
+  long tv_sec;		/* Seconds.  */
+  long tv_usec;	/* Microseconds.  */
 #endif
 };
 
