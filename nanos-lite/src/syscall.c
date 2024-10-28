@@ -45,7 +45,7 @@ int sys_gettimeofday(struct timeval *tv) {
   tv->tv_sec = io_read(AM_TIMER_UPTIME).us / 1000000;
   // panic("%d", tv->tv_sec);
   tv->tv_usec = io_read(AM_TIMER_UPTIME).us % 1000000;
-  panic("%d", tv->tv_usec);
+  // panic("%d", tv->tv_usec);
   return 1;
 }
 
