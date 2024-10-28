@@ -6,7 +6,7 @@ int main() {
     struct timeval time;
     int stime = 1;
     while (1) {
-        while (time.tv_sec < stime) {
+        while (time.tv_sec * 2 < stime) {
             gettimeofday(&time, NULL);
             // printf("%d\n", (int)time.tv_usec);
         } 
