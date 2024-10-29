@@ -20,7 +20,7 @@ typedef struct {
   WriteFn write;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_FB, FD_EVENT};
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -44,15 +44,13 @@ static Finfo file_table[] __attribute__((used)) = {
 int fs_open(const char *pathname, int flags, int mode) {
   // 获取文件 fd,也就是文件表的对应下标
   int fd = -1;
-  int max_fd = sizeof(file_table)/sizeof(Finfo);
-  for (int i = 0; i < max_fd; i++) {
+  for (int i = 0; i < sizeof(file_table)/sizeof(Finfo); i++) {
     if (strcmp(pathname, file_table[i].name) == 0) {
       fd = i;
       return fd;
     }
   }
-  // 按键 => /dev/events
-  if (strcmp(pathname, "/dev/events") == 0) return max_fd;
+
   // 没有找到文件，直接报错
   // panic("没有对应的文件: %s", pathname);
   return -1;
@@ -61,7 +59,7 @@ int fs_open(const char *pathname, int flags, int mode) {
 
 int fs_read(int fd, void *buf, size_t len) {
   // 处理按键事件
-  if (fd == sizeof(file_table)/sizeof(Finfo)) {
+  if (fd == FD_EVENT) {
     return events_read(buf, 0, len);
   } else {
     file_table[fd].read = ramdisk_read;
@@ -160,4 +158,15 @@ int fs_close(int fd) {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  // 键盘初始化
+  Finfo event_file = 
+  {
+    .name = "/dev/events",    // 文件名称
+    .size = 0,               // 文件大小，单位为字节
+    .disk_offset = 0,         // 偏移量
+    .open_offset = 0,         // 初始打开偏移量
+    .read = events_read,      // 自定义读函数
+    .write = invalid_write    // 自定义写函数
+  };
+  file_table[FD_EVENT] = event_file;  
 }
