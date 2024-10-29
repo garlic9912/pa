@@ -58,7 +58,6 @@ int fs_open(const char *pathname, int flags, int mode) {
 
 
 int fs_read(int fd, void *buf, size_t len) {
-  panic("111111111111111111");
   // 处理按键事件
   if (fd == FD_EVENT) {
     return events_read(buf, 0, len);
