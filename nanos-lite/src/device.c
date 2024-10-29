@@ -34,6 +34,8 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   return strlen(ev_info);
 }
 
+
+// 获取屏幕大小
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   return 0;
 }

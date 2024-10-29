@@ -158,7 +158,8 @@ int fs_close(int fd) {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-  // 键盘初始化
+
+  // keyboard初始化
   Finfo event_file = 
   {
     .name = "/dev/events", 
@@ -169,4 +170,16 @@ void init_fs() {
     .write = invalid_write    
   };
   file_table[FD_EVENT] = event_file;  
+
+  // // vga初始化
+  Finfo fb_file = 
+  {
+    .name = "/dev/fb", 
+    .size = 0,             
+    .disk_offset = 0,      
+    .open_offset = 0,        
+    .read = dispinfo_read,     
+    .write = invalid_write    
+  };
+  file_table[FD_FB] = fb_file;   
 }

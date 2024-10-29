@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
-#include <NDL.h>
 #include <BMP.h>
+#include <NDL.h>
+
 
 int main() {
   NDL_Init(0);
