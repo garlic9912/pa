@@ -4,9 +4,7 @@
 
 int main() {
     struct timeval time;
-    int stime = 0;
-    int utime = 500000;
-    int tol_time = stime * 1000000 + utime;
+    int tol_time = 500000;
     while (1) { 
         while ((int)time.tv_sec * 1000000 + (int)time.tv_usec < tol_time) {
             gettimeofday(&time, NULL);
