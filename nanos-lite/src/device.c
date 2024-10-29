@@ -29,7 +29,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   if (ev.keycode == 0) return 0;
   // 假设一次只读出一个事件
   char ev_info[64];
-  sprintf(ev_info, "Got  (kbd): %s (%d) %s", keyname[ev.keycode], ev.keycode, ev.keydown ? "DOWN" : "UP");
+  sprintf(ev_info, "Got  (kbd): %s %s", keyname[ev.keycode], ev.keydown ? "DOWN" : "UP");
   memcpy((char *)buf, ev_info, strlen(ev_info));
   return strlen(ev_info);
 }
