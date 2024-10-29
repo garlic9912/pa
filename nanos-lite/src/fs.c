@@ -60,7 +60,6 @@ int fs_open(const char *pathname, int flags, int mode) {
 int fs_read(int fd, void *buf, size_t len) {
   // 处理按键事件
   if (fd == FD_EVENT) {
-    panic("%d", len);
     return events_read(buf, 0, len);
   } else {
     file_table[fd].read = ramdisk_read;
