@@ -26,11 +26,11 @@ size_t serial_write(const void *buf, size_t offset, size_t len) {
 // 事件写入，如按键的down和up
 size_t events_read(void *buf, size_t offset, size_t len) {
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
+  panic("1111111111111");
   if (ev.keycode == AM_KEY_NONE) return 0;
   // 假设一次只读出一个事件
   char ev_info[30];
   sprintf(ev_info, "Got  (kbd): %s (%d) %s\n", keyname[ev.keycode], ev.keycode, ev.keydown ? "DOWN" : "UP");
-  panic("1111111111111");
   memcpy((char *)buf, ev_info, strlen(ev_info));
   return strlen(ev_info);
 }
