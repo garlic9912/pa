@@ -44,12 +44,15 @@ static Finfo file_table[] __attribute__((used)) = {
 int fs_open(const char *pathname, int flags, int mode) {
   // 获取文件 fd,也就是文件表的对应下标
   int fd = -1;
-  for (int i = 0; i < sizeof(file_table)/sizeof(Finfo); i++) {
+  int max_fd = sizeof(file_table)/sizeof(Finfo);
+  for (int i = 0; i < max_fd; i++) {
     if (strcmp(pathname, file_table[i].name) == 0) {
       fd = i;
       return fd;
     }
   }
+  // 按键 => /dev/events
+  if (strcmp(pathname, "/dev/events") == 0) return max_fd;
   // 没有找到文件，直接报错
   // panic("没有对应的文件: %s", pathname);
   return -1;
@@ -57,13 +60,13 @@ int fs_open(const char *pathname, int flags, int mode) {
 
 
 int fs_read(int fd, void *buf, size_t len) {
-  // 处理按键事件(fd暂时为3,之后要改)
-  if (fd == 3) {
-    file_table[fd].read = events_read;
-    return file_table[fd].read(buf, 0, len);
+  // 处理按键事件
+  if (fd == sizeof(file_table)/sizeof(Finfo)) {
+    return events_read(buf, 0, len);
   } else {
     file_table[fd].read = ramdisk_read;
   }  
+
   size_t fsize, disk_offset, open_offset;
   fsize = file_table[fd].size;
   disk_offset = file_table[fd].disk_offset;

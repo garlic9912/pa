@@ -4,6 +4,9 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 
 static int evtdev = -1;
@@ -22,6 +25,9 @@ uint32_t NDL_GetTicks() {
 // 读出一条事件信息, 将其写入`buf`中, 最长写入`len`字节
 // 若读出了有效的事件, 函数返回1, 否则返回0
 int NDL_PollEvent(char *buf, int len) {
+  int fd = open("/dev/events", 0);
+  int ret = read(fd, buf, len);
+  if (ret != 0) return 1;
   return 0;
 }
 
