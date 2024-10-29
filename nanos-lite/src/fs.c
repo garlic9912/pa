@@ -161,12 +161,12 @@ void init_fs() {
   // 键盘初始化
   Finfo event_file = 
   {
-    .name = "/dev/events",    // 文件名称
-    .size = 0,               // 文件大小，单位为字节
-    .disk_offset = 0,         // 偏移量
-    .open_offset = 0,         // 初始打开偏移量
-    .read = events_read,      // 自定义读函数
-    .write = invalid_write    // 自定义写函数
+    .name = "/dev/events", 
+    .size = 0,             
+    .disk_offset = 0,      
+    .open_offset = 0,        
+    .read = events_read,     
+    .write = invalid_write    
   };
   file_table[FD_EVENT] = event_file;  
 }
