@@ -57,6 +57,13 @@ int fs_open(const char *pathname, int flags, int mode) {
 
 
 int fs_read(int fd, void *buf, size_t len) {
+  // 处理按键事件(fd暂时为3,之后要改)
+  if (fd == 3) {
+    file_table[fd].read = events_read;
+    return file_table[fd].read(buf, 0, len);
+  } else {
+    file_table[fd].read = ramdisk_read;
+  }  
   size_t fsize, disk_offset, open_offset;
   fsize = file_table[fd].size;
   disk_offset = file_table[fd].disk_offset;
@@ -72,7 +79,7 @@ int fs_read(int fd, void *buf, size_t len) {
   if (start_offset + len >= disk_offset + fsize) {
     len = disk_offset + fsize - 1 - start_offset;
   }
-  ramdisk_read(buf, start_offset, len);
+  file_table[fd].read(buf, start_offset, len);
   // 更新读写指针
   file_table[fd].open_offset = open_offset + len;
   return len;

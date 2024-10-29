@@ -3,23 +3,29 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-//
 #include <sys/time.h>
-// 
+
 
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
+
+// 返回微秒数
 uint32_t NDL_GetTicks() {
   struct timeval tv;
   gettimeofday(&tv, NULL);
   return (int)tv.tv_sec * 1000000 + (int)tv.tv_usec;
 }
 
+
+// 读出一条事件信息, 将其写入`buf`中, 最长写入`len`字节
+// 若读出了有效的事件, 函数返回1, 否则返回0
 int NDL_PollEvent(char *buf, int len) {
   return 0;
 }
+
+
 
 void NDL_OpenCanvas(int *w, int *h) {
   if (getenv("NWM_APP")) {
