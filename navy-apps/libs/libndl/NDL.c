@@ -11,7 +11,7 @@
 
 static int evtdev = -1;
 static int fbdev = -1;
-static int screen_w = 0, screen_h = 0;
+
 
 
 
@@ -19,7 +19,7 @@ static int screen_w = 0, screen_h = 0;
 // 画布的宽和高
 static int canvas_w, canvas_h;
 // 屏幕的宽和高
-static int screen_w, screen_h;
+static int screen_w = 0, screen_h = 0;
 
 
 // 返回微秒数
@@ -41,8 +41,23 @@ int NDL_PollEvent(char *buf, int len) {
 
 
 
-void get_screen_wh(char *buf) {
-  
+void get_screen_wh(char *buf, int len) {
+  // width
+  int i = 0;
+  while(*(buf+i) != '\n') {
+    if (*(buf+i) <= '9' && *(buf+i) >= '0') {
+      screen_w = screen_w * 10 + *(buf+i) - '0';
+    }
+    i++;
+  }
+  // height
+  i++;
+  while (i < len) {
+    if (*(buf+i) <= '9' && *(buf+i) >= '0') {
+      screen_h = screen_h * 10 + *(buf+i) - '0';
+    }
+    i++;    
+  }
 }
 
 
@@ -75,7 +90,8 @@ void NDL_OpenCanvas(int *w, int *h) {
   int ret = read(fd, buf, 64);
   buf[ret] = '\0';
   printf("%s\n", buf);
-  screen_w = sscanf(buf, "WIDTH:%d\nHEIGHT:%d", &screen_w, &screen_h);
+  screen_w = sscanf(buf, "WIDTH:%d HEIGHT:%d", &screen_w, &screen_h);
+  get_screen_wh(buf, ret);
   printf("%d, %d\n", screen_w, screen_h);
 }
 
