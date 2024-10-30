@@ -43,6 +43,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 
+static int flag = 0;
 // 用于把buf中的len字节写到屏幕上offset处
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   // 解出x, y, w
@@ -50,8 +51,9 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   // panic("%d", offset);
   x = (offset / 4) % 400;
   y = ((offset / 4) - x) / 400;
+  if(++flag == 1) panic("%d", y);
+
   w = len / 4;
-  panic("%d", w);
   io_write(AM_GPU_FBDRAW, x, y, (int *)buf, w, 1, true);
   return 0;
 }
