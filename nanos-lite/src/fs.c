@@ -101,10 +101,10 @@ int fs_write(int fd, const void *buf, size_t len) {
   {
   case FD_STDOUT:
   case FD_STDERR:
-    serial_write(buf, file_table[fd].open_offset, len);
+    serial_write(buf, 0, len);
     return len;
   case FD_FB:
-    fb_write(buf, 0, len);
+    fb_write(buf, file_table[fd].open_offset, len);
   default:
     file_table[fd].write = ramdisk_write;
   }
