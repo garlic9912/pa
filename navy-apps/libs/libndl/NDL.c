@@ -14,6 +14,14 @@ static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
 
+
+
+// 画布的宽和高
+static int canvas_w, canvas_h;
+// 屏幕的宽和高
+static int screen_w, screen_h;
+
+
 // 返回微秒数
 uint32_t NDL_GetTicks() {
   struct timeval tv;
@@ -30,6 +38,7 @@ int NDL_PollEvent(char *buf, int len) {
   if (ret != 0) return 1;
   return 0;
 }
+
 
 
 
@@ -52,12 +61,14 @@ void NDL_OpenCanvas(int *w, int *h) {
   //   close(fbctl);
   // }
   // 画布的大小
-  int canvas_w = w, canvas_h = h;
+  canvas_w = w;
+  canvas_h = h;
   // 获取屏幕的大小
   char buf[64];
   int fd = open("/proc/dispinfo", 0);
   int ret = read(fd, buf, 64);
-  printf("%s", buf);
+  screen_w = sscanf(buf, "WIDTH : %d HEIGHT:%d", &screen_w, &screen_h);
+  printf("%d, %d", screen_w, screen_h);
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {

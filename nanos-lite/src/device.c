@@ -41,7 +41,10 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   return sprintf((char *)buf, "WIDTH:%d\nHEIGHT:%d\n", t.width, t.height);
 }
 
+
+// 用于把buf中的len字节写到屏幕上offset处
 size_t fb_write(const void *buf, size_t offset, size_t len) {
+  
   return 0;
 }
 
