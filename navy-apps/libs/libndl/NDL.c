@@ -80,6 +80,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   //   }
   //   close(fbctl);
   // }
+  
   // 画布的大小
   canvas_w = *w;
   canvas_h = *h;

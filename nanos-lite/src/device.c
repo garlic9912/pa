@@ -56,6 +56,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   return 0;
 }
 
+
 void init_device() {
   Log("Initializing devices...");
   ioe_init();
