@@ -37,6 +37,8 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]  = {"stdin", 0, 0, 0, invalid_read, invalid_write},
   [FD_STDOUT] = {"stdout", 0, 0, 0, invalid_read, invalid_write},
   [FD_STDERR] = {"stderr", 0, 0, 0, invalid_read, invalid_write},
+  [FD_EVENT]  = {"/dev/events", 0, 0, 0, events_read, invalid_write},
+  [FD_FB]     = {"/dev/fb", 0, 0, 0, dispinfo_read, invalid_write},
 #include "files.h"
 };
 
@@ -160,28 +162,4 @@ int fs_close(int fd) {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-
-  // keyboard初始化
-  Finfo event_file = 
-  {
-    .name = "/dev/events", 
-    .size = 0,             
-    .disk_offset = 0,      
-    .open_offset = 0,        
-    .read = events_read,     
-    .write = invalid_write    
-  };
-  file_table[FD_EVENT] = event_file;  
-
-  // // vga初始化
-  Finfo fb_file = 
-  {
-    .name = "/dev/fb", 
-    .size = 0,             
-    .disk_offset = 0,      
-    .open_offset = 0,        
-    .read = dispinfo_read,     
-    .write = invalid_write    
-  };
-  file_table[FD_FB] = fb_file;   
 }
