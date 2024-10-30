@@ -68,7 +68,6 @@ int fs_read(int fd, void *buf, size_t len) {
   case FD_EVENT:
     return events_read(buf, 0, len);  
   case FD_CTL:
-    panic("111111111111111111");
     return dispinfo_read(buf, 0, len);
   default:
     file_table[fd].read = ramdisk_read;
