@@ -90,8 +90,8 @@ void NDL_OpenCanvas(int *w, int *h) {
   int ret = read(fd, buf, 64);
   buf[ret] = '\0';
   printf("%s\n", buf);
-  // screen_w = sscanf(buf, "WIDTH:%d%dHEIGHT:%d", &screen_w, &screen_h);
-  get_screen_wh(buf, ret);
+  screen_w = sscanf(buf, "WIDTH:%d%dHEIGHT:%d", &screen_w, &screen_h);
+  // get_screen_wh(buf, ret);
   printf("%d, %d\n", screen_w, screen_h);
 }
 
