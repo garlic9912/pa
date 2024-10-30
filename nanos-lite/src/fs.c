@@ -47,6 +47,7 @@ int fs_open(const char *pathname, int flags, int mode) {
   for (int i = 0; i < sizeof(file_table)/sizeof(Finfo); i++) {
     if (strcmp(pathname, file_table[i].name) == 0) {
       fd = i;
+      panic("%s", pathname);
       return fd;
     }
   }
