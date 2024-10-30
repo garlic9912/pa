@@ -63,13 +63,13 @@ void NDL_OpenCanvas(int *w, int *h) {
   // 画布的大小
   canvas_w = *w;
   canvas_h = *h;
-  printf("%d, %d", canvas_w, canvas_h);
+  printf("%d, %d\n", canvas_w, canvas_h);
   // 获取屏幕的大小
   char buf[64];
   int fd = open("/proc/dispinfo", 0);
   int ret = read(fd, buf, 64);
   screen_w = sscanf(buf, "WIDTH:%d\nHEIGHT:%d\n", &screen_w, &screen_h);
-  printf("%d, %d", screen_w, screen_h);
+  printf("%d, %d\n", screen_w, screen_h);
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
