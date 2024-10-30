@@ -30,6 +30,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   // 假设一次只读出一个事件
   char ev_info[64];
   int count = sprintf(ev_info, "Got  (kbd): %s %s", keyname[ev.keycode], ev.keydown ? "DOWN" : "UP");
+  panic("%d", count);
   memcpy((char *)buf, ev_info, count);
   return count;
 }
