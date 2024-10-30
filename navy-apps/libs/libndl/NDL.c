@@ -41,6 +41,11 @@ int NDL_PollEvent(char *buf, int len) {
 
 
 
+void get_screen_wh(char *buf) {
+  
+}
+
+
 
 void NDL_OpenCanvas(int *w, int *h) {
   // if (getenv("NWM_APP")) {
