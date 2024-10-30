@@ -39,7 +39,7 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDERR] = {"stderr", 0, 0, 0, invalid_read, invalid_write},
   [FD_EVENT]  = {"/dev/events", 0, 0, 0, events_read, invalid_write},
   [FD_CTL]    = {"/proc/dispinfo", 0, 0, 0, dispinfo_read, invalid_write},
-  [FD_FB]     = {"/dev/fb", 0, 0, 0, dispinfo_read, invalid_write},
+  [FD_FB]     = {"/dev/fb", 0, 0, 0, invalid_read, fb_write},
 #include "files.h"
 };
 
@@ -97,16 +97,18 @@ int fs_read(int fd, void *buf, size_t len) {
 
 
 int fs_write(int fd, const void *buf, size_t len) {
-  // 处理stdout和stderr
-  if (fd == FD_STDOUT || fd == FD_STDERR) {
-    // 输出到串口, 即设置对应的写函数
-    file_table[fd].write = serial_write;
-    file_table[fd].write(buf, 0, len);
+  switch (fd)
+  {
+  case FD_STDOUT:
+  case FD_STDERR:
+    serial_write(buf, file_table[fd].open_offset, len);
     return len;
-  } else {
-    // 设置普通文件的写函数
+  case FD_FB:
+    fb_write(buf, 0, len);
+  default:
     file_table[fd].write = ramdisk_write;
   }
+
   size_t fsize, disk_offset, open_offset;
   fsize = file_table[fd].size;
   disk_offset = file_table[fd].disk_offset;
@@ -167,5 +169,8 @@ int fs_close(int fd) {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-  file_table[FD_FB].size = 300 * 400;
+  // AM_GPU_CONFIG_T t = io_read(AM_GPU_CONFIG);
+  // scnw = t.width;
+  // scnh = t.height;
+  file_table[FD_FB].size = 400 * 300 * 4;
 }

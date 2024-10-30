@@ -86,13 +86,18 @@ void NDL_OpenCanvas(int *w, int *h) {
   // 获取屏幕的大小
   char buf[64];
   int fd = open("/proc/dispinfo", 0);
-  int ret = read(fd, buf, 64);
-  buf[ret] = '\0';
-  get_screen_wh(buf, ret);
-  printf("%d, %d\n", screen_w, screen_h);
+  int len = read(fd, buf, 64);
+  buf[len] = '\0';
+  get_screen_wh(buf, len);
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  int fd = open("/dev/fd", 0);
+  // 按行写入
+  for (int i = y; i < h+y; i++) {
+    lseek(fd, i*screen_w*4+x*4, SEEK_SET);
+    write(fd, pixels+(i-y)*w*4, w*4);
+  }
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {

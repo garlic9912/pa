@@ -11,7 +11,8 @@ int main() {
   void *bmp = BMP_Load("/share/pictures/projectn.bmp", &w, &h);
   assert(bmp);
   NDL_OpenCanvas(&w, &h);
-  NDL_DrawRect(bmp, 0, 0, w, h);
+  // 更改参数实现画布居中
+  NDL_DrawRect(bmp, 200-w/2, 150-h/2, w, h);
   free(bmp);
   NDL_Quit();
   printf("Test ends! Spinning...\n");

@@ -15,6 +15,7 @@ static const char *keyname[256] __attribute__((used)) = {
   AM_KEYS(NAME)
 };
 
+
 // 串口
 size_t serial_write(const void *buf, size_t offset, size_t len) {
   for (int i = 0; i < len; i++) {
@@ -44,6 +45,12 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 
 // 用于把buf中的len字节写到屏幕上offset处
 size_t fb_write(const void *buf, size_t offset, size_t len) {
+  // 解出x, y, w
+  int x, y, w;
+  x = (offset / 4) % 400;
+  y = ((offset / 4) - x) / 400;
+  w = len / 4;
+  io_write(AM_GPU_FBDRAW, x, y, (int *)buf, w, 1, true);
   return 0;
 }
 
