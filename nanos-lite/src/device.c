@@ -48,6 +48,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   // 解出x, y, w
   int x, y, w;
   x = (offset / 4) % 400;
+  panic("%d", x);
   y = ((offset / 4) - x) / 400;
   w = len / 4;
   io_write(AM_GPU_FBDRAW, x, y, (int *)buf, w, 1, true);
