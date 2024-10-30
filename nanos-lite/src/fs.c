@@ -56,7 +56,7 @@ int fs_open(const char *pathname, int flags, int mode) {
   }
 
   // 没有找到文件，直接报错
-  // panic("没有对应的文件: %s", pathname);
+  panic("没有对应的文件: %s", pathname);
   return -1;
 }
 
