@@ -41,13 +41,14 @@ static Finfo file_table[] __attribute__((used)) = {
 };
 
 
+static int flag = 2;
 int fs_open(const char *pathname, int flags, int mode) {
   // 获取文件 fd,也就是文件表的对应下标
   int fd = -1;
   for (int i = 0; i < sizeof(file_table)/sizeof(Finfo); i++) {
     if (strcmp(pathname, file_table[i].name) == 0) {
       fd = i;
-      panic("%s", pathname);
+      if (--flag == 0) panic("%s", pathname);
       return fd;
     }
   }
