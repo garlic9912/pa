@@ -61,8 +61,8 @@ void NDL_OpenCanvas(int *w, int *h) {
   //   close(fbctl);
   // }
   // 画布的大小
-  canvas_w = w;
-  canvas_h = h;
+  canvas_w = *w;
+  canvas_h = *h;
   printf("%d, %d", canvas_w, canvas_h);
   // 获取屏幕的大小
   char buf[64];
