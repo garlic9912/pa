@@ -20,7 +20,7 @@ typedef struct {
   WriteFn write;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENT, FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENT, FD_CTL, FD_FB};
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -38,6 +38,7 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDOUT] = {"stdout", 0, 0, 0, invalid_read, invalid_write},
   [FD_STDERR] = {"stderr", 0, 0, 0, invalid_read, invalid_write},
   [FD_EVENT]  = {"/dev/events", 0, 0, 0, events_read, invalid_write},
+  [FD_CTL]    = {"/proc/dispinfo", 0, 0, 0, dispinfo_read, invalid_write},
   [FD_FB]     = {"/dev/fb", 0, 0, 0, dispinfo_read, invalid_write},
 #include "files.h"
 };
@@ -55,18 +56,24 @@ int fs_open(const char *pathname, int flags, int mode) {
   }
 
   // 没有找到文件，直接报错
-  panic("没有对应的文件: %s", pathname);
+  // panic("没有对应的文件: %s", pathname);
   return -1;
 }
 
 
 int fs_read(int fd, void *buf, size_t len) {
   // 处理按键事件
-  if (fd == FD_EVENT) {
-    return events_read(buf, 0, len);
-  } else {
+  switch (fd)
+  {
+  case FD_EVENT:
+    return events_read(buf, 0, len);  
+  case FD_CTL:
+    panic("111111111111111111");
+    return dispinfo_read(buf, 0, len);
+  default:
     file_table[fd].read = ramdisk_read;
-  }  
+    break;
+  }
 
   size_t fsize, disk_offset, open_offset;
   fsize = file_table[fd].size;
@@ -161,4 +168,5 @@ int fs_close(int fd) {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  file_table[FD_FB].size = 300 * 400;
 }
