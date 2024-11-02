@@ -26,6 +26,20 @@ int main() {
     fixedpt C5 = fixedpt_abs(A5);
     fixedpt D5 = fixedpt_abs(B5);
     printf("%d\n", fixedpt_toint(C5));  // 7    
-    printf("%d\n", fixedpt_toint(D5));  // -7   
+    printf("%d\n", fixedpt_toint(D5));  // 7   
+    // fixedpt fixedpt_floor(fixedpt A)
+    fixedpt A6 = fixedpt_rconst(7.8);
+    fixedpt B6 = fixedpt_rconst(-7.8);
+    fixedpt C6 = fixedpt_floor(A6);
+    fixedpt D6 = fixedpt_floor(B6);
+    printf("%d\n", fixedpt_toint(C6));  // 7
+    printf("%d\n", fixedpt_toint(D6));  // -8
+    // fixedpt fixedpt_ceil(fixedpt A)
+    fixedpt A7 = fixedpt_rconst(7.8);
+    fixedpt B7 = fixedpt_rconst(-7.8);
+    fixedpt C7 = fixedpt_ceil(A7);
+    fixedpt D7 = fixedpt_ceil(B7);
+    printf("%d\n", fixedpt_toint(C7));  // 8    
+    printf("%d\n", fixedpt_toint(D7));  // -7
     return 0;
 }
