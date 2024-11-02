@@ -7,7 +7,7 @@ int main() {
     fixedpt B1 = fixedpt_muli(A1, 3);
     printf("%d\n", fixedpt_toint(B1));
     // fixedpt fixedpt_divi(fixedpt A, int B)
-    fixedpt A2 = fixedpt_rconst(-1.8);
+    fixedpt A2 = fixedpt_rconst(6.8);
     fixedpt B2 = fixedpt_divi(A2, 3);
     printf("%d\n", fixedpt_toint(B2));
     return 0;
