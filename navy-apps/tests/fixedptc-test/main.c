@@ -35,7 +35,7 @@ int main() {
     printf("%d\n", fixedpt_toint(C6));  // 7
     printf("%d\n", fixedpt_toint(D6));  // -8
     // fixedpt fixedpt_ceil(fixedpt A)
-    fixedpt A7 = fixedpt_rconst(7.8);
+    fixedpt A7 = fixedpt_rconst(8);
     fixedpt B7 = fixedpt_rconst(-7.8);
     fixedpt C7 = fixedpt_ceil(A7);
     fixedpt D7 = fixedpt_ceil(B7);
