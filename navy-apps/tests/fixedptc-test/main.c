@@ -10,5 +10,10 @@ int main() {
     fixedpt A2 = fixedpt_rconst(6.8);
     fixedpt B2 = fixedpt_divi(A2, 3);
     printf("%d\n", fixedpt_toint(B2));
+    // fixedpt fixedpt_mul(fixedpt A, fixedpt B)
+    fixedpt A3 = fixedpt_rconst(7.8);
+    fixedpt B3 = fixedpt_rconst(1.1);
+    fixedpt C3 = fixedpt_mul(A3, B3);
+    printf("%d\n", fixedpt_toint(C3));
     return 0;
 }
