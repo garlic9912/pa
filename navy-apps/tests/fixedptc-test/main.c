@@ -4,6 +4,6 @@
 int main() {
     fixedpt A = fixedpt_rconst(1.2);
     fixedpt B = fixedpt_muli(A, 3);
-    printf("%d\n", fixedpt_fromint(B));
+    printf("%d\n", fixedpt_toint(B));
     return 0;
 }
