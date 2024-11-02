@@ -153,29 +153,11 @@ static inline fixedpt fixedpt_abs(fixedpt A) {
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
-	int a = fixedpt_toint(A);
-	// 正数，小数舍
-	if (a >= 0 && fixedpt_fracpart(A) != 0) {
-		return (A >> FIXEDPT_FBITS) << FIXEDPT_FBITS;
-	}	
-	// 负数，小数入
-	if (a < 0 && fixedpt_fracpart(A) != 0) {
-		return -((-A >> FIXEDPT_FBITS) << FIXEDPT_FBITS + FIXEDPT_ONE);
-	}
-	return A;
+	return A & ~FIXEDPT_FMASK;
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
-	int a = fixedpt_toint(A);
-	// 正数，小数入
-	if (a >= 0 && fixedpt_fracpart(A) != 0) {
-		return (A >> FIXEDPT_FBITS) << FIXEDPT_FBITS + FIXEDPT_ONE;
-	}
-	// 负数，小数舍
-	if (a < 0 && fixedpt_fracpart(A) != 0) {
-		return -((-A >> FIXEDPT_FBITS) << FIXEDPT_FBITS);
-	}
-	return A;
+	return (A & ~FIXEDPT_FMASK) + (A & FIXEDPT_FMASK ? FIXEDPT_ONE : 0);
 }
 
 /*
