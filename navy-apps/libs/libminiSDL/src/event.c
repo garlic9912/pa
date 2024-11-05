@@ -34,7 +34,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   // // KeyCode
   // event->key.keysym.sym = SDL_Keys(keycode);
   event->type = SDL_KEYDOWN;
-  event->key.keysym.sym = SDL_J;
+  event->key.keysym.sym = SDLK_J;
   return 1;
 }
 
