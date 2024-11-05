@@ -35,10 +35,11 @@ uint32_t NDL_GetTicks() {
 int NDL_PollEvent(char *buf, int len) {
   int fd = open("/dev/events", 0);
   int ret = read(fd, buf, len);
-  int keycode = 0;
-  char status[5];
-  sscanf("%d %s", &keycode, status);
-  printf("%d\n", keycode);
+  // int keycode = 0;
+  // char status[5];
+  // sscanf("%d %s", &keycode, status);
+  // printf("%d\n", keycode);
+  printf("!!!!!!!!!!!!!!!!!!!!!!!!!!");
   if (ret != 0) return 1;
   return 0;
 }
