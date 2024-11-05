@@ -93,7 +93,7 @@ int fs_read(int fd, void *buf, size_t len) {
   file_table[fd].read(buf, start_offset, len);
   // 更新读写指针
   file_table[fd].open_offset = open_offset + len;
-  if(++flag == 7) panic("1111111111111111");
+  if(++flag == 20) panic("1111111111111111");
   return len;
 }
 
