@@ -1,6 +1,7 @@
 #include <NDL.h>
 #include <SDL.h>
 #include <string.h>
+#include <stdio.h>
 
 #define keyname(k) #k,
 
@@ -22,8 +23,11 @@ int SDL_WaitEvent(SDL_Event *event) {
   // Read Error
   if (NDL_PollEvent(buf, sizeof(buf)) == 0) 
     return;
-  if (strstr(buf, "DOWN")) event.type = SDL_KEYDOWN;
-  
+
+  char keyname[10], status[5];
+  sscanf("%s %s", keyname, status);
+  if (strcmp(status, "DOWN")) event.type = SDL_KEYDOWN;
+  if (strcmp(keyname, "J"))
   return 1;
 }
 
