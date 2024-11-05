@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <string.h>
 #include <stdio.h>
+#include </home/garlic/ics2023/navy-apps/libs/libminiSDL/include/sdl-event.h>
 
 #define keyname(k) #k,
 
@@ -25,9 +26,8 @@ int SDL_WaitEvent(SDL_Event *event) {
     return -1;
 
   char status[5];
-  int keycode;
+  int keycode = 0;
   sscanf("%d %s", &keycode, status);
-  printf("%d\n", keycode);
   // DOWN or UP
   if (strcmp(status, "DOWN") == 0) event->type = SDL_KEYDOWN;
   // KeyCode
