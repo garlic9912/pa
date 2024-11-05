@@ -5,11 +5,8 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 static unsigned long int next = 1;
 
-// static char *addr;
-// static int init = 1;
-
-static uintptr_t last_allocated_addr = 0;
-#define ALIGNMENT 8  // 假设要求8字节对齐
+static char *addr;
+static int init = 1;
 
 int rand(void) {
   // RAND_MAX assumed to be 32767
@@ -40,37 +37,18 @@ void *malloc(size_t size) {
   // Therefore do not call panic() here, else it will yield a dead recursion:
   //   panic() -> putchar() -> (glibc) -> malloc() -> panic()
 #if !(defined(__ISA_NATIVE__) && defined(__NATIVE_USE_KLIB__))
-  //  uintptr_t addr = (uintptr_t) heap.start;
-  // // 计算对齐后的地址
-  // uintptr_t malloc_addr = (addr + size + ALIGNMENT - 1) & ~(ALIGNMENT - 1);
-  
+  if (init > 0) {
+    addr = (void *)ROUNDUP(heap.start, 8);
+    init -= 1;
+  }
+  size  = (size_t)ROUNDUP(size, 8);
+  char *old = addr;
+  addr += size;
+  return old;
 #endif
-  if (size == 0) {
-      return NULL;  // 处理特殊情况
-  }
-
-  // 如果是第一次调用 malloc，初始化 last_allocated_addr
-  if (last_allocated_addr == 0) {
-      last_allocated_addr = (uintptr_t) heap.start;
-  }
-
-  // 计算对齐后的地址
-  uintptr_t aligned_addr = (last_allocated_addr + ALIGNMENT - 1) & ~(ALIGNMENT - 1);
-
-  uintptr_t old_addr = aligned_addr;
-
-  // 更新 last_allocated_addr 为下一个可用地址
-  last_allocated_addr = aligned_addr + size;
-
-  // 检查是否超出堆的范围
-  if (last_allocated_addr > (uintptr_t) heap.end) {
-      // 堆空间不足，返回 NULL
-      return NULL;
-  }
-
-  // 返回对齐后的地址
-  return (void*)old_addr;
+  return NULL;
 }
+
 void free(void *ptr) {
 
 }
