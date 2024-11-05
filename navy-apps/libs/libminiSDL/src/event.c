@@ -27,11 +27,11 @@ int SDL_WaitEvent(SDL_Event *event) {
   char keyname[10], status[5];
   sscanf("%s %s", keyname, status);
   if (strcmp(status, "DOWN")) event->type = SDL_KEYDOWN;
-  if (strcmp(keyname, "J")) event->key.keysym.sym = SDLK_J;
+  if (strcmp(keyname, "J")) event->key.keysym.sym = SDLK_j;
   if (strcmp(keyname, "UP")) event->key.keysym.sym = SDLK_UP;
-  if (strcmp(keyname, "K")) event->key.keysym.sym = SDLK_K;
+  if (strcmp(keyname, "K")) event->key.keysym.sym = SDLK_k;
   if (strcmp(keyname, "DOWN")) event->key.keysym.sym = SDLK_DOWN;
-  if (strcmp(keyname, "G")) event->key.keysym.sym = SDLK_G;
+  if (strcmp(keyname, "G")) event->key.keysym.sym = SDLK_g;
   return 1;
 }
 
