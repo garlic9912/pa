@@ -82,7 +82,7 @@ int fs_read(int fd, void *buf, size_t len) {
   size_t start_offset = disk_offset + open_offset;
   // 越界判断
   if (start_offset >= disk_offset + fsize) {
-    // panic("文件读写指针越界");
+    panic("文件读写指针越界");
     return -1;
   }
   // 读写字节是否缩短来防止越界
