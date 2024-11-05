@@ -31,6 +31,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   if (strcmp(keyname, "UP")) event->key.keysym.sym = SDLK_UP;
   if (strcmp(keyname, "K")) event->key.keysym.sym = SDLK_K;
   if (strcmp(keyname, "DOWN")) event->key.keysym.sym = SDLK_DOWN;
+  if (strcmp(keyname, "G")) event->key.keysym.sym = SDLK_G;
   return 1;
 }
 
