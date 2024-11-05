@@ -28,6 +28,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   char status[5];
   int keycode = 0;
   sscanf("%d %s", &keycode, status);
+  
   // DOWN or UP
   if (strcmp(status, "DOWN") == 0) event->type = SDL_KEYDOWN;
   // KeyCode
