@@ -25,14 +25,16 @@ int SDL_WaitEvent(SDL_Event *event) {
   if (NDL_PollEvent(buf, sizeof(buf)) == 0) 
     return -1;
 
-  char status[5];
-  int keycode = 0;
-  sscanf(buf, "%d %s", &keycode, status);
+  // char status[5];
+  // int keycode = 0;
+  // sscanf(buf, "%d %s", &keycode, status);
 
-  // DOWN or UP
-  if (strcmp(status, "DOWN") == 0) event->type = SDL_KEYDOWN;
-  // KeyCode
-  event->key.keysym.sym = SDL_Keys(keycode);
+  // // DOWN or UP
+  // if (strcmp(status, "DOWN") == 0) event->type = SDL_KEYDOWN;
+  // // KeyCode
+  // event->key.keysym.sym = SDL_Keys(keycode);
+  event->type = SDL_KEYDOWN;
+  event->key.keysym.sym = SDL_J;
   return 1;
 }
 
