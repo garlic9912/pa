@@ -45,12 +45,21 @@
 #error _syscall_ is not implemented
 #endif
 
+
+// program break 的初始值
+extern char _end;
+static char *program_break = &_end;
+
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
+  // 在 C/C++ 中，register 存储类说明符用于建议编译器将变量存储在寄存器中以提高访问速度
+  // intptr_t：在 <stdint.h> 中定义，用于表示指针的整数类型。它保证足够大以容纳任何指针
   register intptr_t _gpr1 asm (GPR1) = type;
   register intptr_t _gpr2 asm (GPR2) = a0;
   register intptr_t _gpr3 asm (GPR3) = a1;
   register intptr_t _gpr4 asm (GPR4) = a2;
   register intptr_t ret asm (GPRx);
+  // : "=r" (ret)：输出操作数，指示 ret 变量将从寄存器中获取结果
+  // : "r"(_gpr1)：输入操作数，指示 _gpr1 变量将作为输入参数传递给寄存器。
   asm volatile (SYSCALL : "=r" (ret) : "r"(_gpr1), "r"(_gpr2), "r"(_gpr3), "r"(_gpr4));
   return ret;
 }
@@ -61,37 +70,42 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  _exit(SYS_open);
-  return 0;
+  return _syscall_(SYS_open, (intptr_t)path, flags, mode);
 }
 
 int _write(int fd, void *buf, size_t count) {
-  _exit(SYS_write);
-  return 0;
+  return _syscall_(SYS_write, fd, (intptr_t)buf, count);
 }
 
 void *_sbrk(intptr_t increment) {
+  // 新的 program break 的位置
+  char *addr = program_break;
+  intptr_t new_break =  (intptr_t)program_break + increment;
+  int ret = _syscall_(SYS_brk, new_break, 0, 0);
+  if (ret == 0) {
+    program_break = (char *)new_break;
+    return (void *)addr;
+  }
   return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {
-  _exit(SYS_read);
-  return 0;
+  return _syscall_(SYS_read, fd, (intptr_t)buf, count);
 }
 
 int _close(int fd) {
-  _exit(SYS_close);
-  return 0;
+  return _syscall_(SYS_close, fd, 0, 0);
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  _exit(SYS_lseek);
-  return 0;
+  return _syscall_(SYS_lseek, fd, offset, whence);
 }
 
+
+// 时间信息放到 tv结构体
+// 地时区的信息放到 tz结构体
 int _gettimeofday(struct timeval *tv, struct timezone *tz) {
-  _exit(SYS_gettimeofday);
-  return 0;
+  return _syscall_(SYS_gettimeofday, (intptr_t)tv, 0, 0);
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
