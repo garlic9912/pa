@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <NDL.h>
 
-extern int NDL_PollEvent(char *buf, int len);
-
 int main() {
   NDL_Init(0);
   while (1) {

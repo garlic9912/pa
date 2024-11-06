@@ -8,28 +8,15 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
 }
-       
+
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 }
-  
-void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
-    // Make sure we have a valid rectangle
-    if (w == 0) {
-        w = s->w - x;
-    }
-    if (h == 0) {
-        h = s->h - y;
-    }
-    if ((x < 0) || (y < 0) || (x + w > s->w) || (y + h > s->h)) {
-        return;
-    }  
 
-    // Use the function NDL_DrawRect() to update the screen
-    NDL_DrawRect((int *)s->pixels, x, y, w, h);
-    return;
+void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 }
- 
+
 // APIs below are already implemented.
+
 static inline int maskToShift(uint32_t mask) {
   switch (mask) {
     case 0x000000ff: return 0;
@@ -64,14 +51,11 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
     s->format->Amask = Amask; s->format->Ashift = maskToShift(Amask); s->format->Aloss = 0;
   }
 
-  // 每个像素多少bits
   s->format->BitsPerPixel = depth;
-  // 每个像素多少Bytes
   s->format->BytesPerPixel = depth / 8;
 
   s->w = width;
   s->h = height;
-  // 一行像素的字节数
   s->pitch = width * depth / 8;
   assert(s->pitch == width * s->format->BytesPerPixel);
 

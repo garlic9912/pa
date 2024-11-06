@@ -24,5 +24,4 @@ enum {
   SYS_gettimeofday
 };
 
-
 #endif
