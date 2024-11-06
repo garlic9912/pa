@@ -14,8 +14,6 @@ static int fbdev = -1;
 
 
 
-
-
 // 画布的宽和高
 static int canvas_w, canvas_h;
 // 屏幕的宽和高
