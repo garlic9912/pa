@@ -35,7 +35,6 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   
   int code = ev.keycode << 1;
   if (ev.keydown) code += 1;
-  printf("%d\n", code);
   return code;
 }
 
