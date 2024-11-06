@@ -25,7 +25,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   code = NDL_PollEvent(buf, sizeof(buf));
 
   // DOWN or UP
-  if (code & 1) event->type = SDL_KEYDOWN;
+  if (code & 1) event->type = SDL_KEYUP;
   // KeyCode
   event->key.keysym.sym = SDL_Keys(code >> 1);
   return 1;
