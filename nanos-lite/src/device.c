@@ -32,7 +32,10 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   char ev_info[64];
   int count = sprintf(ev_info, "%d %s", ev.keycode, ev.keydown ? "DOWN" : "UP");
   memcpy((char *)buf, ev_info, count+1);  // count+1的目的是将'\0'一并复制，避免野指针的问题
-  return (ev.keycode << 1) + ev.keydown ? 1 : 0;
+  
+  int code = (ev.keycode << 1) + ev.keydown ? 1 : 0;
+  printf("%d\n", code);
+  return code;
 }
 
 
