@@ -26,7 +26,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   if (code & 1) event->type = SDL_KEYDOWN;
   // KeyCode
   event->key.keysym.sym = code >> 1;
-  printf("%d\n", code >> 1);
+  if (code != 0) printf("%d\n", code >> 1);
   return 1;
 }
 
