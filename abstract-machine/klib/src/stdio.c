@@ -120,6 +120,7 @@ int sprintf(char *out, const char *fmt, ...) {
       out[count++] = fmt[i++];
     }
   }
+  out[count] = '\0';
   return count;
 }
 
