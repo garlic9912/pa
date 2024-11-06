@@ -31,8 +31,8 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   // 假设一次只读出一个事件
   char ev_info[64];
   int count = sprintf(ev_info, "%d %s", ev.keycode, ev.keydown ? "DOWN" : "UP");
-  printf("%d\n", count);
   memcpy((char *)buf, ev_info, count);
+  printf("%s\n", buf);
   return (ev.keycode << 1) + ev.keydown ? 1 : 0;
 }
 
