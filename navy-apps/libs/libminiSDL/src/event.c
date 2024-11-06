@@ -19,20 +19,22 @@ int SDL_PollEvent(SDL_Event *ev) {
   return 0;
 }
 
+static int flag = 0;
 int SDL_WaitEvent(SDL_Event *event) {
   char buf[64];
   // Read Error
   if (NDL_PollEvent(buf, sizeof(buf)) == 0) 
     return -1;
 
-  char status[5];
-  int keycode = 0;
-  sscanf(buf, "%d %s", &keycode, status);
+  // char status[5];
+  // int keycode = 0;
+  // sscanf(buf, "%d %s", &keycode, status);
 
   // // DOWN or UP
-  if (strcmp(status, "DOWN") == 0) event->type = SDL_KEYDOWN;
+  // if (strcmp(status, "DOWN") == 0) event->type = SDL_KEYDOWN;
   // // KeyCode
   // event->key.keysym.sym = SDL_Keys(keycode);
+  if (++flag & 1) event->type = SDL_KEYDOWN;
   event->key.keysym.sym = SDLK_J;
   return 1;
 }
