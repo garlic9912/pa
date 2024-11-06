@@ -32,7 +32,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   char ev_info[64];
   int count = sprintf(ev_info, "%d %s", ev.keycode, ev.keydown ? "DOWN" : "UP");
   memcpy((char *)buf, ev_info, count);
-  return count;
+  return (ev.keycode << 1) + ev.keydown ? 1 : 0;
 }
 
 
