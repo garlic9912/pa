@@ -34,6 +34,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   memcpy((char *)buf, ev_info, count+1);  // count+1的目的是将'\0'一并复制，避免野指针的问题
   
   int code = ev.keycode << 1;
+  if (ev.keydown) code += 1;
   printf("%d\n", code);
   return code;
 }
