@@ -87,7 +87,7 @@ int fs_read(int fd, void *buf, size_t len) {
   }
   // 读写字节是否缩短来防止越界
   if (start_offset + len >= disk_offset + fsize) {
-    len = disk_offset + fsize - start_offset;
+    len = disk_offset + fsize - 1 - start_offset;
   }
   file_table[fd].read(buf, start_offset, len);
   // 更新读写指针
