@@ -22,14 +22,13 @@ int SDL_WaitEvent(SDL_Event *event) {
   int code = 0;
   code = NDL_PollEvent(buf, sizeof(buf));
   // DOWN or UP
-  if (code != 0) printf("%d\n", code);
   if (code & 1) {
-    printf("%d\n", code);
     event->type = SDL_KEYDOWN;
-    // KeyCode
-    event->key.keysym.sym = (code-1) / 2;
-    // printf("%d\n", event->key.keysym.sym);
+  } else {
+    event->type = SDL_KEYUP;
   }
+  // KeyCode
+  event->key.keysym.sym = (code-1) / 2;  
   return 1;
 }
 
