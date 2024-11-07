@@ -2,7 +2,7 @@
 #include <sys/mman.h>
 #include <sys/auxv.h>
 #include <dlfcn.h>
-#include <.h>
+#include <elf.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include "platform.h"
