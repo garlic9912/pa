@@ -21,6 +21,7 @@ struct BitmapHeader {
 
 void* BMP_Load(const char *filename, int *width, int *height) {
   FILE *fp = fopen(filename, "r");
+  printf("1111111111111111111111111\n");
   if (!fp) return NULL;
   // printf("%s\n", filename);
   struct BitmapHeader hdr;
@@ -29,7 +30,6 @@ void* BMP_Load(const char *filename, int *width, int *height) {
 
   if (hdr.bitcount != 24) return NULL;
   if (hdr.compression != 0) return NULL;
-  printf("11111111111111111111111111\n");
   int w = hdr.width;
   int h = hdr.height;
   uint32_t *pixels = malloc(w * h * sizeof(uint32_t));
@@ -49,6 +49,5 @@ void* BMP_Load(const char *filename, int *width, int *height) {
   fclose(fp);
   if (width) *width = w;
   if (height) *height = h;
-  printf("2222222222222222222222222222222\n");
   return pixels;
 }
