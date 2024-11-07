@@ -52,6 +52,11 @@ int fs_open(const char *pathname, int flags, int mode) {
     if (strcmp(pathname, file_table[i].name) == 0) {
       fd = i;
       file_table[fd].open_offset = 0;
+      if (strcmp(pathname, "/share/slides/slides-2.bmp") == 0) {
+    printf("%d\n", file_table[i].size);
+    printf("%d\n", file_table[i].disk_offset);
+    printf("%d\n", file_table[i].open_offset);
+  }  
       return fd;
     }
   }
