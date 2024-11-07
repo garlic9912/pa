@@ -8,7 +8,7 @@
 int main() {
   NDL_Init(0);
   int w, h;
-  void *bmp = BMP_Load("/share/pictures/projectn.bmp", &w, &h);
+  void *bmp = BMP_Load("/share/slides/slides-2.bmp", &w, &h);
   assert(bmp);
   NDL_OpenCanvas(&w, &h);
   // 更改参数实现画布居中
