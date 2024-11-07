@@ -26,11 +26,11 @@ void* BMP_Load(const char *filename, int *width, int *height) {
   assert(sizeof(hdr) == 54);
   assert(1 == fread(&hdr, sizeof(struct BitmapHeader), 1, fp));
 
-  printf("11111111111111111111111111\n");
+  // printf("11111111111111111111111111\n");
   if (hdr.bitcount != 24) return NULL;
-  printf("22222222222222222222222222\n");
+  // printf("22222222222222222222222222\n");
   if (hdr.compression != 0) return NULL;
-  printf("33333333333333333333333333\n");
+  // printf("33333333333333333333333333\n");
   int w = hdr.width;
   int h = hdr.height;
   uint32_t *pixels = malloc(w * h * sizeof(uint32_t));
