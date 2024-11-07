@@ -22,7 +22,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   int code = 0;
   code = NDL_PollEvent(buf, sizeof(buf));
   // DOWN or UP
-  if (code != 0) printf("%d\n", code);
+  if (code & 1) printf("%d\n", code);
   if (code & 1) {
     event->type = SDL_KEYDOWN;
     // KeyCode
