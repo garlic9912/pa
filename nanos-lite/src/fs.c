@@ -80,11 +80,6 @@ int fs_read(int fd, void *buf, size_t len) {
   disk_offset = file_table[fd].disk_offset;
   open_offset = file_table[fd].open_offset;
 
-  if (fd == 13) {
-    printf("%d\n", fsize);
-    printf("%d\n", disk_offset);
-    printf("%d\n", open_offset);
-  }
 
   // 计算文件的读写指针偏移量
   size_t start_offset = disk_offset + open_offset;
